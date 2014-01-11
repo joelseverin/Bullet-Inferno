@@ -1,7 +1,7 @@
 [Developer Documentation]: https://github.com/joelseverin/Bullet-Inferno/wiki/Developer-Documentation
 
 Bullet-Inferno
-==============j
+==============
 > A bullet-hell game for Android created during the autumn of 2013 for the course [Software Engineering Project](https://github.com/morganericsson/dat255) at Chalmers. The goal was to create a working Android application while following an agile project management method.
 
 <hr>
