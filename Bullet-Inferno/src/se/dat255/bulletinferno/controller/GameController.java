@@ -12,7 +12,6 @@ import se.dat255.bulletinferno.util.GameActionEvent;
 import se.dat255.bulletinferno.util.GameActionImpl;
 import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.SimpleScoreListener;
 import se.dat255.bulletinferno.view.BackgroundView;
 import se.dat255.bulletinferno.view.EnemyView;
 import se.dat255.bulletinferno.view.PlayerShipView;
@@ -72,8 +71,6 @@ public class GameController extends SimpleController {
 	private SpecialAbilityDefinition special;
 	/** Reference to the shared passive ability definition */
 	private PassiveAbilityDefinition passive;
-	/** Reference to the shared score listener which handles the score of the game */
-	private SimpleScoreListener scoreListener;
 
 	/** Holds the players last position, in order to check if the player has moved */
 	private float lastPlayerPositionX;
@@ -116,20 +113,10 @@ public class GameController extends SimpleController {
 			models = null;
 		}
 
-		// Initialize the score listener
-		scoreListener = new SimpleScoreListener() {
-			@Override
-			public void notifyScoreChanged(int score) {
-				hudView.setScore(score);
-			}
-		};
-
 		// Initialize the action listener
 		Listener<GameActionEvent<Enemy>> actionListener = new Listener<GameActionEvent<Enemy>>() {
 			@Override
 			public void call(GameActionEvent<Enemy> e) {
-				if(e.getAction() == GameActionImpl.DIED) {
-				}
 				audioPlayer.playSoundEffect(e);
 			}
 		};
@@ -178,7 +165,7 @@ public class GameController extends SimpleController {
 	public void gameOver() {
 		gameOver = true;
 		touchController.setSuppressKeyboard(true);
-		graphics.getHudView().gameOver(scoreListener.getScore());
+		graphics.getHudView().gameOver();
 	}
 
 	/**
@@ -271,12 +258,6 @@ public class GameController extends SimpleController {
 			models.setViewport(viewportPosition, viewportDimensions);
 
 			models.update(delta);
-
-			Vector2 playerPosition = models.getPlayerShip().getPosition();
-			if (lastPlayerPositionX != playerPosition.x) {
-				scoreListener.update(delta);
-			}
-			lastPlayerPositionX = playerPosition.x;
 		}
 
 	}

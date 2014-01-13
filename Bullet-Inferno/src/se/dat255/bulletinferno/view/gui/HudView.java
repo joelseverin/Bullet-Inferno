@@ -140,8 +140,8 @@ public class HudView implements Renderable {
 	}
 
 	/** Shows the game over screen **/
-	public void gameOver(int score) {
-		RenderableGUI gameOver = new GameoverScreenView(resourceManager, score);
+	public void gameOver() {
+		RenderableGUI gameOver = new GameoverScreenView(resourceManager, playerShip.getScore());
 		hudRegions.clear();
 		hudRegions.add(gameOver);
 	}
@@ -186,7 +186,7 @@ public class HudView implements Renderable {
 			batch.draw(lifeBackground, -1.6f, 3.9f, 3.2f, 0.7f);
 			batch.draw(lifeRegion, -1.5f, 4f, lifeWidth, 0.5f);
 		}
-
+		setScore(playerShip.getScore());
 		for (int i = 10 - activeScoreNumbers, j = 0; i < 10; i++, j++) {
 			batch.draw(numberRegions[scoreArray[i]], j * 0.4f - 8, 4f, 0.5f, 0.5f);
 		}

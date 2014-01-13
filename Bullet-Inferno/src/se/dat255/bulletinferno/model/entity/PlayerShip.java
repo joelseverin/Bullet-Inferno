@@ -71,5 +71,23 @@ public interface PlayerShip extends Ship, ResourceIdentifier {
 	 * @return the ship's velocity horizontally. Note that it has no velocity for Y...
 	 */
 	public float getXVelocity();
+	
+	/**
+	 * Returns the score of the player
+	 * @return score
+	 */
+	public int getScore();
+	
+	/**
+	 * Adds the specified number to the player's score
+	 * @param score
+	 */
+	public void addToScore(int score);
+	
+	/**
+	 * Sets the score multiplier
+	 * @param multiplier
+	 */
+	public void setScoreMultiplier(float multiplier);
 
 }

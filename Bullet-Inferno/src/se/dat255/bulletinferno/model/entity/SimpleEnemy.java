@@ -99,13 +99,17 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 		}
 
 		if (hitByOtherProjectile(other)) {
-			takeDamage(((Projectile) other).getDamage());
-		} else if (hitByPlayerShip(other)) {
+			Projectile projectile = (Projectile) other;
+			takeDamage(projectile.getDamage());
+			if(isDead() && projectile.getSource() instanceof PlayerShip) {
+				((PlayerShip) projectile.getSource()).addToScore(this.getScore());
+			}
+		} else if (colidedWithPlayerShip(other)) {
 			takeDamage(initialHealth);
 		}
 	}
 
-	private boolean hitByPlayerShip(Collidable other) {
+	private boolean colidedWithPlayerShip(Collidable other) {
 		return other instanceof PlayerShip;
 	}
 
@@ -135,7 +139,7 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 
 			if (isDead()) {
 				if (actionListener != null) {
-					actionListener.call(new GameActionEventImpl(this, GameActionImpl.DIED));
+					actionListener.call(new GameActionEventImpl<Enemy>(this, GameActionImpl.DIED));
 				}
 				scheduleRemoveSelf();
 			}
