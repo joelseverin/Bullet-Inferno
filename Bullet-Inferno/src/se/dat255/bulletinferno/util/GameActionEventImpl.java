@@ -1,16 +1,16 @@
 package se.dat255.bulletinferno.util;
 
-public class GameActionEventImpl implements GameActionEvent {
-	private final ResourceIdentifier source;
+public class GameActionEventImpl<T> implements GameActionEvent<T> {
+	private final T source;
 	private final GameAction action;
 
-	public GameActionEventImpl(ResourceIdentifier source, GameAction action) {
+	public GameActionEventImpl(T source, GameAction action) {
 		this.source = source;
 		this.action = action;
 	}
 
 	@Override
-	public ResourceIdentifier getSource() {
+	public T getSource() {
 		return source;
 	}
 

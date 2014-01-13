@@ -15,7 +15,6 @@ import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponEnvironment;
 import se.dat255.bulletinferno.util.GameActionEvent;
 import se.dat255.bulletinferno.util.Listener;
-import se.dat255.bulletinferno.util.SimpleScoreListener;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -25,11 +24,9 @@ public class ModelEnvironmentImpl implements ModelEnvironment {
 	private final MapEnvironment map;
 
 	public ModelEnvironmentImpl(WeaponDefinition[] weaponData,
-			SimpleScoreListener scoreListener, Listener<Float> healthListener,
-			Listener<GameActionEvent> actionListener) {
+			Listener<GameActionEvent<Enemy>> enemyActionListener) {
 		physics = new PhysicsEnvironmentImpl();
-		map = new MapEnvironmentImpl(physics, weaponData, scoreListener, healthListener,
-				actionListener);
+		map = new MapEnvironmentImpl(physics, weaponData, enemyActionListener);
 	}
 
 	/**

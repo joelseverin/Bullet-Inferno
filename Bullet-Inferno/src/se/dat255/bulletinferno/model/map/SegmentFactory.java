@@ -33,11 +33,10 @@ public class SegmentFactory {
 	 * @return A random Segment at <b>position</b> built of <b>sliceAmount</b> number of slices.
 	 */
 	public Segment generateRandomSegment(PhysicsEnvironment physics, EntityEnvironment entities,
-			WeaponEnvironment weapons, Vector2 position, int sliceAmount,
-			Listener<Integer> scoreListener) {
+			WeaponEnvironment weapons, Vector2 position, int sliceAmount) {
 		SegmentDefinitionImpl[] values = SegmentDefinitionImpl.values();
 		return values[random.nextInt(values.length)].createSegment(physics, entities, weapons,
-				position, sliceAmount, scoreListener);
+				position, sliceAmount);
 	}
 
 	/**
@@ -60,10 +59,8 @@ public class SegmentFactory {
 	 *         <b>minSliceLength</b> and <b>maxSliceLength</b> number of slices.
 	 */
 	public Segment generateRandomSegment(PhysicsEnvironment physics, EntityEnvironment entities,
-			WeaponEnvironment weapons, Vector2 position, int minSliceLength, int maxSliceLength,
-			Listener<Integer> scoreListener) {
+			WeaponEnvironment weapons, Vector2 position, int minSliceLength, int maxSliceLength) {
 		return generateRandomSegment(physics, entities, weapons, position,
-				random.nextInt(maxSliceLength - minSliceLength + 1) + minSliceLength,
-				scoreListener);
+				random.nextInt(maxSliceLength - minSliceLength + 1) + minSliceLength);
 	}
 }

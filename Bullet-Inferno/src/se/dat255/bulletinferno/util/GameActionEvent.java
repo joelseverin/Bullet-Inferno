@@ -1,13 +1,13 @@
 package se.dat255.bulletinferno.util;
 
-public interface GameActionEvent {
+public interface GameActionEvent<T> {
 	/**
 	 * Returns the source from which the the action
 	 * originated
 	 * 
 	 * @return source
 	 */
-	public ResourceIdentifier getSource();
+	public T getSource();
 
 	/**
 	 * Returns the GameActionEvent's GameAction.

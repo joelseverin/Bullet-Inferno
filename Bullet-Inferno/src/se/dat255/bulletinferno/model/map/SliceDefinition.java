@@ -25,7 +25,7 @@ public interface SliceDefinition {
 	 * @return A new Slice located at the provided position.
 	 */
 	public Slice createSlice(PhysicsEnvironment physics, EntityEnvironment entities,
-			WeaponEnvironment weapons, Vector2 position, Listener<Integer> scoreListener);
+			WeaponEnvironment weapons, Vector2 position);
 
 	/**
 	 * Returns the entry height held by this definition.

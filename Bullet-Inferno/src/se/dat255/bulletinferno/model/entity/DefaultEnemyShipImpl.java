@@ -16,12 +16,9 @@ public class DefaultEnemyShipImpl extends SimpleEnemy implements Ship, Timerable
 
 	public DefaultEnemyShipImpl(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, float initialHealth,
-			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition,
-			Listener<Integer> scoreListener) {
-
+			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition) {
 		super(physics, entities, type, position, velocity, initialHealth, weapons,
-				score, credits,
-				bodyDefinition, scoreListener);
+				score, credits, bodyDefinition);
 
 		timers = new Timer[weapons.length];
 		for (int i = 0; i < weapons.length; i++) {
@@ -35,9 +32,9 @@ public class DefaultEnemyShipImpl extends SimpleEnemy implements Ship, Timerable
 	public DefaultEnemyShipImpl(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, float initialHealth,
 			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition,
-			PhysicsMovementPattern pattern, Listener<Integer> scoreListener) {
+			PhysicsMovementPattern pattern) {
 		super(physics, entities, type, position, velocity, initialHealth, weapons, score, credits,
-				bodyDefinition, pattern, scoreListener);
+				bodyDefinition, pattern);
 
 		timers = new Timer[weapons.length];
 		for (int i = 0; i < weapons.length; i++) {

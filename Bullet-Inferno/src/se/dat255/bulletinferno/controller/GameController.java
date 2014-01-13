@@ -2,12 +2,14 @@ package se.dat255.bulletinferno.controller;
 
 import se.dat255.bulletinferno.model.ModelEnvironment;
 import se.dat255.bulletinferno.model.ModelEnvironmentImpl;
+import se.dat255.bulletinferno.model.entity.Enemy;
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialEffect;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.GameActionEvent;
+import se.dat255.bulletinferno.util.GameActionImpl;
 import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.SimpleScoreListener;
@@ -59,6 +61,8 @@ public class GameController extends SimpleController {
 	/** Reference to the background view */
 	private BackgroundView bgView;
 
+	private HudView hudView;
+	
 	private final AudioPlayer audioPlayer;
 
 	/** Reference to the main resource manager of the game */
@@ -112,13 +116,6 @@ public class GameController extends SimpleController {
 			models = null;
 		}
 
-		// Initialize the HUD
-		final HudView hudView = new HudView(resourceManager);
-
-		// Initialize the graphics controller
-		graphics = new Graphics(this, hudView);
-		graphics.create();
-
 		// Initialize the score listener
 		scoreListener = new SimpleScoreListener() {
 			@Override
@@ -127,31 +124,31 @@ public class GameController extends SimpleController {
 			}
 		};
 
-		// Update life when ship changes life
-		Listener<Float> healthListener = new Listener<Float>() {
-			@Override
-			public void call(Float life) {
-				hudView.setLife(life);
-			}
-		};
-
 		// Initialize the action listener
-		Listener<GameActionEvent> actionListener = new Listener<GameActionEvent>() {
+		Listener<GameActionEvent<Enemy>> actionListener = new Listener<GameActionEvent<Enemy>>() {
 			@Override
-			public void call(GameActionEvent e) {
+			public void call(GameActionEvent<Enemy> e) {
+				if(e.getAction() == GameActionImpl.DIED) {
+				}
 				audioPlayer.playSoundEffect(e);
 			}
 		};
 
 		// Set up the model environment with the provided weaponData, includes creating the player
 		// ship.
-		models = new ModelEnvironmentImpl(weaponData, scoreListener, healthListener, actionListener);
+		models = new ModelEnvironmentImpl(weaponData, actionListener);
 		final PlayerShip ship = models.getPlayerShip();
-
-		// Set up the special effect on the model environment and link the hudView to it
+		
+		hudView = new HudView(resourceManager, ship);
+		
+		// Set up the special effect on the model environment
 		final SpecialEffect specialEffect = special.getSpecialAbility(models).getEffect();
 		hudView.setSpecialEffect(specialEffect);
-
+		
+		// Initialize the graphics controller
+		graphics = new Graphics(this, hudView);
+		graphics.create();
+		
 		// Apply the passive ability to the ship
 		passive.getPassiveAbility().getEffect().applyEffect(ship);
 
@@ -166,7 +163,7 @@ public class GameController extends SimpleController {
 
 		// Set up the bg view, rendering the segments
 		bgView = new BackgroundView(models, resourceManager, ship);
-
+		
 		PlayerShipView shipView = new PlayerShipView(ship, resourceManager);
 		graphics.addRenderable(shipView);
 

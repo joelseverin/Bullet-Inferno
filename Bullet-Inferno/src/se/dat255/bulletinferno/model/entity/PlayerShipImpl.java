@@ -13,7 +13,6 @@ import se.dat255.bulletinferno.model.team.Teamable;
 import se.dat255.bulletinferno.model.weapon.Projectile;
 import se.dat255.bulletinferno.model.weapon.Weapon;
 import se.dat255.bulletinferno.model.weapon.WeaponLoadout;
-import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.PhysicsShapeFactory;
 import se.dat255.bulletinferno.util.Timer;
 import se.dat255.bulletinferno.util.Timerable;
@@ -50,7 +49,6 @@ public class PlayerShipImpl implements PlayerShip, Timerable {
 	private PhysicsBody body = null;
 	private final Vector2 forwardSpeed = new Vector2(5, 0);
 	private final Vector2[] weaponPositionModifier;
-	private final Listener<Float> healthListener;
 
 	/**
 	 * A timer used to fire the standard weapon
@@ -77,13 +75,10 @@ public class PlayerShipImpl implements PlayerShip, Timerable {
 	};
 
 	public PlayerShipImpl(PhysicsEnvironment physics, EntityEnvironment entities,
-			final Vector2 position, WeaponLoadout loadout, ShipType shipType,
-			Listener<Float> healthListener) {
+			final Vector2 position, WeaponLoadout loadout, ShipType shipType) {
 		weaponLoadout = loadout;
 		this.shipType = shipType;
 		weaponPositionModifier = shipType.getWeaponPositionModifier();
-		this.healthListener = healthListener;
-		healthListener.call(health);
 
 		// Add health increment
 		Timer healthIncrement = physics.getTimer();
@@ -174,13 +169,11 @@ public class PlayerShipImpl implements PlayerShip, Timerable {
 		if (this.health > 1.0f) {
 			this.health = 1.0f;
 		}
-		healthListener.call(this.health);
 	}
 
 	@Override
 	public void takeDamage(float damage) {
 		health -= damage * takeDamageModifier;
-		healthListener.call(health);
 
 		if (isDead()) {
 			dispose();

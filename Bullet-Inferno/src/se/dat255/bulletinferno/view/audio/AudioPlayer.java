@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.view.audio;
 
 import se.dat255.bulletinferno.util.GameActionEvent;
+import se.dat255.bulletinferno.util.ResourceIdentifier;
 
 public interface AudioPlayer {
 	/**
@@ -9,7 +10,7 @@ public interface AudioPlayer {
 	 * @param event
 	 *        the event to play a sound for.
 	 */
-	public void playSoundEffect(GameActionEvent event);
+	public void playSoundEffect(GameActionEvent<? extends ResourceIdentifier> event);
 
 	/**
 	 * Sets the volume of the audio player, in the range of 0 to 1

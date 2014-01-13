@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.view.audio;
 
 import se.dat255.bulletinferno.util.GameActionEvent;
+import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
 
 import com.badlogic.gdx.audio.Sound;
@@ -19,7 +20,7 @@ public class AudioPlayerImpl implements AudioPlayer {
 	}
 
 	@Override
-	public void playSoundEffect(GameActionEvent e) {
+	public void playSoundEffect(GameActionEvent<? extends ResourceIdentifier> e) {
 		Sound sound = resourceManager.getSound(e.getSource(), e.getAction());
 		sound.play(volume);
 	}

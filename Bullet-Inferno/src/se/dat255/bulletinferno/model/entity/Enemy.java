@@ -29,5 +29,5 @@ public interface Enemy extends PositionEntity, Disposable, Teamable, ResourceIde
 	 * @param actionListener
 	 *        the action listener.
 	 */
-	public void setActionListener(Listener<GameActionEvent> actionListener);
+	public void setActionListener(Listener<GameActionEvent<Enemy>> actionListener);
 }
