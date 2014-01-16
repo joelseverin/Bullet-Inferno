@@ -19,18 +19,17 @@ public class EntityEnvironmentImpl implements EntityEnvironment {
 
 	private final List<Enemy> enemies = new ArrayList<Enemy>();
 	private final PlayerShip playerShip;
-	private Listener<GameActionEvent> actionListener;
+	private Listener<GameActionEvent<Enemy>> actionListener;
 
 	public EntityEnvironmentImpl(PhysicsEnvironment physics, WeaponEnvironment weapons,
-			WeaponLoadout weaponLoadout, Listener<Float> healthListener) {
+			WeaponLoadout weaponLoadout) {
 		playerShip = new PlayerShipImpl(physics, this, new Vector2(0, 8), weaponLoadout,
-				ShipType.PLAYER_DEFAULT, healthListener);
+				ShipType.PLAYER_DEFAULT);
 	}
 
 	public EntityEnvironmentImpl(PhysicsEnvironment physics, WeaponEnvironment weapons,
-			WeaponLoadout weaponLoadout, Listener<Float> healthListener,
-			Listener<GameActionEvent> actionListener) {
-		this(physics, weapons, weaponLoadout, healthListener);
+			WeaponLoadout weaponLoadout, Listener<GameActionEvent<Enemy>> actionListener) {
+		this(physics, weapons, weaponLoadout);
 		this.actionListener = actionListener;
 	}
 

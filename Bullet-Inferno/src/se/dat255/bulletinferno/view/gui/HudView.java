@@ -3,6 +3,7 @@ package se.dat255.bulletinferno.view.gui;
 import java.util.HashSet;
 import java.util.Set;
 
+import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.loadout.SpecialEffect;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
@@ -48,8 +49,8 @@ public class HudView implements Renderable {
 	private int activeScoreNumbers = 1;
 	/** The width of the health bar */
 	private float lifeWidth;
-	/** The current life points of the ship (between 0 and 1) */
-	private float life;
+
+	private PlayerShip	playerShip;
 	/** The interpolation coefficient value between 0 and 1 for fading alpha of the life bar */
 	private float lifeFadeoutTime;
 	/** The amount of heat regions to display; 0.0f -> 1.0f */
@@ -66,9 +67,13 @@ public class HudView implements Renderable {
 	 * 
 	 * @param resourceManager
 	 *        The manager that holds the assets
+	 * @param playerShip
+	 * 		  The active player ship in the game
 	 */
-	public HudView(ResourceManager resourceManager) {
+	public HudView(ResourceManager resourceManager, PlayerShip playerShip) {
 		this.resourceManager = resourceManager;
+		this.playerShip = playerShip;
+		
 		Texture hudTexture = resourceManager.getTexture(TextureDefinitionImpl.HUD_TEXTURE)
 				.getTexture();
 
@@ -114,9 +119,7 @@ public class HudView implements Renderable {
 		}
 	}
 
-	/** Sets the value of life between 0 and 1 */
-	public void setLife(float life) {
-		this.life = life;
+	private void setLife(float life) {
 		lifeRegion.setRegionX((int) (9 + 149f * life));
 		lifeRegion.setRegionWidth(1);
 		lifeWidth = 3f * life;
@@ -137,8 +140,8 @@ public class HudView implements Renderable {
 	}
 
 	/** Shows the game over screen **/
-	public void gameOver(int score) {
-		RenderableGUI gameOver = new GameoverScreenView(resourceManager, score);
+	public void gameOver() {
+		RenderableGUI gameOver = new GameoverScreenView(resourceManager, playerShip.getScore());
 		hudRegions.clear();
 		hudRegions.add(gameOver);
 	}
@@ -167,9 +170,11 @@ public class HudView implements Renderable {
 
 	@Override
 	public void render(SpriteBatch batch, Camera viewport) {
-		if (life >= 1) {
+		setLife(playerShip.getHealth());
+		if (playerShip.getHealth() >= 1) {
 			lifeFadeoutTime += LIFE_ALPHA_FADEOUT_PER_SECOND * Gdx.graphics.getDeltaTime();
 			lifeFadeoutTime = Math.min(1, lifeFadeoutTime);
+			
 			Color prevColor = batch.getColor();
 			batch.setColor(Color.WHITE.cpy().lerp(
 					1f, 1f, 1f, MIN_LIFE_BAR_ALPHA, lifeFadeoutTime));
@@ -181,7 +186,7 @@ public class HudView implements Renderable {
 			batch.draw(lifeBackground, -1.6f, 3.9f, 3.2f, 0.7f);
 			batch.draw(lifeRegion, -1.5f, 4f, lifeWidth, 0.5f);
 		}
-
+		setScore(playerShip.getScore());
 		for (int i = 10 - activeScoreNumbers, j = 0; i < 10; i++, j++) {
 			batch.draw(numberRegions[scoreArray[i]], j * 0.4f - 8, 4f, 0.5f, 0.5f);
 		}

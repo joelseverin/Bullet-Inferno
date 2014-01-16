@@ -1,7 +1,7 @@
 package se.dat255.bulletinferno.util;
 
 public enum GameActionImpl implements GameAction {
-	DIED, SHOT;
+	BORN, TOOK_DAMAGE, CRASHED, DIED;
 
 	@Override
 	public String getAction() {

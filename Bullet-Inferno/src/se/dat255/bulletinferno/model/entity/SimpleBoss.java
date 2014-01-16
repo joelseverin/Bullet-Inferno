@@ -7,7 +7,6 @@ import se.dat255.bulletinferno.model.physics.PhysicsBodyDefinition;
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
 import se.dat255.bulletinferno.model.physics.PhysicsMovementPattern;
 import se.dat255.bulletinferno.model.weapon.Weapon;
-import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.Timer;
 import se.dat255.bulletinferno.util.Timerable;
 
@@ -29,17 +28,15 @@ public abstract class SimpleBoss extends SimpleEnemy implements Timerable, Ship 
 	private FollowingMovementPattern fmp;
 	private EvadingMovementPattern emp;
 	private String currentPattern;
-	private final Listener<Integer> scoreListener;
 
 	/** Flag indicating whether we have told player to move us on screen or not */
 	private boolean isOnScreen = false;
 
 	public SimpleBoss(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, float initialHealth,
-			Weapon[] weapons, int score, int credits,
-			PhysicsBodyDefinition bodyDefinition, Listener<Integer> scoreListener) {
+			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition) {
 		super(physics, entities, type, position, velocity, initialHealth, weapons,
-				score, credits, bodyDefinition, scoreListener);
+				score, credits, bodyDefinition);
 
 		timers = new Timer[getWeapons().length];
 		this.entities = entities;
@@ -55,17 +52,15 @@ public abstract class SimpleBoss extends SimpleEnemy implements Timerable, Ship 
 		float halfHeight = getBody().getDimensions().y / 2;
 		emp = new EvadingMovementPattern(player, 2.5f, 0.7f + halfHeight, 9f - halfHeight);
 		currentPattern = "none";
-
-		this.scoreListener = scoreListener;
 	}
 
 	public SimpleBoss(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, float initialHealth,
 			Weapon[] weapons,
 			int score, int credits, PhysicsBodyDefinition bodyDefinition,
-			PhysicsMovementPattern pattern, Listener<Integer> scoreListener) {
+			PhysicsMovementPattern pattern) {
 		this(physics, entities, type, position, velocity, initialHealth, weapons, score, credits,
-				bodyDefinition, scoreListener);
+				bodyDefinition);
 
 		if (pattern instanceof DisorderedMovementPattern) {
 			currentPattern = "dmp";
@@ -104,7 +99,6 @@ public abstract class SimpleBoss extends SimpleEnemy implements Timerable, Ship 
 		super.takeDamage(damage);
 
 		if (isDead()) {
-			scoreListener.call(getScore());
 			entities.getPlayerShip().restoreSpeed();
 		}
 	}

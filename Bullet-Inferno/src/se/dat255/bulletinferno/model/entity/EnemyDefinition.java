@@ -18,5 +18,5 @@ public interface EnemyDefinition {
 	 */
 	public Enemy createEnemy(PhysicsEnvironment physicsEnvironment,
 			EntityEnvironment entityEnvironment,
-			WeaponEnvironment weaponEnvironment, Vector2 position, Listener<Integer> scoreListener);
+			WeaponEnvironment weaponEnvironment, Vector2 position);
 }

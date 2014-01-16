@@ -2,6 +2,7 @@ package se.dat255.bulletinferno.model.map;
 
 import java.util.List;
 
+import se.dat255.bulletinferno.model.entity.Enemy;
 import se.dat255.bulletinferno.model.entity.EntityEnvironment;
 import se.dat255.bulletinferno.model.entity.EntityEnvironmentImpl;
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
@@ -32,8 +33,7 @@ public class MapEnvironmentImpl implements MapEnvironment {
 	private final WeaponEnvironment weapons;
 
 	public MapEnvironmentImpl(PhysicsEnvironment physics, WeaponDefinition[] weaponData,
-			Listener<Integer> scoreListener, Listener<Float> healthListener,
-			Listener<GameActionEvent> actionListener) {
+			Listener<GameActionEvent<Enemy>> enemyActionListener) {
 		this.physics = physics;
 		weapons = new WeaponEnvironmentImpl(physics);
 
@@ -41,10 +41,9 @@ public class MapEnvironmentImpl implements MapEnvironment {
 				weaponData[0].createWeapon(physics, weapons, new Vector2()),
 				weaponData[1].createWeapon(physics, weapons, new Vector2()));
 
-		entities = new EntityEnvironmentImpl(physics, weapons, weaponLoadout, healthListener,
-				actionListener);
+		entities = new EntityEnvironmentImpl(physics, weapons, weaponLoadout, enemyActionListener);
 
-		segmentManager = new SegmentManagerImpl(physics, entities, weapons, scoreListener);
+		segmentManager = new SegmentManagerImpl(physics, entities, weapons);
 	}
 
 	/**

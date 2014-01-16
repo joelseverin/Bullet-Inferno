@@ -91,20 +91,17 @@ public enum EnemyDefinitionImpl implements EnemyDefinition {
 
 	@Override
 	public Enemy createEnemy(PhysicsEnvironment physics, EntityEnvironment entityEnvironment,
-			WeaponEnvironment weaponEnvironment, Vector2 position, Listener<Integer> scoreListener) {
+			WeaponEnvironment weaponEnvironment, Vector2 position) {
 		if (this == EHMO || this == DRIPPER) {
-			return getBoss(physics, entityEnvironment, weaponEnvironment, position, scoreListener);
+			return getBoss(physics, entityEnvironment, weaponEnvironment, position);
 		} else {
-			return getEnemyShip(physics, entityEnvironment, weaponEnvironment, position,
-					scoreListener);
+			return getEnemyShip(physics, entityEnvironment, weaponEnvironment, position);
 		}
 
 	}
 
 	private DefaultEnemyShipImpl getEnemyShip(PhysicsEnvironment physics,
-			EntityEnvironment entities,
-
-			WeaponEnvironment weaponEnvironment, Vector2 position, Listener<Integer> scoreListener) {
+			EntityEnvironment entities, WeaponEnvironment weaponEnvironment, Vector2 position) {
 
 		Weapon[] weapons = new Weapon[weaponsData.length];
 		for (int i = 0; i < weapons.length; i++) {
@@ -115,28 +112,24 @@ public enum EnemyDefinitionImpl implements EnemyDefinition {
 
 		if (pattern == null) {
 			return new DefaultEnemyShipImpl(physics, entities, this, position, velocity,
-					initialHealth,
-
-					weapons, score, credits, bodyDefinition, scoreListener);
+					initialHealth, weapons, score, credits, bodyDefinition);
 		} else {
 			return new DefaultEnemyShipImpl(physics, entities, this, position, velocity,
 					initialHealth,
-					weapons, score, credits, bodyDefinition, pattern, scoreListener);
+					weapons, score, credits, bodyDefinition, pattern);
 
 		}
 	}
 
 	private DefaultBossImpl getBoss(PhysicsEnvironment physics, EntityEnvironment entities,
-			WeaponEnvironment weaponEnvironment, Vector2 position, Listener<Integer> scoreListener) {
+			WeaponEnvironment weaponEnvironment, Vector2 position) {
 		Weapon[] weapons = new Weapon[weaponsData.length];
 		for (int i = 0; i < weapons.length; i++) {
 			weapons[i] = weaponsData[i].getContent().createWeapon(physics, weaponEnvironment,
 					weaponsData[i].getOffset());
 		}
 		return new DefaultBossImpl(physics, entities, this, position, velocity, pattern,
-				initialHealth,
-
-				weapons, score, credits, bodyDefinition, scoreListener);
+				initialHealth, weapons, score, credits, bodyDefinition);
 
 	}
 

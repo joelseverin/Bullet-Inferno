@@ -27,6 +27,5 @@ public interface SegmentDefinition {
 	 * @return A Segment made up of <i>sliceAmount</i> slices.
 	 */
 	public Segment createSegment(PhysicsEnvironment physics, EntityEnvironment entities,
-			WeaponEnvironment weapons, Vector2 position, int sliceAmount,
-			Listener<Integer> scoreListener);
+			WeaponEnvironment weapons, Vector2 position, int sliceAmount);
 }

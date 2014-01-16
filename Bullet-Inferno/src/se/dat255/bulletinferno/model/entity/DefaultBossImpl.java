@@ -35,9 +35,9 @@ public class DefaultBossImpl extends SimpleBoss {
 	public DefaultBossImpl(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity,
 			PhysicsMovementPattern pattern, float initialHealth, Weapon[] weapons, int score,
-			int credits, PhysicsBodyDefinition bodyDefinition, Listener<Integer> scoreListener) {
+			int credits, PhysicsBodyDefinition bodyDefinition) {
 		super(physics, entities, type, position, velocity, initialHealth, weapons, score, credits,
-				bodyDefinition, pattern, scoreListener);
+				bodyDefinition, pattern);
 		entities.getPlayerShip();
 		super.getWeaponTimers();
 
@@ -45,10 +45,9 @@ public class DefaultBossImpl extends SimpleBoss {
 
 	public DefaultBossImpl(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, float initialHealth,
-			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition,
-			Listener<Integer> scoreListener) {
+			Weapon[] weapons, int score, int credits, PhysicsBodyDefinition bodyDefinition) {
 		super(physics, entities, type, position, velocity, initialHealth, weapons, score, credits,
-				bodyDefinition, scoreListener);
+				bodyDefinition);
 
 		entities.getPlayerShip();
 		super.getWeaponTimers();

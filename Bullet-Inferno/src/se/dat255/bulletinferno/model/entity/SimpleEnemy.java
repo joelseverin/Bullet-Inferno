@@ -24,15 +24,13 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 	private final int score;
 	private final int credits;
 	private final EnemyDefinitionImpl type;
-	private Listener<GameActionEvent> actionListener;
+	private Listener<GameActionEvent<Enemy>> actionListener;
 
 	private PhysicsBody body = null;
 	private final PhysicsEnvironment physics;
 	private final EntityEnvironment entities;
 	private final Vector2 velocity;
 	private final Weapon[] weapons;
-
-	private final Listener<Integer> scoreListener;
 
 	/** A flag to make sure we don't remove ourselves twice */
 	private boolean flaggedForRemoval = false;
@@ -53,8 +51,7 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 	public SimpleEnemy(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type,
 			Vector2 position, Vector2 velocity, float initialHealth, Weapon[] weapons,
-			int score,
-			int credits, PhysicsBodyDefinition bodyDefinition, Listener<Integer> scoreListener) {
+			int score, int credits, PhysicsBodyDefinition bodyDefinition) {
 
 		this.physics = physics;
 		this.type = type;
@@ -65,7 +62,6 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 		this.credits = credits;
 		this.velocity = velocity;
 		this.entities = entities;
-		this.scoreListener = scoreListener;
 
 		body = this.physics.createBody(bodyDefinition, this, position);
 	}
@@ -73,10 +69,9 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 	public SimpleEnemy(PhysicsEnvironment physics, EntityEnvironment entities,
 			EnemyDefinitionImpl type,
 			Vector2 position, Vector2 velocity, float initialHealth, Weapon[] weapons, int score,
-			int credits, PhysicsBodyDefinition bodyDefinition, PhysicsMovementPattern pattern,
-			Listener<Integer> scoreListener) {
+			int credits, PhysicsBodyDefinition bodyDefinition, PhysicsMovementPattern pattern) {
 		this(physics, entities, type, position, velocity, initialHealth, weapons, score, credits,
-				bodyDefinition, scoreListener);
+				bodyDefinition);
 
 		if (pattern != null) {
 
@@ -104,13 +99,17 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 		}
 
 		if (hitByOtherProjectile(other)) {
-			takeDamage(((Projectile) other).getDamage());
-		} else if (hitByPlayerShip(other)) {
+			Projectile projectile = (Projectile) other;
+			takeDamage(projectile.getDamage());
+			if(isDead() && projectile.getSource() instanceof PlayerShip) {
+				((PlayerShip) projectile.getSource()).addToScore(this.getScore());
+			}
+		} else if (colidedWithPlayerShip(other)) {
 			takeDamage(initialHealth);
 		}
 	}
 
-	private boolean hitByPlayerShip(Collidable other) {
+	private boolean colidedWithPlayerShip(Collidable other) {
 		return other instanceof PlayerShip;
 	}
 
@@ -139,9 +138,8 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 			health -= damage;
 
 			if (isDead()) {
-				scoreListener.call(getScore());
 				if (actionListener != null) {
-					actionListener.call(new GameActionEventImpl(this, GameActionImpl.DIED));
+					actionListener.call(new GameActionEventImpl<Enemy>(this, GameActionImpl.DIED));
 				}
 				scheduleRemoveSelf();
 			}
@@ -228,7 +226,7 @@ public abstract class SimpleEnemy implements Enemy, Collidable, Destructible,
 	}
 
 	@Override
-	public void setActionListener(Listener<GameActionEvent> actionListener) {
+	public void setActionListener(Listener<GameActionEvent<Enemy>> actionListener) {
 		this.actionListener = actionListener;
 	}
 
