@@ -1,10 +1,13 @@
 package se.dat255.bulletinferno.util;
 
+import java.io.ObjectInputStream.GetField;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * A class that holds mappings between types of objects in the game and static resources
@@ -17,8 +20,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public interface ResourceManager extends Disposable {
 
 	/**
-	 * Returns a ManagedTexture-object containing the Texture connected
-	 * with this TextureType.
+	 * Returns a texture region containing the Texture connected
+	 * with specified TextureDefinition.
 	 * 
 	 * @param textureDefinition
 	 *        The Texture Definition connected with the Texture you want.
@@ -27,7 +30,7 @@ public interface ResourceManager extends Disposable {
 	TextureRegion getTexture(TextureDefinition textureDefinition);
 
 	/**
-	 * Returns a ManagedTexture-object containing the Texture connected
+	 * Returns a texture region containing the Texture connected
 	 * with this ResourceIdentifier.
 	 * 
 	 * @param identifier
@@ -36,6 +39,22 @@ public interface ResourceManager extends Disposable {
 	 */
 	TextureRegion getTexture(ResourceIdentifier identifier);
 
+	/**
+	 * Returns a drawable texture associated with specified identifier
+	 * See {@link ResourceManager#getTexture(ResourceIdentifier)}.
+	 * @param identifier
+	 * @return
+	 */
+	TextureRegionDrawable getDrawableTexture(ResourceIdentifier identifier);
+	
+	/**
+	 * Returns a drawable texture associated with specified definition
+	 * See {@link ResourceManager#getTexture(TextureDefinition)}.
+	 * @param identifier
+	 * @return
+	 */
+	TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition);
+	
 	/**
 	 * Returns the loaded {@link Sound} that is mapped to this identifier.
 	 * 
