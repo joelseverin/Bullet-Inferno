@@ -7,9 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
-import se.dat255.bulletinferno.model.mock.HealthMockListener;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
-import se.dat255.bulletinferno.model.mock.SimpleMockScoreListener;
 import se.dat255.bulletinferno.model.mock.SimpleMockTimer;
 import se.dat255.bulletinferno.model.mock.SimplePhysicsMovementPatternMock;
 import se.dat255.bulletinferno.model.mock.WeaponMockEnvironment;
@@ -32,8 +30,7 @@ public class EntityEnvironmentImplTest {
 					initialHealth, weapon, score,
 					credits, 
 					new PhysicsBodyDefinitionImpl(PhysicsShapeFactory.getRectangularShape(1, 1)), 
-					new SimplePhysicsMovementPatternMock(),
-					new SimpleMockScoreListener());
+					new SimplePhysicsMovementPatternMock());
 		}
 	}
 	
@@ -61,7 +58,7 @@ public class EntityEnvironmentImplTest {
 		Enemy enemy = new EnemyMockup(EnemyDefinitionImpl.KATZE, new Vector2(), 
 				new Vector2(), 0, new Weapon[] {}, new Vector2[] {}, 0, 65);
 		EntityEnvironment entities = new EntityEnvironmentImpl(physics, 
-				weapons, loadout, new HealthMockListener());
+				weapons, loadout);
 		entities.addEnemy(enemy);
 		
 		assertTrue("Check so that the enemy gets added", entities.getEnemies().contains(enemy));
@@ -90,7 +87,7 @@ public class EntityEnvironmentImplTest {
 				new Vector2(), 0, new Weapon[] {}, new Vector2[] {}, 0, 65);
 		
 		EntityEnvironment entities = new EntityEnvironmentImpl(physics, 
-				weapons, loadout, new HealthMockListener());
+				weapons, loadout);
 		entities.addEnemy(enemy);
 		entities.addEnemy(enemy2);
 		

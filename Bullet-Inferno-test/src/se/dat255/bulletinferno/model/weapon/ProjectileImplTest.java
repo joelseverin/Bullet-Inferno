@@ -10,7 +10,6 @@ import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.entity.PlayerShipImpl;
 import se.dat255.bulletinferno.model.entity.PlayerShipImpl.ShipType;
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
-import se.dat255.bulletinferno.model.mock.HealthMockListener;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy.CreateBodyCall;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy.RemoveBodyCall;
@@ -95,7 +94,7 @@ public class ProjectileImplTest {
 				WeaponDefinitionImpl.STANDARD_MACHINE_GUN.createWeapon(physics, weapons, new Vector2()), 
 				WeaponDefinitionImpl.MISSILE_LAUNCHER.createWeapon(physics, weapons, new Vector2()));
 		PlayerShip ship = new PlayerShipImpl(physics, entities, new Vector2(), 
-				loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				loadout, ShipType.PLAYER_DEFAULT);
 
 		// If your change fails this test: think again! The order of collision pairs is not defined!
 		projectile.preCollided(ship);
@@ -116,7 +115,7 @@ public class ProjectileImplTest {
 				WeaponDefinitionImpl.STANDARD_MACHINE_GUN.createWeapon(physics, weapons, new Vector2()), 
 				WeaponDefinitionImpl.MISSILE_LAUNCHER.createWeapon(physics, weapons, new Vector2()));
 		PlayerShip sourceShip = new PlayerShipImpl(physics, entities, new Vector2(), loadout, 
-				ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				ShipType.PLAYER_DEFAULT);
 		
 		// Set the ship as the source
 		projectile.init(ProjectileDefinitionImpl.RED_PROJECTILE,new Vector2(), new Vector2(), 30, sourceShip,
@@ -189,7 +188,7 @@ public class ProjectileImplTest {
 				WeaponDefinitionImpl.STANDARD_MACHINE_GUN.createWeapon(physics, weapons, new Vector2()), 
 				WeaponDefinitionImpl.MISSILE_LAUNCHER.createWeapon(physics, weapons, new Vector2()));
 		PlayerShip ship = new PlayerShipImpl(physics, entities, new Vector2(), 
-				loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				loadout, ShipType.PLAYER_DEFAULT);
 
 		PhysicsBody body = null;
 		for (CreateBodyCall call : physics.createBodyCalls) {

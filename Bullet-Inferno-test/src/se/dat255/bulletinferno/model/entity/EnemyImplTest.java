@@ -10,7 +10,6 @@ import org.junit.Test;
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
 import se.dat255.bulletinferno.model.mock.SimpleMockProjectile;
-import se.dat255.bulletinferno.model.mock.SimpleMockScoreListener;
 import se.dat255.bulletinferno.model.mock.SimplePhysicsMovementPatternMock;
 import se.dat255.bulletinferno.model.physics.Collidable;
 import se.dat255.bulletinferno.model.physics.PhysicsBodyDefinitionImpl;
@@ -36,8 +35,7 @@ public class EnemyImplTest {
 					initialHealth, weapon, score,
 					credits, 
 					new PhysicsBodyDefinitionImpl(PhysicsShapeFactory.getRectangularShape(1, 1)), 
-					new SimplePhysicsMovementPatternMock(),
-					new SimpleMockScoreListener());
+					new SimplePhysicsMovementPatternMock());
 		}
 		public EnemyMockup(PhysicsEnvironment physics, EntityEnvironment entities, 
 				EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, 
@@ -46,8 +44,7 @@ public class EnemyImplTest {
 					initialHealth, weapon, score,
 					credits, 
 					new PhysicsBodyDefinitionImpl(PhysicsShapeFactory.getRectangularShape(1, 1)), 
-					new SimplePhysicsMovementPatternMock(),
-					new SimpleMockScoreListener());
+					new SimplePhysicsMovementPatternMock());
 		}
 
 	}
@@ -255,8 +252,7 @@ public class EnemyImplTest {
 						velocity, initialHealth, weapon, score, credits, 
 						new PhysicsBodyDefinitionImpl(
 								PhysicsShapeFactory.getRectangularShape(1, 1)), 
-						new SimplePhysicsMovementPatternMock(),
-						new SimpleMockScoreListener());
+						new SimplePhysicsMovementPatternMock());
 			}
 		}
 

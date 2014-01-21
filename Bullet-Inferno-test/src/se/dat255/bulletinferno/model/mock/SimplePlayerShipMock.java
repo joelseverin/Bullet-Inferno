@@ -109,4 +109,17 @@ public class SimplePlayerShipMock implements PlayerShip {
 		return 5;
 	}
 
+	@Override
+	public int getScore() {
+		return 0;
+	}
+
+	@Override
+	public void addToScore(int score) {
+	}
+
+	@Override
+	public void setScoreMultiplier(float multiplier) {
+	}
+
 }

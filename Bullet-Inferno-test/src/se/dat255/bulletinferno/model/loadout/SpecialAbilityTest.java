@@ -15,7 +15,6 @@ import se.dat255.bulletinferno.model.entity.EnemyDefinitionImpl;
 import se.dat255.bulletinferno.model.entity.SimpleEnemy;
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
-import se.dat255.bulletinferno.model.mock.ScoreMockListener;
 import se.dat255.bulletinferno.model.mock.SimpleMockTimer;
 import se.dat255.bulletinferno.model.mock.SimplePlayerShipMock;
 import se.dat255.bulletinferno.model.mock.WeaponMockEnvironment;
@@ -53,10 +52,10 @@ public class SpecialAbilityTest {
 
 		SimpleEnemy enemy1 = (SimpleEnemy) EnemyDefinitionImpl.KATZE.createEnemy(
 				physics, entities, entities.weapons,
-				new Vector2(1, 1), new ScoreMockListener());
+				new Vector2(1, 1));
 		SimpleEnemy enemy2 = (SimpleEnemy) EnemyDefinitionImpl.KATZE.createEnemy(
 				physics, entities, entities.weapons,
-				new Vector2(1, 1), new ScoreMockListener());
+				new Vector2(1, 1));
 		entities.addEnemy(enemy1);
 		entities.addEnemy(enemy2);
 		

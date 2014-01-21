@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import se.dat255.bulletinferno.model.entity.PlayerShipImpl.ShipType;
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
-import se.dat255.bulletinferno.model.mock.HealthMockListener;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
 import se.dat255.bulletinferno.model.mock.SimpleMockProjectile;
 import se.dat255.bulletinferno.model.mock.SimpleMockTimer;
@@ -88,7 +87,7 @@ public class PlayerShipImplTest {
 				WeaponDefinitionImpl.MISSILE_LAUNCHER.createWeapon(physics, weapons, new Vector2()));
 		
 		playerShip = new PlayerShipImpl(physics, new EntityMockEnvironment(), 
-				startPosition, loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				startPosition, loadout, ShipType.PLAYER_DEFAULT);
 		
 	}
 
@@ -143,7 +142,7 @@ public class PlayerShipImplTest {
 				ProjectileDefinitionImpl.RED_PROJECTILE, 0);
 		WeaponLoadout loadout = new WeaponLoadoutImpl(weapon, weapon);
 		playerShip = new PlayerShipImpl(physics, new EntityMockEnvironment(), 
-				new Vector2(), loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				new Vector2(), loadout, ShipType.PLAYER_DEFAULT);
 		
 		playerShip.fireWeapon();
 		assertTrue("Check that ship has fired it's weapon", weapon.hasFired);
@@ -152,10 +151,10 @@ public class PlayerShipImplTest {
 	@Test
 	public void testIsInMyTeam() {
 		PlayerShipImpl playerShip1 = new PlayerShipImpl(physics, new EntityMockEnvironment(), 
-				new Vector2(), loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				new Vector2(), loadout, ShipType.PLAYER_DEFAULT);
 		
 		PlayerShip playerShip2 = new PlayerShipImpl(physics, new EntityMockEnvironment(), 
-				new Vector2(), loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				new Vector2(), loadout, ShipType.PLAYER_DEFAULT);
 		
 		NonTeamMember enemy = new NonTeamMember();
 		
@@ -189,7 +188,7 @@ public class PlayerShipImplTest {
 		
 		// Create another player, i.e. somebody who's in the same team
 		PlayerShipImpl playerShip2 = new PlayerShipImpl(physics, new EntityMockEnvironment(), 
-				new Vector2(), loadout, ShipType.PLAYER_DEFAULT, new HealthMockListener());
+				new Vector2(), loadout, ShipType.PLAYER_DEFAULT);
 		projectile = new CollidedTestMockProjectile();
 		projectile.setSource(playerShip2);
 		preCollisionHealth = playerShip.getHealth();

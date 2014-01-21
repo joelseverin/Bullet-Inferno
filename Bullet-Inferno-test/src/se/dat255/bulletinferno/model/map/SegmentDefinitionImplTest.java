@@ -12,11 +12,9 @@ import org.junit.Test;
 
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
-import se.dat255.bulletinferno.model.mock.SimpleMockScoreListener;
 import se.dat255.bulletinferno.model.mock.SimpleMockTimer;
 import se.dat255.bulletinferno.model.mock.WeaponMockEnvironment;
 import se.dat255.bulletinferno.test.Common;
-import se.dat255.bulletinferno.util.Listener;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -31,7 +29,6 @@ public class SegmentDefinitionImplTest {
 	private EntityMockEnvironment entities;
 	private WeaponMockEnvironment weapons;
 	private Vector2 pos;
-	private Listener<Integer> scoreListener;
 
 	@Before
 	public void setUp() throws Exception {
@@ -39,7 +36,6 @@ public class SegmentDefinitionImplTest {
 		entities = new EntityMockEnvironment();
 		weapons = new WeaponMockEnvironment();
 		pos = new Vector2(10, 1);
-		scoreListener = new SimpleMockScoreListener();
 	}
 
 	@Test
@@ -88,7 +84,7 @@ public class SegmentDefinitionImplTest {
 			List<Segment> segments = new LinkedList<Segment>();
 			for (int i = 0; i < 25; i++) {
 				segments.add(segmentDef.createSegment(physics, entities, weapons, pos, 
-						suitableSlices.size(), scoreListener));
+						suitableSlices.size()));
 			}
 
 			List<? extends Slice> slicesSegA, slicesSegB;
@@ -130,7 +126,7 @@ public class SegmentDefinitionImplTest {
 				Segment createdSegment;
 				try {
 					createdSegment = segmentDef.createSegment(physics, entities, weapons, 
-							pos, numSlices, scoreListener);
+							pos, numSlices);
 				} catch (IllegalArgumentException e) {
 					continue;
 				}

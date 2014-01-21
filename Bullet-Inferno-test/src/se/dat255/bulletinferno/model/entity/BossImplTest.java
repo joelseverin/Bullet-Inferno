@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import se.dat255.bulletinferno.model.mock.EntityMockEnvironment;
 import se.dat255.bulletinferno.model.mock.PhysicsWorldImplSpy;
-import se.dat255.bulletinferno.model.mock.SimpleMockScoreListener;
 import se.dat255.bulletinferno.model.mock.SimplePhysicsMovementPatternMock;
 import se.dat255.bulletinferno.model.physics.DisorderedMovementPattern;
 import se.dat255.bulletinferno.model.physics.EvadingMovementPattern;
@@ -35,8 +34,7 @@ public class BossImplTest {
 					initialHealth, weapon, score,
 					credits, 
 					new PhysicsBodyDefinitionImpl(PhysicsShapeFactory.getRectangularShape(1, 1)), 
-					new SimplePhysicsMovementPatternMock(),
-					new SimpleMockScoreListener());
+					new SimplePhysicsMovementPatternMock());
 		}
 		public BossMockup(PhysicsEnvironment physics, EntityEnvironment entities, 
 				EnemyDefinitionImpl type, Vector2 position, Vector2 velocity, 
@@ -45,8 +43,7 @@ public class BossImplTest {
 					initialHealth, weapon, score,
 					credits, 
 					new PhysicsBodyDefinitionImpl(PhysicsShapeFactory.getRectangularShape(1, 1)), 
-					new SimplePhysicsMovementPatternMock(),
-					new SimpleMockScoreListener());
+					new SimplePhysicsMovementPatternMock());
 		}
 		@Override
 		public void onTimeout(Timer source, float timeSinceLast) {
