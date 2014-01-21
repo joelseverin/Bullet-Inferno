@@ -16,12 +16,14 @@ The current release of Bullet-Inferno can be found under [Releases](https://gith
 Keep in mind, however, that the latest release might not allways contain all the newest features found on the 
 repository. If you want to take part of those, we recommend you clone and build our github respoitory (see our [Developer Documentation](#developer-documentation))!
 
-
 ## Developer Documentation
 See the [Developer Documentation] page on our Wiki.
 
 ## User manual
 See the [User Manual](https://github.com/joelseverin/Bullet-Inferno/wiki/User-Manual).
+
+## License
+Bullet Inferno is released under the MIT License (MIT-X). Your contributions to this repo must be released under that license too.
 
 ## History & future
 Bullet Inferno was initially developed as a bullet-hell game for Android created during the autumn of 2013 for the course [Software Engineering Project](https://github.com/morganericsson/dat255) at Chalmers. The goal was to create a working Android application while following an agile project management method.
