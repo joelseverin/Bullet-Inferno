@@ -79,11 +79,18 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	// Particles
 	SMOKE_PARTICLE(texture("images/particles/smoke.png")),
 
-	MENU_MAIN_PLAYBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
-	MENU_MAIN_ACHIEVEMENTSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "achievements")),
-	MENU_MAIN_SETTINGSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
-	MENU_MAIN_LEADERBOARDSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
-	MENU_MAIN_STOREBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play"))
+	MENU_MAIN_PLAYBUTTON(textureAtlas("images/gui/menubuttons.atlas", "play")),
+	MENU_MAIN_PLAYBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "play_over")),
+	MENU_MAIN_ACHIEVEMENTSBUTTON(textureAtlas("images/gui/menubuttons.atlas", "achievements")),
+	MENU_MAIN_ACHIEVEMENTSBUTTON_OVER(
+			textureAtlas("images/gui/menubuttons.atlas", "achievements_over")),
+	MENU_MAIN_SETTINGSBUTTON(textureAtlas("images/gui/menubuttons.atlas", "settings")),
+	MENU_MAIN_SETTINGSBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "settings_over")),
+	MENU_MAIN_LEADERBOARDSBUTTON(textureAtlas("images/gui/menubuttons.atlas", "leaderboards")),
+	MENU_MAIN_LEADERBOARDSBUTTON_OVER(
+			textureAtlas("images/gui/menubuttons.atlas", "leaderboards_over")),
+	MENU_MAIN_STOREBUTTON(textureAtlas("images/gui/menubuttons.atlas", "store")),
+	MENU_MAIN_STOREBUTTON_OVER(textureAtlas("image/gui/menubuttons.atlas", "store_over"))
 	
 	;
 

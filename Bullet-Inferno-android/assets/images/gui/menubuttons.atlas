@@ -1,0 +1,75 @@
+
+menubuttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+play
+  rotate: false
+  xy: 1, 595
+  size: 386, 165
+  orig: 386, 165
+  offset: 0, 0
+  index: -1
+play_down
+  rotate: false
+  xy: 1, 428
+  size: 386, 165
+  orig: 386, 165
+  offset: 0, 0
+  index: -1
+achievements_down
+  rotate: false
+  xy: 389, 655
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+ahievements
+  rotate: false
+  xy: 1, 321
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 389, 548
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+settings_down
+  rotate: false
+  xy: 1, 214
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+store
+  rotate: false
+  xy: 389, 441
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+store_down
+  rotate: false
+  xy: 1, 107
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+leaderboards
+  rotate: false
+  xy: 389, 335
+  size: 386, 104
+  orig: 386, 104
+  offset: 0, 0
+  index: -1
+leaderboards_down
+  rotate: false
+  xy: 1, 1
+  size: 386, 104
+  orig: 386, 104
+  offset: 0, 0
+  index: -1

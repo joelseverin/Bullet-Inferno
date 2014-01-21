@@ -31,3 +31,6 @@ proguard/
 
 # Windows fules
 Thumbs.db
+
+# Mac excludes
+.DS_Store

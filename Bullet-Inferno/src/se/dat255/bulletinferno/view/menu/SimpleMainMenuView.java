@@ -33,34 +33,36 @@ public abstract class SimpleMainMenuView implements Disposable {
 		
 		storeButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_STOREBUTTON), 
-				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_STOREBUTTON));
+				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_STOREBUTTON_OVER));
 		storeButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		storeButton.setPosition(BUTTONGROUP_POSITION_X, BUTTONGROUP_POSITION_Y);
 		
 		achievementsButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_ACHIEVEMENTSBUTTON), 
-				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_ACHIEVEMENTSBUTTON));
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.MENU_MAIN_ACHIEVEMENTSBUTTON_OVER));
 		achievementsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		achievementsButton.setPosition(BUTTONGROUP_POSITION_X, 
 				BUTTONGROUP_POSITION_Y + BUTTONGROUP_MARGIN_Y + BUTTON_HEIGHT);
 		
 		settingsButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_SETTINGSBUTTON), 
-				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_SETTINGSBUTTON));
+				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_SETTINGSBUTTON_OVER));
 		settingsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		achievementsButton.setPosition(BUTTONGROUP_POSITION_X, 
 				BUTTONGROUP_POSITION_Y + 2*( BUTTONGROUP_MARGIN_Y + BUTTON_HEIGHT));
 		
 		leaderboardsButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_LEADERBOARDSBUTTON), 
-				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_LEADERBOARDSBUTTON));
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.MENU_MAIN_LEADERBOARDSBUTTON_OVER));
 		leaderboardsButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
 		leaderboardsButton.setPosition(BUTTONGROUP_POSITION_X, 
 				BUTTONGROUP_POSITION_Y + 3*( BUTTONGROUP_MARGIN_Y + BUTTON_HEIGHT));
 		
 		playButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_PLAYBUTTON), 
-				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_PLAYBUTTON));
+				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_PLAYBUTTON_OVER));
 		playButton.setSize(BUTTON_WIDTH, 164);
 		leaderboardsButton.setPosition(BUTTONGROUP_POSITION_X, 
 				BUTTONGROUP_POSITION_Y + 4*( BUTTONGROUP_MARGIN_Y + BUTTON_HEIGHT) + 100);
