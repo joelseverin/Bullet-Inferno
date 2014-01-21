@@ -73,3 +73,10 @@ leaderboards_down
   orig: 386, 104
   offset: 0, 0
   index: -1
+menuplane
+  rotate: false
+  xy: 777, 702
+  size: 110, 58
+  orig: 110, 58
+  offset: 0, 0
+  index: -1

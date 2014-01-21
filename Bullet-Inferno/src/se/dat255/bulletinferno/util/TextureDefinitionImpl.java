@@ -79,6 +79,8 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	// Particles
 	SMOKE_PARTICLE(texture("images/particles/smoke.png")),
 
+	MENU_BACKGROUND(texture("image/gui/menubackground.png")),
+	MENU_PLANE(textureAtlas("image/gui/menubuttons.atlas", "menuplane")),
 	MENU_MAIN_PLAYBUTTON(textureAtlas("images/gui/menubuttons.atlas", "play")),
 	MENU_MAIN_PLAYBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "play_over")),
 	MENU_MAIN_ACHIEVEMENTSBUTTON(textureAtlas("images/gui/menubuttons.atlas", "achievements")),
