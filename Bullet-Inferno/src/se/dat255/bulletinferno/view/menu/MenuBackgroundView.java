@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class MenuBackgroundView {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
-	private final static int PLANE_POSITION_Y = 460, PLANE_ANIMATION_DURATION = 10;
+	private final static int PLANE_POSITION_Y = 660, PLANE_ANIMATION_DURATION = 20;
 
 	private final Stage stage;
 	private final Image background;
@@ -27,9 +27,10 @@ public class MenuBackgroundView {
 		
 		airplane = new Image(resources.getTexture(TextureDefinitionImpl.MENU_PLANE));
 		SequenceAction sequence= Actions.sequence(
-				Actions.moveTo(-40, PLANE_POSITION_Y),
-				Actions.moveTo(VIRTUAL_WIDTH + background.getWidth(), PLANE_POSITION_Y, 
-						PLANE_ANIMATION_DURATION));
+				Actions.moveTo(-airplane.getWidth(), PLANE_POSITION_Y),
+				Actions.moveTo(VIRTUAL_WIDTH + airplane.getWidth(), PLANE_POSITION_Y, 
+						PLANE_ANIMATION_DURATION),
+				Actions.delay(2));
 		
 		airplane.addAction(Actions.forever(sequence));
 		stage.addActor(airplane);

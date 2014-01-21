@@ -20,6 +20,8 @@ public class MasterController extends com.badlogic.gdx.Game {
 	/** Main controller for the game screen */
 	private GameController gameScreen;
 
+	private MainMenuController menuController;
+	
 	/** The controller for the loading screen */
 	private LoadingScreenController loadingScreen;
 
@@ -35,7 +37,7 @@ public class MasterController extends com.badlogic.gdx.Game {
 	private final FinishedLoadingEventListener switchToLoadoutOnLoaded = new FinishedLoadingEventListener() {
 		@Override
 		public void onLoaded() {
-			setScreen(getLoadoutScreen());
+			setScreen(getMenuController());
 		}
 	};
 
@@ -103,6 +105,13 @@ public class MasterController extends com.badlogic.gdx.Game {
 		return loadoutScreen;
 	}
 
+	public MainMenuController getMenuController() {
+		if(menuController == null) {
+			menuController = new MainMenuController(this, resourceManager);
+		}
+		return menuController;
+	}
+	
 	@Override
 	public void resume() {
 		Screen currentScreen = super.getScreen();
