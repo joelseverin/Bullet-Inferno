@@ -79,6 +79,12 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	// Particles
 	SMOKE_PARTICLE(texture("images/particles/smoke.png")),
 
+	MENU_MAIN_PLAYBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
+	MENU_MAIN_ACHIEVEMENTSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "achievements")),
+	MENU_MAIN_SETTINGSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
+	MENU_MAIN_LEADERBOARDSBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play")),
+	MENU_MAIN_STOREBUTTON(textureAtlas("img/menu/mainbuttons.atlas", "play"))
+	
 	;
 
 	private TextureHolder holder;
