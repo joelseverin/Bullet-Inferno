@@ -79,8 +79,14 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	// Particles
 	SMOKE_PARTICLE(texture("images/particles/smoke.png")),
 
+	// Menu
 	MENU_BACKGROUND(texture("images/gui/menubackground.png")),
 	MENU_PLANE(textureAtlas("images/gui/menubuttons.atlas", "menuplane")),
+	
+	MENU_SOUND_ON(textureAtlas("images/gui/menubuttons.atlas", "sound_on")),
+	MENU_SOUND_OFF(textureAtlas("images/gui/menubuttons.atlas", "sound_off")),
+	MENU_RESETBUTTON(textureAtlas("images/gui/menubuttons.atlas", "reset")),
+	
 	MENU_MAIN_PLAYBUTTON(textureAtlas("images/gui/menubuttons.atlas", "play")),
 	MENU_MAIN_PLAYBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "play_down")),
 	MENU_MAIN_ACHIEVEMENTSBUTTON(textureAtlas("images/gui/menubuttons.atlas", "achievements")),
@@ -104,7 +110,9 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_SETTINGS_LABEL(textureAtlas("images/gui/menuheadings.atlas", "settings")),
 	MENU_SETTINGS_AUDIO_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsaudiolabel")),
 	MENU_SETTINGS_SOUNDEF_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingssoundeffectlabel")),
-	MENU_SETTINGS_BGMUSIC_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsbackgroundsoundlabel"))
+	MENU_SETTINGS_BGMUSIC_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsbackgroundsoundlabel")),
+	MENU_SETTINGS_SENSE_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingssenslabel")),
+	MENU_SETTINGS_TOUCH_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingstouchlabel"))
 	;
 
 	private TextureHolder holder;
