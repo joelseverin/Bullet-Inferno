@@ -1,5 +1,7 @@
 package se.dat255.bulletinferno.controller;
 
+import se.dat255.bulletinferno.controller.menu.SettingsController;
+import se.dat255.bulletinferno.controller.menu.SubMenuController;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.MenuBackgroundView;
 import se.dat255.bulletinferno.view.menu.MainMenuView;
@@ -7,17 +9,21 @@ import se.dat255.bulletinferno.view.menu.MainMenuView;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainMenuController extends SimpleController {
 	private final Stage stage;
+	private final ResourceManager resources;
 	private final MenuBackgroundView backgroundView;
 	private final MainMenuView menuView;
 	private final MasterController masterController;
-	
+	private SubMenuController activeSubController = null;
 	
 	public MainMenuController(MasterController masterController, ResourceManager resources) {
 		this.masterController = masterController;
+		this.resources = resources;
+		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		backgroundView = new MenuBackgroundView(stage, resources);
 		menuView = new MainMenuView(stage, resources);
@@ -33,6 +39,7 @@ public class MainMenuController extends SimpleController {
 	public void render(float delta) {
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
+		Table.drawDebug(stage);
 	}
 
 	@Override
@@ -44,12 +51,22 @@ public class MainMenuController extends SimpleController {
 	public void dispose() {
 		menuView.dispose();
 		stage.dispose();
+		if(activeSubController != null) {
+			activeSubController.dispose();
+		}
 	}
 	
 	@Override
 	public void show() {
 		super.show();
 		Gdx.input.setInputProcessor(stage);
+	}
+	
+	private void switchSubController(SubMenuController subController) {
+		if(activeSubController != null) {
+			activeSubController.dispose();
+		}
+		activeSubController = subController;
 	}
 	
 	private ChangeListener storeListener = new ChangeListener() {
@@ -65,6 +82,7 @@ public class MainMenuController extends SimpleController {
 	private ChangeListener settingListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
+			switchSubController(new SettingsController(stage, resources));
 		}
 	};
 	private ChangeListener achievementsListener = new ChangeListener() {

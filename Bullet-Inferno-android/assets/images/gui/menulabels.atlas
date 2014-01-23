@@ -1,0 +1,54 @@
+
+menulabels.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+sliderlowtohighvalues
+  rotate: false
+  xy: 1, 85
+  size: 752, 28
+  orig: 752, 28
+  offset: 0, 0
+  index: -1
+slider0to100values
+  rotate: false
+  xy: 1, 61
+  size: 756, 22
+  orig: 756, 22
+  offset: 0, 0
+  index: -1
+settingssenslabel
+  rotate: false
+  xy: 1, 32
+  size: 237, 27
+  orig: 237, 27
+  offset: 0, 0
+  index: -1
+settingsbackgroundsoundlabel
+  rotate: false
+  xy: 1, 1
+  size: 229, 29
+  orig: 229, 29
+  offset: 0, 0
+  index: -1
+settingssoundeffectlabel
+  rotate: false
+  xy: 755, 92
+  size: 172, 21
+  orig: 172, 21
+  offset: 0, 0
+  index: -1
+settingsaudiolabel
+  rotate: false
+  xy: 240, 24
+  size: 120, 35
+  orig: 120, 35
+  offset: 0, 0
+  index: -1
+settingstouchlabel
+  rotate: false
+  xy: 362, 25
+  size: 119, 34
+  orig: 119, 34
+  offset: 0, 0
+  index: -1

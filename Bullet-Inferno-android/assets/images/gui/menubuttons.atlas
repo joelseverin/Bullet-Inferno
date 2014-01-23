@@ -3,80 +3,115 @@ menubuttons.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+sliderbackground
+  rotate: false
+  xy: 1, 977
+  size: 755, 12
+  orig: 755, 12
+  offset: 0, 0
+  index: -1
 play
   rotate: false
-  xy: 1, 595
+  xy: 1, 810
   size: 386, 165
   orig: 386, 165
   offset: 0, 0
   index: -1
 play_down
   rotate: false
-  xy: 1, 428
+  xy: 1, 643
   size: 386, 165
   orig: 386, 165
   offset: 0, 0
   index: -1
 achievements_down
   rotate: false
-  xy: 389, 655
+  xy: 1, 536
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 achievements
   rotate: false
-  xy: 1, 321
+  xy: 1, 429
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 settings
   rotate: false
-  xy: 389, 548
+  xy: 1, 322
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 settings_down
   rotate: false
-  xy: 1, 214
+  xy: 1, 215
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 store
   rotate: false
-  xy: 389, 441
+  xy: 1, 108
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 store_down
   rotate: false
-  xy: 1, 107
+  xy: 1, 1
   size: 386, 105
   orig: 386, 105
   offset: 0, 0
   index: -1
 leaderboards
   rotate: false
-  xy: 389, 335
+  xy: 389, 871
   size: 386, 104
   orig: 386, 104
   offset: 0, 0
   index: -1
 leaderboards_down
   rotate: false
-  xy: 1, 1
+  xy: 389, 765
   size: 386, 104
   orig: 386, 104
   offset: 0, 0
   index: -1
 menuplane
   rotate: false
-  xy: 777, 702
+  xy: 389, 705
   size: 110, 58
   orig: 110, 58
+  offset: 0, 0
+  index: -1
+reset
+  rotate: false
+  xy: 389, 613
+  size: 71, 90
+  orig: 71, 90
+  offset: 0, 0
+  index: -1
+sound_off
+  rotate: false
+  xy: 389, 536
+  size: 81, 75
+  orig: 81, 75
+  offset: 0, 0
+  index: -1
+sound_on
+  rotate: false
+  xy: 389, 459
+  size: 81, 75
+  orig: 81, 75
+  offset: 0, 0
+  index: -1
+sliderknob
+  rotate: false
+  xy: 501, 728
+  size: 18, 35
+  orig: 18, 35
   offset: 0, 0
   index: -1

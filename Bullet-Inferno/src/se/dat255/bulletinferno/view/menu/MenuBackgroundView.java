@@ -26,7 +26,7 @@ public class MenuBackgroundView {
 		stage.addActor(background);
 		
 		airplane = new Image(resources.getTexture(TextureDefinitionImpl.MENU_PLANE));
-		SequenceAction sequence= Actions.sequence(
+		SequenceAction sequence = Actions.sequence(
 				Actions.moveTo(-airplane.getWidth(), PLANE_POSITION_Y),
 				Actions.moveTo(VIRTUAL_WIDTH + airplane.getWidth(), PLANE_POSITION_Y, 
 						PLANE_ANIMATION_DURATION),

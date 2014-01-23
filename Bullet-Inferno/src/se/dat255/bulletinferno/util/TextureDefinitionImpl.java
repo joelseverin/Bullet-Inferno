@@ -93,8 +93,18 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 			textureAtlas("images/gui/menubuttons.atlas", "leaderboards_down")),
 	MENU_MAIN_STOREBUTTON(textureAtlas("images/gui/menubuttons.atlas", "store")),
 	MENU_MAIN_STOREBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "store_down")),
-	MENU_MAIN_GLAS(texture("images/gui/mainmenuglas.png"))
+	MENU_MAIN_GLAS(texture("images/gui/mainmenuglas.png")),
 	
+	MENU_EXTENSION_GLASS(texture("images/gui/extensionmenuglass.png")),
+	MENU_SLIDER_BG(textureAtlas("images/gui/menubuttons.atlas", "sliderbackground")),
+	MENU_SLIDER_KNOB(textureAtlas("images/gui/menubuttons.atlas", "sliderknob")),
+	MENU_SLIDER_0_TO_100_VALUES(textureAtlas("images/gui/menulabels.atlas", "slider0to100values")),
+	MENU_SLIDER_LOW_TO_HIGH_VALUES(textureAtlas("images/gui/menulabels.atlas", "sliderlowtohighvalues")),
+	
+	MENU_SETTINGS_LABEL(textureAtlas("images/gui/menuheadings.atlas", "settings")),
+	MENU_SETTINGS_AUDIO_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsaudiolabel")),
+	MENU_SETTINGS_SOUNDEF_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingssoundeffectlabel")),
+	MENU_SETTINGS_BGMUSIC_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsbackgroundsoundlabel"))
 	;
 
 	private TextureHolder holder;
