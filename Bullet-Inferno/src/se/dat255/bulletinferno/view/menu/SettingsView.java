@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -49,7 +50,6 @@ public class SettingsView implements Disposable {
 		table.setBackground(resources.getDrawableTexture(TextureDefinitionImpl.MENU_EXTENSION_GLASS));
 		table.top();
 		table.padTop(100);
-		table.debug();
 		
 		label = new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_SETTINGS_LABEL));
 		table.add(label).colspan(2);
@@ -59,8 +59,8 @@ public class SettingsView implements Disposable {
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SLIDER_BG),
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SLIDER_KNOB));
 		
-		backgroundMusicSlider = new Slider(0, 1, 0.005f, false, sliderStyle);
-		soundEffectSlider = new Slider(0, 1, 0.005f, false, sliderStyle);
+		backgroundMusicSlider = new Slider(0, 1, 0.02f, false, sliderStyle);
+		soundEffectSlider = new Slider(0, 1, 0.02f, false, sliderStyle);
 		sensSlider = new Slider(0, 2, 0.01f, false, sliderStyle);
 		
 		CheckBox.CheckBoxStyle checkboxStyle = new CheckBox.CheckBoxStyle(
@@ -87,8 +87,32 @@ public class SettingsView implements Disposable {
 
 	@Override
 	public void dispose() {
-		stage.getRoot().removeActor(table);
-		table.clear();
+		stage.getRoot().removeActor(group);
+		group.clear();
+	}
+	
+	public Slider getBackgroundMusicSlider() {
+		return backgroundMusicSlider;
+	}
+	
+	public Slider getSoundEffectsSlider() {
+		return soundEffectSlider;
+	}
+	
+	public Slider getSensSlider() {
+		return sensSlider;
+	}
+	
+	public CheckBox getBackgroundMusicMuteButton() {
+		return backgroundMusicMuteButton;
+	}
+	
+	public CheckBox getSoundEffectsMuteButton() {
+		return soundEffectsMuteButton;
+	}
+	
+	public Button getSenseResetButton() {
+		return sensResetButton;
 	}
 	
 	private void setUpAudioSettings(ResourceManager resources) {
@@ -112,7 +136,7 @@ public class SettingsView implements Disposable {
 		bgMusicTable.add(volumeSliderValuesLabel).padTop(10);
 		
 		table.add(bgMusicTable).padLeft(SLIDER_PADDING_LEFT);
-		table.add(backgroundMusicMuteButton).padLeft(10);
+		table.add(backgroundMusicMuteButton).padLeft(20).padBottom(25);
 		table.row();
 		
 		// Sound effects settings
@@ -130,7 +154,7 @@ public class SettingsView implements Disposable {
 		soundEffectsTable.add(volumeSliderValuesLabel).padTop(10);
 		
 		table.add(soundEffectsTable).padLeft(SLIDER_PADDING_LEFT);
-		table.add(soundEffectsMuteButton).padLeft(10);
+		table.add(soundEffectsMuteButton).padLeft(20).padBottom(25);
 		table.row();
 		
 	}
@@ -154,7 +178,7 @@ public class SettingsView implements Disposable {
 		sensTable.add(tocuhSliderValuesLabel);
 		
 		table.add(sensTable).padLeft(SLIDER_PADDING_LEFT);
-		table.add(sensResetButton).padLeft(10);
+		table.add(sensResetButton).padLeft(20).padBottom(36);
 		table.row();
 	}
 }
