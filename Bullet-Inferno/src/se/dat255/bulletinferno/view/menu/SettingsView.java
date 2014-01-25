@@ -1,9 +1,14 @@
 package se.dat255.bulletinferno.view.menu;
 
-import com.badlogic.gdx.Gdx;
+import javax.swing.event.ChangeEvent;
+
+import se.dat255.bulletinferno.util.Disposable;
+import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,15 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
-import se.dat255.bulletinferno.util.Disposable;
-import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class SettingsView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
@@ -28,6 +27,7 @@ public class SettingsView implements Disposable {
 	private final static int GLASS_WIDTH = 1182, GLASS_POSITION_X = 285, SLIDER_PADDING_LEFT = 80;
 	private final static float GLASS_ANIMATION_DURATION = 0.4f;
 	
+	private boolean isDown = false;
 	private final Stage stage;
 	private final Image label;
 	private final Table table;
@@ -35,6 +35,7 @@ public class SettingsView implements Disposable {
 	private final Slider backgroundMusicSlider, soundEffectSlider, sensSlider;
 	private final CheckBox soundEffectsMuteButton, backgroundMusicMuteButton;
 	private final Button sensResetButton;
+	private EventListener toggleListener = null;
 	
 	public SettingsView(Stage stage, ResourceManager resources) {
 		this.stage = stage;
@@ -42,7 +43,7 @@ public class SettingsView implements Disposable {
 		// Create a group (<div>) for animation purposes
 		group = new Group();
 		group.setSize(GLASS_WIDTH, VIRTUAL_HEIGHT);
-		group.setPosition(GLASS_POSITION_X, 0);
+		group.setPosition(GLASS_POSITION_X, VIRTUAL_HEIGHT);
 		
 		// Setup the content table
 		table = new Table();
@@ -78,17 +79,107 @@ public class SettingsView implements Disposable {
 		setUpTouchSettings(resources);
 		
 		group.addActor(table);
-		SequenceAction sequence = Actions.sequence(Actions.moveTo(GLASS_POSITION_X, VIRTUAL_HEIGHT),
-				Actions.moveTo(GLASS_POSITION_X, 0, GLASS_ANIMATION_DURATION));
-		group.addAction(sequence);
+		slideToggle();
 		this.stage.addActor(group);
 	}
 
-
+	/**
+	 * Toggles the view so that it's animated up/down and is/isn't visible in the views given 
+	 * VIRTUAL_WIDTH and VIRTUAL_HEIGHT
+	 */
+	public void slideToggle() {
+		// Remove previous action
+		if(oldSlideAction != null) {
+			group.removeAction(oldSlideAction);
+		}
+		
+		if(isDown) {
+			group.addAction(getAnimateUpAction());
+			isDown = false;
+		} else {
+			group.addAction(getAnimateDownAction());
+			isDown = true;
+		}
+	}
+	
+	private Action oldSlideAction = null;
+	// A helper in order to always get the same speed for the animation, no matter where
+	// the group currently is positioned
+	private Action getAnimateUpAction() {
+		oldSlideAction = Actions.sequence(
+							Actions.moveTo(GLASS_POSITION_X, VIRTUAL_HEIGHT, 
+									GLASS_ANIMATION_DURATION * (1 - group.getY()/VIRTUAL_HEIGHT)),
+									onActionComplete);
+		return oldSlideAction;
+	}
+	
+	private Action getAnimateDownAction() {
+		oldSlideAction = Actions.sequence(
+							Actions.moveTo(GLASS_POSITION_X, 0, 
+									GLASS_ANIMATION_DURATION * group.getY()/VIRTUAL_HEIGHT),
+									onActionComplete);
+		return oldSlideAction;
+	}
+	
+	/**
+	 * Returns whether the view is in place, i.e. has been toggled so that it's visible
+	 * in it's VIRTUAL_WIDTH and VIRTUAL_HEIGHT. See {@link SettingsView#slideToggle()}
+	 * @return is in place
+	 */
+	public boolean isInPlace() {
+		return isDown;
+	}
+	
+	/**
+	 * Set listener that receives a callback on a complete toggle. 
+	 * See {@link SettingsView#slideToggle()} 
+	 * @param listener
+	 */
+	public void setSlideToggleListener(EventListener listener) {
+		this.toggleListener = listener;
+	}
+	
+	private boolean inActionComplete = false;
+	private Action onActionComplete = new Action() {
+		@Override
+		public boolean act(float delta) {
+			inActionComplete = true;
+			if(toggleListener != null) {
+				// Due to a design flaw in libgdx, we need to add and remove listener since it
+				// otherwise would be notified by all of its children's event too.
+				group.addListener(toggleListener);
+				group.fire(new ChangeListener.ChangeEvent());
+				if(toggleListener == null) {
+					// If toggleListener is null now a dispose call has been placed to the view
+					// but since that happened during a firing of an event, the view can't remove
+					// all listeners, so we need to here.
+					group.clearListeners();
+				} else {
+					group.removeListener(toggleListener);
+				}
+			}
+			inActionComplete = false;
+			return true;
+		}
+		
+	};
+	
 	@Override
 	public void dispose() {
+		toggleListener = null;
+		if(inActionComplete) {
+			// If in action complete, let it worry about clearing the rest.
+			group.clearChildren();
+		} else {
+			group.clear();
+		}
 		stage.getRoot().removeActor(group);
-		group.clear();
+		backgroundMusicSlider.clear();
+		backgroundMusicMuteButton.clear();
+		soundEffectSlider.clear();
+		soundEffectsMuteButton.clear();
+		sensSlider.clear();
+		sensResetButton.clear();
 	}
 	
 	public Slider getBackgroundMusicSlider() {

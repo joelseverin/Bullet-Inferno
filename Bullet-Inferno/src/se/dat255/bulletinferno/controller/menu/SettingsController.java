@@ -3,7 +3,6 @@ package se.dat255.bulletinferno.controller.menu;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.SettingsView;
@@ -19,6 +18,7 @@ public class SettingsController implements SubMenuController {
 		settingsView.getBackgroundMusicMuteButton().addListener(backgroundMusicMuteListener);
 		settingsView.getSoundEffectsMuteButton().addListener(soundEffectsMuteListener);
 		settingsView.getSenseResetButton().addListener(sensResetListener);
+		settingsView.setSlideToggleListener(slideToggleListener);
 	}
 	
 	@Override
@@ -40,7 +40,6 @@ public class SettingsController implements SubMenuController {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			float value = settingsView.getSoundEffectsSlider().getValue();
-			System.out.println("hej");
 			if(value > 0) {
 				settingsView.getSoundEffectsMuteButton().setChecked(false);
 			}
@@ -81,7 +80,38 @@ public class SettingsController implements SubMenuController {
 			settingsView.getSensSlider().setValue(1);
 		}
 	};
-	
-	
 
+	private ChangeListener slideToggleListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			// If the event was fired upon a slide down;
+			if(settingsView.isInPlace()) {
+				return;
+			}
+			
+			dispose();
+			if(subMenuHandler != null) {
+				subMenuHandler.onDisposeFinished(SettingsController.this);
+				subMenuHandler = null;
+			}
+		}
+	};
+	
+	private SubMenuControllHandler subMenuHandler = null;
+	
+	@Override
+	public void disposeRequest(SubMenuControllHandler listener) {
+		subMenuHandler = listener;
+		disposeRequest();
+	}
+
+	@Override
+	public void disposeRequest() {
+		// If view is already out of the screen
+		if(!settingsView.isInPlace()) {
+			dispose();
+		} else {
+			settingsView.slideToggle();
+		}
+	}
 }
