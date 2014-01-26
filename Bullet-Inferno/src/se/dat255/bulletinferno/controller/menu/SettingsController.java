@@ -85,7 +85,8 @@ public class SettingsController implements SubMenuController {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			// If the event was fired upon a slide down;
-			if(settingsView.isInPlace()) {
+			System.out.println(settingsView.isToggledVisible());
+			if(settingsView.isToggledVisible()) {
 				return;
 			}
 			
@@ -108,7 +109,7 @@ public class SettingsController implements SubMenuController {
 	@Override
 	public void disposeRequest() {
 		// If view is already out of the screen
-		if(!settingsView.isInPlace()) {
+		if(!settingsView.isToggledVisible()) {
 			dispose();
 		} else {
 			settingsView.slideToggle();

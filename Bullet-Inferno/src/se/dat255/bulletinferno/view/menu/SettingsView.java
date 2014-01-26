@@ -95,10 +95,9 @@ public class SettingsView implements Disposable {
 		
 		if(isDown) {
 			group.addAction(getAnimateUpAction());
-			isDown = false;
 		} else {
-			group.addAction(getAnimateDownAction());
 			isDown = true;
+			group.addAction(getAnimateDownAction());
 		}
 	}
 	
@@ -122,11 +121,11 @@ public class SettingsView implements Disposable {
 	}
 	
 	/**
-	 * Returns whether the view is in place, i.e. has been toggled so that it's visible
+	 * Returns whether the view has been toggled so that it's visible
 	 * in it's VIRTUAL_WIDTH and VIRTUAL_HEIGHT. See {@link SettingsView#slideToggle()}
 	 * @return is in place
 	 */
-	public boolean isInPlace() {
+	public boolean isToggledVisible() {
 		return isDown;
 	}
 	
@@ -144,6 +143,10 @@ public class SettingsView implements Disposable {
 		@Override
 		public boolean act(float delta) {
 			inActionComplete = true;
+			if(group.getY() != 0) {
+				isDown = false;
+			}
+			
 			if(toggleListener != null) {
 				// Due to a design flaw in libgdx, we need to add and remove listener since it
 				// otherwise would be notified by all of its children's event too.
@@ -151,7 +154,7 @@ public class SettingsView implements Disposable {
 				group.fire(new ChangeListener.ChangeEvent());
 				if(toggleListener == null) {
 					// If toggleListener is null now a dispose call has been placed to the view
-					// but since that happened during a firing of an event, the view can't remove
+					// but since that happened during the firing of an event, the view can't remove
 					// all listeners, so we need to here.
 					group.clearListeners();
 				} else {
