@@ -53,6 +53,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	public void dispose() {
 		menuView.dispose();
 		stage.dispose();
+		backgroundView.dispose();
 		if(activeSubController != null) {
 			activeSubController.dispose();
 		}

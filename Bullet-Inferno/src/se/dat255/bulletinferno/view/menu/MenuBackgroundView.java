@@ -1,5 +1,6 @@
 package se.dat255.bulletinferno.view.menu;
 
+import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
@@ -8,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class MenuBackgroundView {
+public class MenuBackgroundView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
 	private final static int PLANE_POSITION_Y = 660, PLANE_ANIMATION_DURATION = 20;
@@ -34,5 +35,13 @@ public class MenuBackgroundView {
 		
 		airplane.addAction(Actions.forever(sequence));
 		stage.addActor(airplane);
+	}
+
+
+	@Override
+	public void dispose() {
+		stage.getRoot().removeActor(background);
+		stage.getRoot().removeActor(airplane);
+		airplane.clear();
 	}
 }
