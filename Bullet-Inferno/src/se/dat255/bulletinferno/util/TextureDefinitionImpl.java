@@ -112,7 +112,12 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_SETTINGS_SOUNDEF_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingssoundeffectlabel")),
 	MENU_SETTINGS_BGMUSIC_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingsbackgroundsoundlabel")),
 	MENU_SETTINGS_SENSE_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingssenslabel")),
-	MENU_SETTINGS_TOUCH_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingstouchlabel"))
+	MENU_SETTINGS_TOUCH_LABEL(textureAtlas("images/gui/menulabels.atlas", "settingstouchlabel")),
+	
+	MENU_ACHIEVEMENT_ENTRY_BG(textureAtlas("images/gui/menulabels.atlas", "achievementEntryBackground")),
+	MENU_ACHIEVEMENT_UNACHIEVED(textureAtlas("images/gui/menulabels.atlas", "achievementIconGrey")),
+	MENU_ACHIEVEMENT_ACHIEVED(textureAtlas("images/gui/menulabels.atlas", "achievementIconGold")),
+	MENU_ACHIEVEMENT_HEADER(textureAtlas("images/gui/menuheadings.atlas", "achievements"))
 	;
 
 	private TextureHolder holder;

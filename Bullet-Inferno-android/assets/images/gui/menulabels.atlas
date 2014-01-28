@@ -5,21 +5,28 @@ filter: Nearest,Nearest
 repeat: none
 sliderlowtohighvalues
   rotate: false
-  xy: 1, 85
+  xy: 1, 208
   size: 752, 28
   orig: 752, 28
   offset: 0, 0
   index: -1
 slider0to100values
   rotate: false
-  xy: 1, 61
+  xy: 1, 184
   size: 756, 22
   orig: 756, 22
   offset: 0, 0
   index: -1
-settingssenslabel
+achievementEntryBackground
   rotate: false
   xy: 1, 32
+  size: 432, 150
+  orig: 432, 150
+  offset: 0, 0
+  index: -1
+settingssenslabel
+  rotate: false
+  xy: 755, 209
   size: 237, 27
   orig: 237, 27
   offset: 0, 0
@@ -31,23 +38,37 @@ settingsbackgroundsoundlabel
   orig: 229, 29
   offset: 0, 0
   index: -1
+achievementIconGold
+  rotate: false
+  xy: 435, 63
+  size: 128, 119
+  orig: 128, 119
+  offset: 0, 0
+  index: -1
+achievementIconGrey
+  rotate: false
+  xy: 565, 63
+  size: 128, 119
+  orig: 128, 119
+  offset: 0, 0
+  index: -1
 settingssoundeffectlabel
   rotate: false
-  xy: 755, 92
+  xy: 232, 9
   size: 172, 21
   orig: 172, 21
   offset: 0, 0
   index: -1
 settingsaudiolabel
   rotate: false
-  xy: 240, 24
+  xy: 435, 26
   size: 120, 35
   orig: 120, 35
   offset: 0, 0
   index: -1
 settingstouchlabel
   rotate: false
-  xy: 362, 25
+  xy: 557, 27
   size: 119, 34
   orig: 119, 34
   offset: 0, 0
