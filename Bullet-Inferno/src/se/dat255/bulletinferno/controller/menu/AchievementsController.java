@@ -20,6 +20,23 @@ public class AchievementsController implements SubMenuController {
 		achievements.add(new AchievementImpl("", "Distance noob", "Fly 100km", true));
 		achievements.add(new AchievementImpl("", "Distance Intermediate", "Fly 800km", false));
 		achievements.add(new AchievementImpl("", "Distance Pro", "Fly 1500km", false));
+		achievements.add(new AchievementImpl("", "Collector noob", 
+				"Collect 100 coins in one round and then some....", true));
+		achievements.add(new AchievementImpl("", "Distance noob", "Fly 100km", true));
+		achievements.add(new AchievementImpl("", "Distance Intermediate", "Fly 800km", false));
+		achievements.add(new AchievementImpl("", "Distance Pro", "Fly 1500km", false));
+		achievements.add(new AchievementImpl("", "Collector noob", 
+				"Collect 100 coins in one round and then some....", true));
+		achievements.add(new AchievementImpl("", "Distance noob", "Fly 100km", true));
+		achievements.add(new AchievementImpl("", "Distance Intermediate", "Fly 800km", false));
+		achievements.add(new AchievementImpl("", "Distance Pro", "Fly 1500km", false));
+		achievements.add(new AchievementImpl("", "Collector noob", 
+				"Collect 100 coins in one round and then some....", true));
+		achievements.add(new AchievementImpl("", "Distance noob", "Fly 100km", true));
+		achievements.add(new AchievementImpl("", "Distance Intermediate", "Fly 800km", false));
+		achievements.add(new AchievementImpl("", "Distance Pro", "Fly 1500km", false));
+		achievements.add(new AchievementImpl("", "Collector noob", 
+				"Collect 100 coins in one round and then some....", true));
 		view = new AchievementsView(stage, resources, achievements);
 		view.setSlideToggleListener(slideToggleListener);
 	}

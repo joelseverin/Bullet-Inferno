@@ -2,6 +2,8 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
+import javax.xml.ws.handler.MessageContext.Scope;
+
 import se.dat255.bulletinferno.model.achievement.Achievement;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
@@ -10,10 +12,12 @@ import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -30,8 +34,12 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 	private final Image header;
 	private final TextureRegionDrawable cellBackground;
 	private final Table mainTable;
-	private final BitmapFont font;
+	private final Table achievementsTable;
+	private final BitmapFont subheaderFont;
+	private final BitmapFont textFont;
 	private final Stage stage;
+	private final Label achievedCountLabel;
+	private final ScrollPane scrollPane;
 	
 	public AchievementsView(Stage stage, ResourceManager resources, 
 			List<Achievement> achievements) {
@@ -39,16 +47,21 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 				GLASS_ANIMATION_DURATION);
 		this.stage = stage;
 		
+		// TODO : Merge with resource handler
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
+		subheaderFont = generator.generateFont(28);
+		textFont = generator.generateFont(24);
+		BitmapFont font34 = generator.generateFont(34);
+		generator.dispose();
+		
 		unAchievedIcon = resources.getDrawableTexture(
 				TextureDefinitionImpl.MENU_ACHIEVEMENT_UNACHIEVED);
 		achievedIcon = resources.getDrawableTexture(
 				TextureDefinitionImpl.MENU_ACHIEVEMENT_ACHIEVED);
 		cellBackground = resources.getDrawableTexture(
 							TextureDefinitionImpl.MENU_ACHIEVEMENT_ENTRY_BG);
-		font = new BitmapFont(Gdx.files.internal("fonts/berlinsans.fnt"), 
-				Gdx.files.internal("fonts/berlinsans_0.png"), false);
-		font.setScale(0.5f);
 		header = new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_ACHIEVEMENT_HEADER));
+		achievedCountLabel = new Label("", new Label.LabelStyle(font34, Color.valueOf("4c7d7d")));
 		
 		mainTable = new Table();
 		mainTable.setFillParent(true);
@@ -58,19 +71,30 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		mainTable.padTop(100);
 		mainTable.add(header).colspan(2);
 		mainTable.row();
-		mainTable.debug();
+		mainTable.add(achievedCountLabel).colspan(2).padTop(10).padBottom(40);
+		mainTable.row();
 		
-		int i = 0;
+		achievementsTable = new Table();
+		achievementsTable.top();
+		int i = 0, achievedCount = 0;
 		for(Achievement achievement : achievements) {
 			if(i % 2 == 0) {
-				mainTable.row();
-				mainTable.add(createAchievementCell(achievement)).padRight(CELL_PADDING)
+				achievementsTable.row();
+				achievementsTable.add(createAchievementCell(achievement)).padRight(CELL_PADDING)
 							.padBottom(CELL_PADDING);
 			} else {
-				mainTable.add(createAchievementCell(achievement)).padBottom(CELL_PADDING);
+				achievementsTable.add(createAchievementCell(achievement)).padBottom(CELL_PADDING);
+			}
+			
+			if(achievement.isAchieved()) {
+				achievedCount++;
 			}
 			i++;
 		}
+		achievedCountLabel.setText(achievedCount + "/" + i);
+		
+		scrollPane = new ScrollPane(achievementsTable);
+		mainTable.add(scrollPane).top().height(770);
 		
 		getToggleActor().addActor(mainTable);
 		slideToggle();
@@ -82,20 +106,23 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		table.left();
 		table.bottom();
 		
+		table.setBackground(cellBackground);
+		table.add(new Image(achievement.isAchieved()? achievedIcon : unAchievedIcon))
+				.padLeft(10).bottom();
+		
 		Table textTable = new Table();
 		textTable.top();
-		textTable.padLeft(10);
-		table.setBackground(cellBackground);
-		table.add(new Image(achievement.isAchieved()? achievedIcon : unAchievedIcon)).padLeft(10);
-		
-		table.debug();
-		
+		textTable.padLeft(20);
 		textTable.add(new Label(achievement.getName(), 
-				new Label.LabelStyle(font, Color.valueOf("4c7d7d")))).left();
+				new Label.LabelStyle(subheaderFont, Color.valueOf("4c7d7d")))).left().padTop(30);
 		textTable.row();
-		textTable.add(new Label(achievement.getDescription(), 
-				new Label.LabelStyle(font, Color.BLUE))).left();
-		table.add(textTable);
+		
+		Label l = new Label(achievement.getDescription(), new Label.LabelStyle(textFont, 
+				Color.valueOf("4b4b4b")));
+		l.setWrap(true);
+		textTable.add(l).left().width(280);
+		
+		table.add(textTable).height(150);
 		
 		return table;
 	}
