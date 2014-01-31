@@ -76,7 +76,6 @@ public class SettingsView extends SimpleToggleSubMenuView implements Disposable 
 	public void dispose() {
 		super.dispose();
 		
-		stage.getRoot().removeActor(getToggleActor());
 		backgroundMusicSlider.clear();
 		backgroundMusicMuteButton.clear();
 		soundEffectSlider.clear();

@@ -129,7 +129,10 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 	
 	@Override
 	public void dispose() {
+		super.dispose();
 		
+		stage.getRoot().removeActor(getToggleActor());
+		scrollPane.clear();
 	}
 
 }
