@@ -198,7 +198,6 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 				return collectedCoinsEntriesTable;
 			default:
 				return longestRunEntriesTable;
-			
 		}
 	}
 	

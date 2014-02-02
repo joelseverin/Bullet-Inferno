@@ -22,12 +22,20 @@ public class LeaderboardsController implements SubMenuController {
 		List<LeaderboardEntry> highscoreEntries = new LinkedList<LeaderboardEntry>();
 		highscoreEntries.add(new LeaderboardEntry("Sebastian Blomberg", 2839210));
 		highscoreEntries.add(new LeaderboardEntry("Mr Bear", 1834969));
-		for(int i = 0; i < 20; i++) {
+		for(int i = 0; i < 8; i++) {
 			highscoreEntries.add(new LeaderboardEntry("Joel Severin", -1));
 		}
 		
-		view = new LeaderboardsView(stage, resources, highscoreEntries, 
-				new LinkedList<LeaderboardEntry>(), new LinkedList<LeaderboardEntry>());
+		List<LeaderboardEntry> coinEntries = new LinkedList<LeaderboardEntry>();
+		coinEntries.add(new LeaderboardEntry("Sebastian Blomberg", 9720));
+		coinEntries.add(new LeaderboardEntry("Mr Bear", 8401));
+		for(int i = 0; i < 8; i++) {
+			coinEntries.add(new LeaderboardEntry("Joel Severin", 1));
+		}
+		
+		
+		view = new LeaderboardsView(stage, resources, highscoreEntries, coinEntries, 
+				new LinkedList<LeaderboardEntry>());
 		view.setSlideToggleListener(slideToggleListener);
 		view.addHighScoreBoardButtonListener(highScoreBoardListener);
 		view.addCollectedCoinsBoardButtonListener(collectedCoinsBoardListener);
@@ -75,21 +83,21 @@ public class LeaderboardsController implements SubMenuController {
 
 	private ClickListener highScoreBoardListener = new ClickListener() {
 		@Override
-		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+		public void clicked(InputEvent event, float x, float y)  {
 			view.showLeaderboard(LeaderboardsView.LeaderboardType.HIGHSCORE);
 		}
 	};
 	
 	private ClickListener collectedCoinsBoardListener = new ClickListener() {
 		@Override
-		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+		public void clicked(InputEvent event, float x, float y)  {
 			view.showLeaderboard(LeaderboardsView.LeaderboardType.COLLECTED_COINS);
 		}
 	};
 	
 	private ClickListener longestRunBoardListener = new ClickListener() {
 		@Override
-		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+		public void clicked(InputEvent event, float x, float y)  {
 			view.showLeaderboard(LeaderboardsView.LeaderboardType.LONGEST_RUN);
 		}
 	};
