@@ -3,6 +3,7 @@ package se.dat255.bulletinferno.controller;
 import se.dat255.bulletinferno.controller.menu.AchievementsController;
 import se.dat255.bulletinferno.controller.menu.LeaderboardsController;
 import se.dat255.bulletinferno.controller.menu.SettingsController;
+import se.dat255.bulletinferno.controller.menu.StoreController;
 import se.dat255.bulletinferno.controller.menu.SubMenuControllHandler;
 import se.dat255.bulletinferno.controller.menu.SubMenuController;
 import se.dat255.bulletinferno.util.ResourceManager;
@@ -86,8 +87,15 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	}
 	
 	private ChangeListener storeListener = new ChangeListener() {
+		private RunLater runlater = new RunLater() {
+			@Override
+			public SubMenuController startSubController() {
+				return new StoreController(stage, resources);
+			}
+		};
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
+			switchSubController(runlater);
 		}
 	};
 	

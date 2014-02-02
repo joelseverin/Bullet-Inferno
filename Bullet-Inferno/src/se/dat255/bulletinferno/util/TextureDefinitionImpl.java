@@ -118,8 +118,8 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_ACHIEVEMENT_UNACHIEVED(textureAtlas("images/gui/menulabels.atlas", "achievementIconGrey")),
 	MENU_ACHIEVEMENT_ACHIEVED(textureAtlas("images/gui/menulabels.atlas", "achievementIconGold")),
 	MENU_ACHIEVEMENT_HEADER(textureAtlas("images/gui/menuheadings.atlas", "achievements")),
-	MENU_LEADERBOARDS_HEADER(textureAtlas("images/gui/menuheadings.atlas", "leaderboards")),
 	
+	MENU_LEADERBOARDS_HEADER(textureAtlas("images/gui/menuheadings.atlas", "leaderboards")),
 	MENU_LEADERBOARDS_AVATAR(textureAtlas("images/gui/menulabels.atlas", "leaderboardavatar")),
 	MENU_LEADERBOARDS_ENTRY_BG(textureAtlas("images/gui/menulabels.atlas", "leaderboardentrybackground")),
 	MENU_LEADERBOARDS_HIGHSCOREBUTTON(textureAtlas("images/gui/menubuttons.atlas", "leaderboardhighscorebutton")),
@@ -127,7 +127,9 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_LEADERBOARDS_COLLECTEDCOINBUTTON(textureAtlas("images/gui/menubuttons.atlas", "leaderboardcoins")),
 	MENU_LEADERBOARDS_COLLECTEDCOINBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "leaderboardcoins_down")),
 	MENU_LEADERBOARDS_LONGESTRUNBUTTON(textureAtlas("images/gui/menubuttons.atlas", "leaderboardlongest")),
-	MENU_LEADERBOARDS_LONGESTRUNBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "leaderboardlongest_down"))
+	MENU_LEADERBOARDS_LONGESTRUNBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "leaderboardlongest_down")),
+	
+	MENU_STORE_HEADER(textureAtlas("images/gui/menuheadings.atlas", "store"))
 	;
 
 	private TextureHolder holder;
