@@ -2,20 +2,19 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
-import javax.xml.ws.handler.MessageContext.Scope;
-
 import se.dat255.bulletinferno.model.leaderboard.LeaderboardEntry;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinition;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,6 +44,7 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	private final Stage stage;
 	private final ScrollPane scrollPane;
 	private final Button highScoreListButton, collectedCoinsListButton, longestRunListButton;
+	private final ButtonGroup buttonGroup;
 	
 	public LeaderboardsView(Stage stage, ResourceManager resources, 
 			List<LeaderboardEntry> highscoreEntries, List<LeaderboardEntry> collectedCoinEntries,
@@ -86,6 +86,10 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 						TextureDefinitionImpl.MENU_LEADERBOARDS_LONGESTRUNBUTTON_OVER),
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.MENU_LEADERBOARDS_LONGESTRUNBUTTON_OVER));
+		buttonGroup = new ButtonGroup(highScoreListButton, collectedCoinsListButton,
+				longestRunListButton);
+		buttonGroup.setMaxCheckCount(1);
+		buttonGroup.setMinCheckCount(1);
 		
 		mainTable = new Table();
 		mainTable.setFillParent(true);
@@ -113,6 +117,7 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		scrollPane = new ScrollPane(leaderBoardWrapper);
 		mainTable.add(scrollPane).top().height(770).width(760).padTop(30);
 
+		highScoreListButton.setChecked(true);
 		showLeaderboard(LeaderboardType.HIGHSCORE);
 		
 		getToggleActor().addActor(mainTable);
@@ -120,6 +125,11 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		this.stage.addActor(getToggleActor());
 	}
 	
+	/**
+	 * Updates the data of the specified leaderboard
+	 * @param type the leaderboard
+	 * @param entries to be put in the leaderboard
+	 */
 	public void updateLeaderboard(LeaderboardType type, List<LeaderboardEntry> entries) {
 		Table temp = getLeaderboardFromType(type);
 		temp.clearChildren();
@@ -134,22 +144,15 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		
 	}
 	
+	/**
+	 * Displays the specified leaderboard and sets associated button as checked.
+	 * <strong>OBSERVE</strong> as this method changes the state of the previously checked
+	 * button and the associated button, a call will be sent to any ChangeListeners registered on 
+	 * the previously checked button.
+	 * @param type
+	 */
 	public void showLeaderboard(LeaderboardType type) {
 		scrollPane.setWidget(getLeaderboardFromType(type));
-		highScoreListButton.setChecked(false);
-		collectedCoinsListButton.setChecked(false);
-		longestRunListButton.setChecked(false);
-		
-		switch (type) {
-			case HIGHSCORE:
-				highScoreListButton.setChecked(true);
-				break;
-			case COLLECTED_COINS:
-				collectedCoinsListButton.setChecked(true);
-				break;
-			default:
-				longestRunListButton.setChecked(true);
-		}
 	}
 	
 	@Override
@@ -158,8 +161,35 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		
 		stage.getRoot().removeActor(getToggleActor());
 		scrollPane.clear();
+		highScoreListButton.clear();
+		collectedCoinsListButton.clear();
+		longestRunListButton.clear();
 	}
 
+	public void addHighScoreBoardButtonListener(EventListener listener) {
+		highScoreListButton.addListener(listener);
+	}
+	
+	public void removeHighScoreBoardButtonListener(EventListener listener) {
+		highScoreListButton.removeListener(listener);
+	}
+	
+	public void addCollectedCoinsBoardButtonListener(EventListener listener) {
+		collectedCoinsListButton.addListener(listener);
+	}
+	
+	public void removeCollectedCoinsBoardButtonListener(EventListener listener) {
+		collectedCoinsListButton.removeListener(listener);
+	}
+	
+	public void addLongestRunBoardButtonListener(EventListener listener) {
+		longestRunListButton.addListener(listener);
+	}
+	
+	public void removeLongestRunBoardButtonListener(EventListener listener) {
+		longestRunListButton.removeListener(listener);
+	}
+	
 	private Table getLeaderboardFromType(LeaderboardType type) {
 		switch (type) {
 			case HIGHSCORE:

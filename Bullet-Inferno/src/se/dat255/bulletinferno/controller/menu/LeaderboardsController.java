@@ -4,11 +4,12 @@ package se.dat255.bulletinferno.controller.menu;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.event.ListSelectionEvent;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import se.dat255.bulletinferno.model.leaderboard.LeaderboardEntry;
 import se.dat255.bulletinferno.util.ResourceManager;
@@ -24,9 +25,13 @@ public class LeaderboardsController implements SubMenuController {
 		for(int i = 0; i < 20; i++) {
 			highscoreEntries.add(new LeaderboardEntry("Joel Severin", -1));
 		}
+		
 		view = new LeaderboardsView(stage, resources, highscoreEntries, 
 				new LinkedList<LeaderboardEntry>(), new LinkedList<LeaderboardEntry>());
 		view.setSlideToggleListener(slideToggleListener);
+		view.addHighScoreBoardButtonListener(highScoreBoardListener);
+		view.addCollectedCoinsBoardButtonListener(collectedCoinsBoardListener);
+		view.addLongestRunBoardButtonListener(longestRunBoardListener);
 	}
 	
 	private ChangeListener slideToggleListener = new ChangeListener() {
@@ -68,4 +73,24 @@ public class LeaderboardsController implements SubMenuController {
 		view.dispose();
 	}
 
+	private ClickListener highScoreBoardListener = new ClickListener() {
+		@Override
+		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+			view.showLeaderboard(LeaderboardsView.LeaderboardType.HIGHSCORE);
+		}
+	};
+	
+	private ClickListener collectedCoinsBoardListener = new ClickListener() {
+		@Override
+		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+			view.showLeaderboard(LeaderboardsView.LeaderboardType.COLLECTED_COINS);
+		}
+	};
+	
+	private ClickListener longestRunBoardListener = new ClickListener() {
+		@Override
+		public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+			view.showLeaderboard(LeaderboardsView.LeaderboardType.LONGEST_RUN);
+		}
+	};
 }
