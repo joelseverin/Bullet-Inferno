@@ -3,72 +3,86 @@ menulabels.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+leaderboardentrybackground
+  rotate: false
+  xy: 1, 396
+  size: 760, 80
+  orig: 760, 80
+  offset: 0, 0
+  index: -1
 sliderlowtohighvalues
   rotate: false
-  xy: 1, 208
+  xy: 1, 366
   size: 752, 28
   orig: 752, 28
   offset: 0, 0
   index: -1
 slider0to100values
   rotate: false
-  xy: 1, 184
+  xy: 1, 342
   size: 756, 22
   orig: 756, 22
   offset: 0, 0
   index: -1
 achievementEntryBackground
   rotate: false
-  xy: 1, 32
+  xy: 1, 190
   size: 432, 150
   orig: 432, 150
   offset: 0, 0
   index: -1
 settingssenslabel
   rotate: false
-  xy: 755, 209
+  xy: 763, 449
   size: 237, 27
   orig: 237, 27
   offset: 0, 0
   index: -1
 settingsbackgroundsoundlabel
   rotate: false
-  xy: 1, 1
+  xy: 1, 159
   size: 229, 29
   orig: 229, 29
   offset: 0, 0
   index: -1
 achievementIconGold
   rotate: false
-  xy: 435, 63
+  xy: 435, 221
   size: 128, 119
   orig: 128, 119
   offset: 0, 0
   index: -1
 achievementIconGrey
   rotate: false
-  xy: 565, 63
+  xy: 1, 38
   size: 128, 119
   orig: 128, 119
   offset: 0, 0
   index: -1
 settingssoundeffectlabel
   rotate: false
-  xy: 232, 9
+  xy: 763, 426
   size: 172, 21
   orig: 172, 21
   offset: 0, 0
   index: -1
+leaderboardavatar
+  rotate: false
+  xy: 565, 260
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
 settingsaudiolabel
   rotate: false
-  xy: 435, 26
+  xy: 1, 1
   size: 120, 35
   orig: 120, 35
   offset: 0, 0
   index: -1
 settingstouchlabel
   rotate: false
-  xy: 557, 27
+  xy: 232, 154
   size: 119, 34
   orig: 119, 34
   offset: 0, 0

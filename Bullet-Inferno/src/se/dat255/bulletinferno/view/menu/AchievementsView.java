@@ -2,8 +2,6 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
-import javax.xml.ws.handler.MessageContext.Scope;
-
 import se.dat255.bulletinferno.model.achievement.Achievement;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
@@ -94,7 +92,7 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		achievedCountLabel.setText(achievedCount + "/" + i);
 		
 		scrollPane = new ScrollPane(achievementsTable);
-		mainTable.add(scrollPane).top().height(770);
+		mainTable.add(scrollPane).top().height(LeaderboardEntryView.WIDTH);
 		
 		getToggleActor().addActor(mainTable);
 		slideToggle();

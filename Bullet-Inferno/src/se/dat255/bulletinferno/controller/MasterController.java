@@ -115,16 +115,15 @@ public class MasterController extends com.badlogic.gdx.Game {
 	@Override
 	public void resume() {
 		Screen currentScreen = super.getScreen();
-
+		
 		if (currentScreen != loadingScreen) {
 			loadingScreen.setClickToSwitch(false);
 
-			if (currentScreen == loadoutScreen) {
+			if (currentScreen == menuController) {
 				loadingScreen.addFinishedLoadingEventListener(switchToLoadoutOnLoaded);
 			} else if (currentScreen == gameScreen) {
 				loadingScreen.addFinishedLoadingEventListener(switchToGameOnLoaded);
 			}
-
 			setScreen(loadingScreen);
 		}
 	}

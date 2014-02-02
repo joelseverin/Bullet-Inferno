@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.controller;
 
 import se.dat255.bulletinferno.controller.menu.AchievementsController;
+import se.dat255.bulletinferno.controller.menu.LeaderboardsController;
 import se.dat255.bulletinferno.controller.menu.SettingsController;
 import se.dat255.bulletinferno.controller.menu.SubMenuControllHandler;
 import se.dat255.bulletinferno.controller.menu.SubMenuController;
@@ -123,8 +124,15 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	};
 	
 	private ChangeListener leaderboardsListener = new ChangeListener() {
+		private RunLater runlater = new RunLater() {
+			@Override
+			public SubMenuController startSubController() {
+				return new LeaderboardsController(stage, resources);
+			}
+		};
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
+			switchSubController(runlater);
 		}
 	};
 	
