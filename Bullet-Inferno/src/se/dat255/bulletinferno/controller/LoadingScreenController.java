@@ -70,11 +70,11 @@ public class LoadingScreenController extends SimpleController {
 	 * Note: This screen will load textures without using the resource manager.
 	 * </p>
 	 */
-	public LoadingScreenController(ResourceManager resourceManager,
+	public LoadingScreenController(ResourceManager loadingManager,
 			MasterController masterController) {
-
-		this.resourceManager = resourceManager;
-		resourceManager.startLoad(false);
+		// Loading manager only loads menu assets
+		this.resourceManager = loadingManager;
+		loadingManager.startLoad(false);
 
 		// Set up the GUI elements
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);

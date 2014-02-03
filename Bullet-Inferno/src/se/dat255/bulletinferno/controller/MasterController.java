@@ -4,8 +4,9 @@ import se.dat255.bulletinferno.controller.LoadingScreenController.FinishedLoadin
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
+import se.dat255.bulletinferno.util.MenuResourceManagerImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.ResourceManagerImpl;
+import se.dat255.bulletinferno.util.GameResourceManagerImpl;
 
 import com.badlogic.gdx.Screen;
 
@@ -23,7 +24,8 @@ public class MasterController extends com.badlogic.gdx.Game {
 	/** The controller for the loading screen */
 	private LoadingScreenController loadingScreen;
 
-	private ResourceManager resourceManager;
+	private ResourceManager menuResourceManager;
+	private ResourceManager gameResourceManager;
 
 	private final FinishedLoadingEventListener switchToGameOnLoaded = new FinishedLoadingEventListener() {
 		@Override
@@ -41,11 +43,18 @@ public class MasterController extends com.badlogic.gdx.Game {
 
 	@Override
 	public void create() {
-		resourceManager = new ResourceManagerImpl();
+		menuResourceManager = new MenuResourceManagerImpl();
 
-		loadingScreen = new LoadingScreenController(resourceManager, this);
+		// Start loading game resources in the background while the user selects
+		// menu stuff
+		gameResourceManager = new GameResourceManagerImpl();
+		gameResourceManager.startLoad(true);
+
+		loadingScreen = new LoadingScreenController(menuResourceManager, this);
 		loadingScreen.addFinishedLoadingEventListener(switchToLoadoutOnLoaded);
 		loadingScreen.setClickToSwitch(true);
+		
+		
 		setScreen(loadingScreen);
 	}
 
@@ -60,8 +69,8 @@ public class MasterController extends com.badlogic.gdx.Game {
 		if (loadoutScreen != null) {
 			loadoutScreen.dispose();
 		}
-		if (resourceManager != null) {
-			resourceManager.dispose();
+		if (menuResourceManager != null) {
+			menuResourceManager.dispose();
 		}
 
 	}
@@ -83,7 +92,7 @@ public class MasterController extends com.badlogic.gdx.Game {
 			if (gameScreen != null) {
 				gameScreen.dispose();
 			}
-			gameScreen = new GameController(this, resourceManager);
+			gameScreen = new GameController(this, gameResourceManager);
 		}
 
 		gameScreen.createNewGame(weaponData, special, passive);
@@ -98,7 +107,7 @@ public class MasterController extends com.badlogic.gdx.Game {
 
 	public LoadoutController getLoadoutScreen() {
 		if (loadoutScreen == null) {
-			loadoutScreen = new LoadoutController(this, resourceManager);
+			loadoutScreen = new LoadoutController(this, menuResourceManager, gameResourceManager);
 		}
 		return loadoutScreen;
 	}

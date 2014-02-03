@@ -5,8 +5,9 @@ import java.util.Set;
 
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.loadout.SpecialEffect;
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 import se.dat255.bulletinferno.view.Renderable;
 import se.dat255.bulletinferno.view.RenderableGUI;
 
@@ -74,7 +75,7 @@ public class HudView implements Renderable {
 		this.resourceManager = resourceManager;
 		this.playerShip = playerShip;
 		
-		Texture hudTexture = resourceManager.getTexture(TextureDefinitionImpl.HUD_TEXTURE)
+		Texture hudTexture = resourceManager.getTexture(GameTextureDefinitionImpl.HUD_TEXTURE)
 				.getTexture();
 
 		lifeBackground = new TextureRegion(hudTexture, 2, 35, 162, 33);

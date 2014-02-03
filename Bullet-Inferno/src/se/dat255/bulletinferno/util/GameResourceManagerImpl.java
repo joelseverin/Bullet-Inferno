@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class ResourceManagerImpl implements ResourceManager {
+public class GameResourceManagerImpl implements ResourceManager {
 
 	protected static final Resolution[] SUPPORTED_RESOLUTIONS = {
 				new Resolution(270, 480, ""), // Default resolution
@@ -49,7 +49,7 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 
 	protected AssetManager manager;
 
-	public ResourceManagerImpl() {
+	public GameResourceManagerImpl() {
 		manager = new AssetManager();
 
 		ResolutionFileResolver resolver = new ResolutionFileResolver(

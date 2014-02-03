@@ -3,8 +3,9 @@ package se.dat255.bulletinferno.controller;
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 import se.dat255.bulletinferno.view.menu.PassiveButton;
 import se.dat255.bulletinferno.view.menu.PassiveButtonsView;
 import se.dat255.bulletinferno.view.menu.SpecialButton;
@@ -44,7 +45,7 @@ public class LoadoutController extends SimpleController {
 	private final Skin skin;
 
 	private final MasterController masterController;
-	private final ResourceManager resourceManager;
+	private final ResourceManager menuResourceManager;
 
 	private Label errorMessage;
 	private Table table;
@@ -59,22 +60,26 @@ public class LoadoutController extends SimpleController {
 	private Label specialLabel;
 	private Label passiveLabel;
 
+	private ResourceManager gameResourceManager;
+
 	/**
 	 * Main controller used for the loadout screen
 	 * 
 	 * @param masterController
 	 *        The master controller that creates this screen
-	 * @param resourceManager
+	 * @param menuResourceManager
+	 * @param gameResourceManager 
 	 */
 	public LoadoutController(final MasterController masterController,
-			final ResourceManager resourceManager) {
-		this.resourceManager = resourceManager;
+			final ResourceManager menuResourceManager, ResourceManager gameResourceManager) {
+		this.menuResourceManager = menuResourceManager;
 		this.masterController = masterController;
+		this.gameResourceManager = gameResourceManager;
 
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		skin = new Skin();
 
-		setupBackground(resourceManager);
+		setupBackground(menuResourceManager);
 
 		// Generate a 1x1 white texture and store it in the skin named "white".
 		Pixmap pixmap = new Pixmap(1, 1, Format.RGBA8888);
@@ -88,9 +93,9 @@ public class LoadoutController extends SimpleController {
 
 		// Add default font as default
 		setupTable(labelStyle);
-		weaponButtonsView = new WeaponButtonsView(stage, skin, table, tableLabel, resourceManager);
-		specialButtonsView = new SpecialButtonsView(stage, skin, table, tableLabel, resourceManager);
-		passiveButtonsView = new PassiveButtonsView(stage, skin, table, tableLabel, resourceManager);
+		weaponButtonsView = new WeaponButtonsView(stage, skin, table, tableLabel, menuResourceManager);
+		specialButtonsView = new SpecialButtonsView(stage, skin, table, tableLabel, menuResourceManager);
+		passiveButtonsView = new PassiveButtonsView(stage, skin, table, tableLabel, menuResourceManager);
 
 		// Set up the start button and add its listener
 		setupStartButton();
@@ -111,12 +116,12 @@ public class LoadoutController extends SimpleController {
 	private void setupBackground(final ResourceManager resourceManager) {
 		// Add background image
 		Image image = new Image(
-				resourceManager.getTexture(TextureDefinitionImpl.LOADOUT_BACKGROUND));
+				resourceManager.getTexture(MenuTextureDefinitionImpl.LOADOUT_BACKGROUND));
 		image.setSize(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		stage.addActor(image);
 
 		// Add ship
-		image = new Image(resourceManager.getTexture(TextureDefinitionImpl.LOADOUT_SHIP));
+		image = new Image(resourceManager.getTexture(MenuTextureDefinitionImpl.LOADOUT_SHIP));
 		image.setSize(388, 200);
 		image.setPosition(216, 218);
 		stage.addActor(image);
@@ -202,7 +207,7 @@ public class LoadoutController extends SimpleController {
 
 	private Button setupWeaponSelectionButton(ButtonStyle weaponSelectionStyle, String type) {
 		Button weaponButton = new Button(weaponSelectionStyle);
-		WeaponButton selectionButton = new WeaponButton(weaponButton, null, resourceManager);
+		WeaponButton selectionButton = new WeaponButton(weaponButton, null, menuResourceManager);
 		weaponButton.addListener(weaponButtonsView.new SelectionClickedListener(type));
 		if (type.equals("standard")) {
 			weaponButton.setPosition(450, 355);
@@ -220,7 +225,7 @@ public class LoadoutController extends SimpleController {
 		specialButton.setPosition(255, 185);
 		specialButton.setSize(90, 72);
 		SpecialButton selectionSpecialButton = new SpecialButton(specialButton, null,
-				resourceManager);
+				menuResourceManager);
 		specialButtonsView.setSelectionButton(selectionSpecialButton);
 		selectionSpecialButton.getButton().addListener(
 				specialButtonsView.new SelectionClickedListener());
@@ -233,7 +238,7 @@ public class LoadoutController extends SimpleController {
 		passiveButton.setPosition(230, 375);
 		passiveButton.setSize(120, 62);
 		PassiveButton selectionPassiveButton = new PassiveButton(passiveButton, null,
-				resourceManager);
+				menuResourceManager);
 		passiveButtonsView.setSelectionButton(selectionPassiveButton);
 		selectionPassiveButton.getButton().addListener(
 				passiveButtonsView.new SelectionClickedListener());
@@ -241,8 +246,8 @@ public class LoadoutController extends SimpleController {
 	}
 
 	private void setupStartButton() {
-		TextureRegion startButtonTexture = resourceManager.getTexture(
-				TextureDefinitionImpl.LOADOUT_START_BUTTON);
+		TextureRegion startButtonTexture = menuResourceManager.getTexture(
+				MenuTextureDefinitionImpl.LOADOUT_START_BUTTON);
 
 		ImageButtonStyle startButtonStyle = new ImageButtonStyle();
 		startButtonStyle.up = new TextureRegionDrawable(startButtonTexture);
@@ -286,7 +291,7 @@ public class LoadoutController extends SimpleController {
 
 	public void startGame(WeaponDefinition[] weapons, SpecialAbilityDefinition special,
 			PassiveAbilityDefinition passive) {
-		GameController gameScreen = new GameController(masterController, resourceManager);
+		GameController gameScreen = new GameController(masterController, gameResourceManager);
 		masterController.startGame(gameScreen, weapons, special, passive, true);
 	}
 

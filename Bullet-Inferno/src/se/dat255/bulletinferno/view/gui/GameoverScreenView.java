@@ -1,7 +1,8 @@
 package se.dat255.bulletinferno.view.gui;
 
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 import se.dat255.bulletinferno.view.RenderableGUI;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +19,7 @@ public class GameoverScreenView implements RenderableGUI {
 	private final TextureRegion texture;
 
 	public GameoverScreenView(ResourceManager resourceManager, int score) {
-		texture = resourceManager.getTexture(TextureDefinitionImpl.GAMEOVER_SCREEN);
+		texture = resourceManager.getTexture(GameTextureDefinitionImpl.GAMEOVER_SCREEN);
 	}
 
 	@Override

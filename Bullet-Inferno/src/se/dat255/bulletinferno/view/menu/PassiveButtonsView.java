@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinitionImpl;
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -34,7 +35,7 @@ public class PassiveButtonsView {
 		this.skin = skin;
 		this.table = table;
 		labelSource = new TextureRegionDrawable(resourceManager.getTexture(
-				TextureDefinitionImpl.LOADOUT_PASSIVE_ABILITIES));
+				MenuTextureDefinitionImpl.LOADOUT_PASSIVE_ABILITIES));
 		this.label = label;
 		this.resourceManager = resourceManager;
 	}
@@ -73,7 +74,7 @@ public class PassiveButtonsView {
 
 	private Button getTableButton(ResourceIdentifier identifier) {
 		TextureRegion texture = resourceManager.getTexture(
-				TextureDefinitionImpl.valueOf(identifier + "_BUTTON"));
+				MenuTextureDefinitionImpl.valueOf(identifier + "_BUTTON"));
 		ButtonStyle buttonStyle = new ButtonStyle();
 		buttonStyle.up = new TextureRegionDrawable(texture);
 

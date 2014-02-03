@@ -22,7 +22,7 @@ public class ResourceManagerImplTest {
 	@Test
 	public void testAllTextureTypesHavePath() {
 		// Make sure every TextureType has a path
-		for (TextureDefinitionImpl textureType : TextureDefinitionImpl.values()) {
+		for (GameTextureDefinitionImpl textureType : GameTextureDefinitionImpl.values()) {
 			assertNotNull("Each TextureType should have a non-null path",
 					textureType.getSource());
 		}
@@ -34,7 +34,7 @@ public class ResourceManagerImplTest {
 		thrown.expectMessage(String.format(
 				"Resource with identifier '%s' could not be found", "NOT-EXISTING"));
 
-		ResourceManagerImpl manager = new ResourceManagerImpl();
+		ResourceManagerImpl manager = new GameResourceManagerImpl();
 		ResourceIdentifier notExistingIdent = new ResourceIdentifier() {
 			@Override
 			public String getIdentifier() {
@@ -47,12 +47,12 @@ public class ResourceManagerImplTest {
 
 	@Test
 	public void loadNotLoadedTexture() throws RuntimeException {
-		TextureDefinitionImpl definition = TextureDefinitionImpl.values()[0];
+		GameTextureDefinitionImpl definition = GameTextureDefinitionImpl.values()[0];
 
 		thrown.expect(RuntimeException.class);
 		thrown.expectMessage("Texture " + definition.getSource() + " is not loaded.");
 
-		ResourceManagerImpl manager = new ResourceManagerImpl();
+		ResourceManagerImpl manager = new GameResourceManagerImpl();
 
 		manager.getTexture(definition);
 	}

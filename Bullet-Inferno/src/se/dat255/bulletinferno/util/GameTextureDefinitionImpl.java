@@ -3,7 +3,8 @@ package se.dat255.bulletinferno.util;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public enum TextureDefinitionImpl implements TextureDefinition {
+public enum GameTextureDefinitionImpl implements TextureDefinition {
+	
 	DEFAULT_SHIP(texture("data/katze.png")),
 	FAST_SHIP(texture("data/katze.png")),
 	SLOW_SHIP(texture("data/katze.png")),
@@ -18,6 +19,23 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	PLAYER_EXPLOSION(texture("data/explosion.png")),
 
 	// Weapons
+	PAUSE_SCREEN(texture("images/gui/screen_pause.png")),
+	BLUE_BACKGROUND(texture("images/game/background.png")),
+	GAMEOVER_SCREEN(texture("images/gui/screen_gameover.png")),
+	PROJECTILE_RAIN(texture("data/projectileRain.png")),
+	HUD_TEXTURE(texture("images/game/hud.png")),
+
+	// Projectiles
+	VELOCITY_BULLET(textureAtlas("data/packedProjectiles.atlas", "bullet")),
+	ROUND_BULLET(textureAtlas("data/packedProjectiles.atlas", "bullet")),
+	PLASMA(textureAtlas("data/packedProjectiles.atlas", "plasma")),
+	EGG(textureAtlas("data/packedProjectiles.atlas", "egg")),
+	RED_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "redDotProjectile")),
+	GREEN_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "greenDotProjectile")),
+	MISSILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
+	SPECIAL_ABILITY_MISSILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
+	HIGH_VELOCITY_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
+	
 	STANDARD_MACHINE_GUN(texture("data/machineGun.png")),
 	STANDARD_MINI_GUN(texture("data/miniGun.png")),
 	STANDARD_PLASMA_GUN(texture("data/plasmaGun.png")),
@@ -30,41 +48,6 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	SNIPER_RIFLE(texture("data/sniperRifle.png")),
 	LASER(texture("data/laser.png")),
 
-	// Projectiles
-	VELOCITY_BULLET(textureAtlas("data/packedProjectiles.atlas", "bullet")),
-	ROUND_BULLET(textureAtlas("data/packedProjectiles.atlas", "bullet")),
-	PLASMA(textureAtlas("data/packedProjectiles.atlas", "plasma")),
-	EGG(textureAtlas("data/packedProjectiles.atlas", "egg")),
-	RED_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "redDotProjectile")),
-	GREEN_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "greenDotProjectile")),
-	MISSILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
-	SPECIAL_ABILITY_MISSILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
-	HIGH_VELOCITY_PROJECTILE(textureAtlas("data/packedProjectiles.atlas", "missile")),
-
-	// Loadout menu specific
-	LOADOUT_PASSIVE_RELOADING_TIME(texture("data/reloadSpeed.png")),
-	LOADOUT_PASSIVE_TAKE_DAMAGE_MODIFIER(texture("data/shieldBoost.png")),
-	LOADOUT_PASSIVE_DAMAGE_MODIFIER(texture("data/damageBoost.png")),
-	LOADOUT_PASSIVE_RELOADING_TIME_BUTTON(texture("data/loadout/passive_ability/reloadButton.png")),
-	LOADOUT_PASSIVE_TAKE_DAMAGE_MODIFIER_BUTTON(
-			texture("data/loadout/passive_ability/shieldButton.png")),
-	LOADOUT_PASSIVE_DAMAGE_MODIFIER_BUTTON(texture("data/loadout/passive_ability/damageButton.png")),
-	LOADOUT_SPECIAL_PROJECTILE_RAIN(texture("data/projectileRain.png")),
-	LOADOUT_SPECIAL_NUKE(texture("data/nuke.png")),
-	LOADOUT_BACKGROUND(texture("data/menu.png")),
-	LOADOUT_SHIP(texture("data/menuship.png")),
-	LOADOUT_SPECIAL_ABILITIES(texture("data/menuspecialabilities.png")),
-	LOADOUT_PASSIVE_ABILITIES(texture("data/menupassiveabilities.png")),
-	LOADOUT_STANDARD_WEAPON(texture("data/menustandardweapon.png")),
-	LOADOUT_HEAVYWEAPON(texture("data/menuheavyweapon.png")),
-
-	// Buttons
-	PAUSE_SCREEN(texture("images/gui/screen_pause.png")),
-	BLUE_BACKGROUND(texture("images/game/background.png")),
-	GAMEOVER_SCREEN(texture("images/gui/screen_gameover.png")),
-	PROJECTILE_RAIN(texture("data/projectileRain.png")),
-	LOADOUT_START_BUTTON(texture("data/startBtn.png")),
-	HUD_TEXTURE(texture("images/game/hud.png")),
 
 	// Slices
 	MOUNTAIN_1(textureAtlas("data/packedMountain.atlas", "mountain1")),
@@ -83,7 +66,7 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 
 	private TextureHolder holder;
 
-	private TextureDefinitionImpl(TextureHolder holder) {
+	private GameTextureDefinitionImpl(TextureHolder holder) {
 		this.holder = holder;
 	}
 

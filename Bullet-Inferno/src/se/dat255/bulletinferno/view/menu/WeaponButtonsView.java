@@ -5,9 +5,10 @@ import java.util.List;
 
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinitionImpl;
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -23,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class WeaponButtonsView {
 
-	private final ResourceManager resourceManager;
+	private final ResourceManager menuResourceManager;
 	private final List<WeaponButton> standardWeapons = new ArrayList<WeaponButton>();
 	private final List<WeaponButton> heavyWeapons = new ArrayList<WeaponButton>();
 	private WeaponButton standardSelectionButton;
@@ -35,15 +36,15 @@ public class WeaponButtonsView {
 	private final TextureRegionDrawable standardWeaponLabel;
 
 	public WeaponButtonsView(Stage stage, Skin skin, Table table, Image label,
-			ResourceManager resourceManager) {
+			ResourceManager menuResourceManager) {
 		this.skin = skin;
 		this.table = table;
 		this.label = label;
-		heavyWeaponLabel = new TextureRegionDrawable(resourceManager.getTexture(
-				TextureDefinitionImpl.LOADOUT_HEAVYWEAPON));
-		standardWeaponLabel = new TextureRegionDrawable(resourceManager.getTexture(
-				TextureDefinitionImpl.LOADOUT_STANDARD_WEAPON));
-		this.resourceManager = resourceManager;
+		heavyWeaponLabel = new TextureRegionDrawable(menuResourceManager.getTexture(
+				MenuTextureDefinitionImpl.LOADOUT_HEAVYWEAPON));
+		standardWeaponLabel = new TextureRegionDrawable(menuResourceManager.getTexture(
+				MenuTextureDefinitionImpl.LOADOUT_STANDARD_WEAPON));
+		this.menuResourceManager = menuResourceManager;
 	}
 
 	public void populateTable(String type) {
@@ -66,7 +67,7 @@ public class WeaponButtonsView {
 
 					WeaponButton weaponButton = new WeaponButton(getTableButton(curWeapon),
 							curWeapon,
-							resourceManager);
+							menuResourceManager);
 					heavyWeapons.add(weaponButton);
 
 					weaponButton.getButton().addListener(
@@ -93,7 +94,7 @@ public class WeaponButtonsView {
 					curWeapon = arr[i];
 					WeaponButton weaponButton = new WeaponButton(getTableButton(curWeapon),
 							curWeapon,
-							resourceManager);
+							menuResourceManager);
 					standardWeapons.add(weaponButton);
 
 					weaponButton.getButton().addListener(
@@ -123,7 +124,7 @@ public class WeaponButtonsView {
 		selectionButton.setData(wButton.getData());
 		ButtonStyle style = new ButtonStyle(wButton.getButton().getStyle());
 
-		style.up = new TextureRegionDrawable(resourceManager.getTexture(
+		style.up = new TextureRegionDrawable(menuResourceManager.getTexture(
 				selectionButton.getData()));
 		style.over = wButton.getButton().getStyle().up;
 
@@ -139,7 +140,7 @@ public class WeaponButtonsView {
 	}
 
 	private Button getTableButton(ResourceIdentifier identifier) {
-		TextureRegion texture = resourceManager.getTexture(identifier);
+		TextureRegion texture = menuResourceManager.getTexture(identifier);
 		ButtonStyle buttonStyle = new ButtonStyle();
 		buttonStyle.up = new TextureRegionDrawable(texture);
 

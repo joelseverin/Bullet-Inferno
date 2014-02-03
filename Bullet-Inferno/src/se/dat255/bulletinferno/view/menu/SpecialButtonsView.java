@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinitionImpl;
+import se.dat255.bulletinferno.util.MenuTextureDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
-import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.GameTextureDefinitionImpl;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,7 +36,7 @@ public class SpecialButtonsView {
 		this.table = table;
 		this.label = label;
 		labelSource = new TextureRegionDrawable(resourceManager.getTexture(
-				TextureDefinitionImpl.LOADOUT_SPECIAL_ABILITIES));
+				MenuTextureDefinitionImpl.LOADOUT_SPECIAL_ABILITIES));
 		this.resourceManager = resourceManager;
 	}
 

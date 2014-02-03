@@ -1,8 +1,5 @@
 package se.dat255.bulletinferno.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
@@ -15,7 +12,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public abstract class ResourceManagerImpl implements ResourceManager {
+public class MenuResourceManagerImpl implements ResourceManager {
 
 	protected static final Resolution[] SUPPORTED_RESOLUTIONS = {
 				new Resolution(270, 480, ""), // Default resolution
@@ -24,32 +21,9 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 				new Resolution(1080, 1920, "19201080")
 		};
 
-	public enum SoundEffectType {
-		KATZE,
-		SQUIB,
-		EHMO,
-		DRIPPER;
-	
-		static {
-			KATZE.mapping.put("DIED", "data/explosion.mp3");
-			SQUIB.mapping.put("DIED", "data/explosion.mp3");
-			EHMO.mapping.put("DIED", "data/explosion.mp3");
-			DRIPPER.mapping.put("DIED", "data/explosion.mp3");
-		}
-	
-		private final Map<String, String> mapping = new HashMap<String, String>();
-	
-		private SoundEffectType() {
-		}
-	
-		public String getPath(String key) {
-			return mapping.get(key);
-		}
-	}
-
 	protected AssetManager manager;
 
-	public ResourceManagerImpl() {
+	public MenuResourceManagerImpl() {
 		manager = new AssetManager();
 
 		ResolutionFileResolver resolver = new ResolutionFileResolver(
@@ -73,20 +47,10 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Sound getSound(ResourceIdentifier identifier, GameAction action) {
-		for (SoundEffectType soundEffectType : SoundEffectType.values()) {
-			if (identifier.getIdentifier().equals(soundEffectType.name())) {
-				return manager.get(soundEffectType.getPath(action.getAction()), Sound.class);
-			}
-		}
-	
-		throw new RuntimeException(String.format(
-				"Sound not found for the identifier:action combination '%s:%s'",
-				identifier.getIdentifier(), action.getAction()));
+		// not used
+		return null;
 	}
 
 	/**
@@ -100,18 +64,14 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 
 	/** Adds all managed textures to the AssetManager's load queue. */
 	private void loadTextures() {
-		for (TextureDefinition definition : GameTextureDefinitionImpl.values()) {
+		for (TextureDefinition definition : MenuTextureDefinitionImpl.values()) {
 			definition.loadSource(manager);
 		}
 	}
 
 	/** Adds all managed sound effects to the AssetManager's load queue. */
 	private void loadSoundEffects() {
-		for (SoundEffectType type : SoundEffectType.values()) {
-			for (String src : type.mapping.values()) {
-				manager.load(src, Sound.class);
-			}
-		}
+		// not used
 	}
 
 	/**
@@ -141,7 +101,7 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 	
 		TextureDefinition definition;
 		try {
-			definition = GameTextureDefinitionImpl.valueOf(identifier);
+			definition = MenuTextureDefinitionImpl.valueOf(identifier);
 		} catch (IllegalArgumentException exception) {
 			throw new IllegalArgumentException(
 					String.format("Resource with identifier '%s' could not be found", identifier),
@@ -163,7 +123,7 @@ public abstract class ResourceManagerImpl implements ResourceManager {
 
 	@Override
 	public void dispose() {
-		for (TextureDefinition definition : GameTextureDefinitionImpl.values()) {
+		for (TextureDefinition definition : MenuTextureDefinitionImpl.values()) {
 			definition.dispose();
 		}
 	
