@@ -157,6 +157,7 @@ public class LoadoutController extends SimpleController {
 
 	@Override
 	public void render(float delta) {
+		gameResourceManager.loadAsync();
 		// Clear the screen every frame
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
@@ -303,6 +304,10 @@ public class LoadoutController extends SimpleController {
 	public class StartButtonClickedListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
+			if(!gameResourceManager.loadAsync()) {
+				return;
+			}
+			
 			WeaponDefinition standardWeapon = weaponButtonsView.getStandardSelectionButton()
 					.getData();
 			WeaponDefinition heavyWeapon = weaponButtonsView.getHeavySelectionButton().getData();

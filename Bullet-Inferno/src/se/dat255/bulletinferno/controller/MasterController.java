@@ -48,12 +48,11 @@ public class MasterController extends com.badlogic.gdx.Game {
 		// Start loading game resources in the background while the user selects
 		// menu stuff
 		gameResourceManager = new GameResourceManagerImpl();
-		gameResourceManager.startLoad(true);
+		gameResourceManager.startLoad(false);
 
 		loadingScreen = new LoadingScreenController(menuResourceManager, this);
 		loadingScreen.addFinishedLoadingEventListener(switchToLoadoutOnLoaded);
 		loadingScreen.setClickToSwitch(true);
-		
 		
 		setScreen(loadingScreen);
 	}
