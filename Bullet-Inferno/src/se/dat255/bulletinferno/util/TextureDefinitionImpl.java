@@ -129,7 +129,22 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_LEADERBOARDS_LONGESTRUNBUTTON(textureAtlas("images/gui/menubuttons.atlas", "leaderboardlongest")),
 	MENU_LEADERBOARDS_LONGESTRUNBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "leaderboardlongest_down")),
 	
-	MENU_STORE_HEADER(textureAtlas("images/gui/menuheadings.atlas", "store"))
+	MENU_STORE_HEADER(textureAtlas("images/gui/menuheadings.atlas", "store")),
+	MENU_STORE_BUYBUTTON(textureAtlas("images/gui/menubuttons.atlas", "storebuybutton")),
+	MENU_STORE_BUYBUTTON_OVER(textureAtlas("images/gui/menubuttons.atlas", "storebuybutton_down")),
+	MENU_STORE_COIN_MEDIUM(textureAtlas("images/gui/menulabels.atlas", "storecoin_medium")),
+	MENU_STORE_COIN_LARGE(textureAtlas("images/gui/menulabels.atlas", "storecoin_large")),
+	MENU_STORE_BAR_1_DARK(textureAtlas("images/gui/menulabels.atlas", "storebar1_dark")),
+	MENU_STORE_BAR_2_DARK(textureAtlas("images/gui/menulabels.atlas", "storebar2_dark")),
+	MENU_STORE_BAR_3_DARK(textureAtlas("images/gui/menulabels.atlas", "storebar3_dark")),
+	MENU_STORE_BAR_4_DARK(textureAtlas("images/gui/menulabels.atlas", "storebar4_dark")),
+	MENU_STORE_BAR_5_DARK(textureAtlas("images/gui/menulabels.atlas", "storebar5_dark")),
+	MENU_STORE_BAR_1_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar1_light")),
+	MENU_STORE_BAR_2_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar2_light")),
+	MENU_STORE_BAR_3_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar3_light")),
+	MENU_STORE_BAR_4_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar4_light")),
+	MENU_STORE_BAR_5_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar5_light")), 
+	SHIELD_LVL_1(textureAtlas("images/gui/menulabels.atlas", "storeshield"))
 	;
 
 	private TextureHolder holder;

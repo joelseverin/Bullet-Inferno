@@ -122,6 +122,20 @@ leaderboardhighscorebutton_down
   orig: 189, 56
   offset: 0, 0
   index: -1
+storebuybutton
+  rotate: false
+  xy: 389, 357
+  size: 179, 58
+  orig: 179, 58
+  offset: 0, 0
+  index: -1
+storebuybutton_down
+  rotate: false
+  xy: 389, 297
+  size: 179, 58
+  orig: 179, 58
+  offset: 0, 0
+  index: -1
 menuplane
   rotate: false
   xy: 629, 705
@@ -131,21 +145,21 @@ menuplane
   index: -1
 reset
   rotate: false
-  xy: 389, 325
+  xy: 389, 205
   size: 71, 90
   orig: 71, 90
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 462, 340
+  xy: 462, 220
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 389, 248
+  xy: 389, 128
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
