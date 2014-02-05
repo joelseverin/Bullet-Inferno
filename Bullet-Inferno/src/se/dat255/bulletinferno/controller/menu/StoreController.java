@@ -1,5 +1,6 @@
 package se.dat255.bulletinferno.controller.menu;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,11 +9,15 @@ import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.StoreView;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class StoreController implements SubMenuController {
 	private final StoreView view;
+	private final ArrayList<BuyButtonClickListener> listeners = 
+			new ArrayList<BuyButtonClickListener>();
 	
 	public StoreController(Stage stage, ResourceManager resources) {
 		StoreItem item = new StoreItem() {
@@ -48,10 +53,14 @@ public class StoreController implements SubMenuController {
 		};
 		List<StoreItem> items = new LinkedList<StoreItem>();
 		items.add(item);
-		items.add(item);
-
+		listeners.add(new BuyButtonClickListener(item));
+		
 		view = new StoreView(stage, resources, items, 200);
 		view.setSlideToggleListener(slideToggleListener);
+		
+		for(BuyButtonClickListener listener : listeners) {
+			view.addBuyButtonListener(listener.getItem(), listener);
+		}
 	}
 	
 	private ChangeListener slideToggleListener = new ChangeListener() {
@@ -93,4 +102,17 @@ public class StoreController implements SubMenuController {
 		view.dispose();
 	}
 
+	protected class BuyButtonClickListener extends ClickListener {
+		private StoreItem item;
+		public BuyButtonClickListener(StoreItem item) {
+			this.item = item;
+		}
+		@Override
+		public void clicked(InputEvent event, float x, float y)  {
+
+		}
+		public StoreItem getItem() {
+			return item;
+		}
+	};
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -77,5 +78,19 @@ public class StoreItemView extends Table {
 				i <= item.getCurrentLevel()? darkBarId : lightkBarId)));
 		
 		add(barTable).colspan(2).padTop(20);
+	}
+	
+	public void addBuyButtonListener(EventListener listener) {
+		buyButton.addListener(listener);
+	}
+	
+	public void removeBuyButtonListener(EventListener listener) {
+		buyButton.removeListener(listener);
+	}
+	
+	@Override
+	public void clearListeners() {
+		super.clearListeners();
+		buyButton.clearListeners();
 	}
 }

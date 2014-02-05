@@ -1,5 +1,6 @@
 package se.dat255.bulletinferno.view.menu;
 
+import java.util.HashMap;
 import java.util.List;
 
 import se.dat255.bulletinferno.model.store.StoreItem;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -31,6 +33,7 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 	private final ScrollPane scrollPane;
 	private final Table itemsTable;
 	private final Label balanceLabel;
+	private final HashMap<StoreItem, StoreItemView> items = new HashMap<StoreItem, StoreItemView>();
 	
 	public StoreView(Stage stage, ResourceManager resources, List<StoreItem> storeItems, 
 			int coinBalance) {
@@ -62,10 +65,13 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 		mainTable.add(balanceLabel).left();
 		mainTable.row();
 		
+		StoreItemView itemView;
 		itemsTable = new Table();
 		itemsTable.top();
 		for(StoreItem item : storeItems) {
-			itemsTable.add(new StoreItemView(item, resources)).padBottom(CELL_PADDING);
+			itemView = new StoreItemView(item, resources);
+			items.put(item, itemView);
+			itemsTable.add(itemView).padBottom(CELL_PADDING);
 			itemsTable.row();
 		}
 		
@@ -81,11 +87,45 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 		balanceLabel.setText(Integer.toString(balance));
 	}
 	
+	/**
+	 * Adds a listener to the buy button for the specified StoreItem
+	 * @param key StoreItem
+	 * @param listener
+	 * @return success or failure
+	 */
+	public boolean addBuyButtonListener(StoreItem key, EventListener listener) {
+		if(items.containsKey(key)) {
+			items.get(key).addBuyButtonListener(listener);
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Removes the specified listener from the buy button for the specified StoreItem
+	 * @param key StoreItem
+	 * @param listener
+	 * @return success or failure
+	 */
+	public boolean removeBuyButtonListener(StoreItem key, EventListener listener) {
+		if(items.containsKey(key)) {
+			items.get(key).removeBuyButtonListener(listener);
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void dispose() {
 		super.dispose();
 		
 		stage.getRoot().removeActor(getToggleActor());
+		
+		for(StoreItemView view : items.values()) {
+			view.clear();
+		}
 	}
 
 }
