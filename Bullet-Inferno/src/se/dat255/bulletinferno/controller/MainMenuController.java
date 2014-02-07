@@ -55,6 +55,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	@Override
 	public void dispose() {
 		menuView.dispose();
+		stage.clear();
 		stage.dispose();
 		backgroundView.dispose();
 		if(activeSubController != null) {
@@ -66,6 +67,11 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	public void show() {
 		super.show();
 		Gdx.input.setInputProcessor(stage);
+	}
+	
+	@Override
+	public void hide() {
+		Gdx.input.setInputProcessor(null);
 	}
 	
 	@Override
@@ -102,6 +108,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	private ChangeListener playListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
+			masterController.setScreen(new LoadoutController(masterController, resources));
 		}
 	};
 	

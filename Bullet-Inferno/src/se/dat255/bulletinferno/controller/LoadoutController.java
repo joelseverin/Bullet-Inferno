@@ -286,8 +286,10 @@ public class LoadoutController extends SimpleController {
 
 	public void startGame(WeaponDefinition[] weapons, SpecialAbilityDefinition special,
 			PassiveAbilityDefinition passive) {
-		GameController gameScreen = new GameController(masterController, resourceManager);
-		masterController.startGame(gameScreen, weapons, special, passive, true);
+		//System.gc();
+		GameController gameController = new GameController(masterController, resourceManager);
+		gameController.createNewGame(weapons, special, passive);
+		masterController.setScreen(gameController);
 	}
 
 	private void showErrorMessage(String equipmentMissing) {
