@@ -144,7 +144,12 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	MENU_STORE_BAR_3_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar3_light")),
 	MENU_STORE_BAR_4_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar4_light")),
 	MENU_STORE_BAR_5_LIGHT(textureAtlas("images/gui/menulabels.atlas", "storebar5_light")), 
-	SHIELD_LVL_1(textureAtlas("images/gui/menulabels.atlas", "storeshield"))
+	SHIELD_LVL_1(textureAtlas("images/gui/menulabels.atlas", "storeshield")), 
+	
+	LOADOUTMENU_CLICK_INSTRUCTIONS(textureAtlas("images/gui/menulabels.atlas", "loadoutclikinstruction")), 
+	LOADOUTMENU_HEADER(textureAtlas("images/gui/menuheadings.atlas", "loadoutheader")), 
+	LOADOUTMENU_GLASS(texture("images/gui/loadoutglass.png")),
+	LOADOUTMENU_GLASS_SELECT(texture("images/gui/loadoutselectionglass.png"))
 	;
 
 	private TextureHolder holder;

@@ -5,6 +5,7 @@ import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.view.menu.LoadoutView;
 import se.dat255.bulletinferno.view.menu.PassiveButton;
 import se.dat255.bulletinferno.view.menu.PassiveButtonsView;
 import se.dat255.bulletinferno.view.menu.SpecialButton;
@@ -49,9 +50,9 @@ public class LoadoutController extends SimpleController {
 	private Label errorMessage;
 	private Table table;
 
-	private final WeaponButtonsView weaponButtonsView;
-	private final SpecialButtonsView specialButtonsView;
-	private final PassiveButtonsView passiveButtonsView;
+	private  WeaponButtonsView weaponButtonsView;
+	private  SpecialButtonsView specialButtonsView;
+	private  PassiveButtonsView passiveButtonsView;
 	private Image tableLabel;
 
 	private Label standardLabel;
@@ -59,6 +60,8 @@ public class LoadoutController extends SimpleController {
 	private Label specialLabel;
 	private Label passiveLabel;
 
+	private final LoadoutView view;
+	
 	/**
 	 * Main controller used for the loadout screen
 	 * 
@@ -73,7 +76,10 @@ public class LoadoutController extends SimpleController {
 
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		skin = new Skin();
-
+		
+		view = new LoadoutView(resourceManager, stage);
+		
+		/*
 		setupBackground(resourceManager);
 
 		// Generate a 1x1 white texture and store it in the skin named "white".
@@ -105,7 +111,7 @@ public class LoadoutController extends SimpleController {
 
 		setupErrorMessage();
 
-		setupLabelsForSelectionButtons(labelStyle);
+		setupLabelsForSelectionButtons(labelStyle);*/
 	}
 
 	private void setupBackground(final ResourceManager resourceManager) {
@@ -153,17 +159,18 @@ public class LoadoutController extends SimpleController {
 	@Override
 	public void render(float delta) {
 		// Clear the screen every frame
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-		Table.drawDebug(stage);
+		//Gdx.gl.glClearColor(1, 1, 1, 1);
+		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		
 
 		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
 		stage.draw();
+		Table.drawDebug(stage);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
+		//stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
 	}
 
 	@Override
