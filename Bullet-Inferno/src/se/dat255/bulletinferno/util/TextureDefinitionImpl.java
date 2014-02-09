@@ -149,7 +149,17 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	LOADOUTMENU_CLICK_INSTRUCTIONS(textureAtlas("images/gui/menulabels.atlas", "loadoutclikinstruction")), 
 	LOADOUTMENU_HEADER(textureAtlas("images/gui/menuheadings.atlas", "loadoutheader")), 
 	LOADOUTMENU_GLASS(texture("images/gui/loadoutglass.png")),
-	LOADOUTMENU_GLASS_SELECT(texture("images/gui/loadoutselectionglass.png"))
+	LOADOUTMENU_GLASS_SELECT(texture("images/gui/loadoutselectionglass.png")),
+	LOADOUTMENU_DONE_BUTTON(textureAtlas("images/gui/menubuttons.atlas", "loadoutdone")),
+	LOADOUTMENU_DONE_BUTTON_DOWN(textureAtlas("images/gui/menubuttons.atlas", "loadoutdone_down")),
+	LOADOUTMENU_SPECIAL_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutspeciallabel")),
+	LOADOUTMENU_PASSIVE_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutpassivelabel")),
+	LOADOUTMENU_STANDARD_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutstandardlabel")),
+	LOADOUTMENU_HEAVY_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutheavylabel")),
+	LOADOUTMENU_SELECTOR_BUTTON_SMALL(textureAtlas("images/gui/menubuttons.atlas", "loadoutsmallselector")),
+	LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE(textureAtlas("images/gui/menubuttons.atlas", "loadoutsmallselector_active")),
+	LOADOUTMENU_SELECTOR_BUTTON_BIG(textureAtlas("images/gui/menubuttons.atlas", "loadoutbigselector")),
+	LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE(textureAtlas("images/gui/menubuttons.atlas", "loadoutbigselector_active"))
 	;
 
 	private TextureHolder holder;

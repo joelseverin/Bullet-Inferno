@@ -5,238 +5,266 @@ filter: Nearest,Nearest
 repeat: none
 storebar1_dark
   rotate: false
-  xy: 1, 490
+  xy: 1, 488
   size: 830, 15
   orig: 830, 15
   offset: 0, 0
   index: -1
 storebar1_light
   rotate: false
-  xy: 1, 473
+  xy: 1, 471
   size: 830, 15
   orig: 830, 15
   offset: 0, 0
   index: -1
 leaderboardentrybackground
   rotate: false
-  xy: 1, 391
+  xy: 1, 389
   size: 760, 80
   orig: 760, 80
   offset: 0, 0
   index: -1
 sliderlowtohighvalues
   rotate: false
-  xy: 1, 361
+  xy: 1, 359
   size: 752, 28
   orig: 752, 28
   offset: 0, 0
   index: -1
 slider0to100values
   rotate: false
-  xy: 1, 337
+  xy: 1, 335
   size: 756, 22
   orig: 756, 22
   offset: 0, 0
   index: -1
 achievementEntryBackground
   rotate: false
-  xy: 1, 185
+  xy: 1, 183
   size: 432, 150
   orig: 432, 150
   offset: 0, 0
   index: -1
 loadoutclikinstruction
   rotate: false
-  xy: 1, 155
+  xy: 1, 153
   size: 463, 28
   orig: 463, 28
   offset: 0, 0
   index: -1
 storebar2_dark
   rotate: false
-  xy: 1, 138
+  xy: 1, 136
   size: 400, 15
   orig: 400, 15
   offset: 0, 0
   index: -1
 storebar2_light
   rotate: false
-  xy: 1, 121
+  xy: 1, 119
   size: 400, 15
   orig: 400, 15
   offset: 0, 0
   index: -1
+loadoutstandardlabel
+  rotate: false
+  xy: 435, 312
+  size: 279, 21
+  orig: 279, 21
+  offset: 0, 0
+  index: -1
 leaderboardcoins
   rotate: false
-  xy: 435, 279
+  xy: 1, 61
   size: 238, 56
   orig: 238, 56
   offset: 0, 0
   index: -1
 leaderboardcoins_down
   rotate: false
-  xy: 1, 63
+  xy: 435, 254
   size: 238, 56
   orig: 238, 56
   offset: 0, 0
   index: -1
 leaderboardlongest
   rotate: false
-  xy: 435, 221
+  xy: 1, 3
   size: 215, 56
   orig: 215, 56
   offset: 0, 0
   index: -1
 leaderboardlongest_over
   rotate: false
-  xy: 1, 5
+  xy: 435, 196
   size: 215, 56
   orig: 215, 56
   offset: 0, 0
   index: -1
-settingsbackgroundsoundlabel
-  rotate: false
-  xy: 435, 190
-  size: 229, 29
-  orig: 229, 29
-  offset: 0, 0
-  index: -1
 leaderboardhighscorebutton
   rotate: false
-  xy: 833, 449
+  xy: 833, 447
   size: 189, 56
   orig: 189, 56
   offset: 0, 0
   index: -1
 storebar3_dark
   rotate: false
-  xy: 763, 432
+  xy: 763, 430
   size: 260, 15
   orig: 260, 15
   offset: 0, 0
   index: -1
 storebar3_light
   rotate: false
-  xy: 763, 415
+  xy: 763, 413
   size: 260, 15
   orig: 260, 15
   offset: 0, 0
   index: -1
 settingssenslabel
   rotate: false
-  xy: 763, 386
+  xy: 763, 384
   size: 237, 27
   orig: 237, 27
   offset: 0, 0
   index: -1
+loadoutheavylabel
+  rotate: false
+  xy: 755, 361
+  size: 223, 21
+  orig: 223, 21
+  offset: 0, 0
+  index: -1
+settingsbackgroundsoundlabel
+  rotate: false
+  xy: 759, 330
+  size: 229, 29
+  orig: 229, 29
+  offset: 0, 0
+  index: -1
 leaderboardhighscorebutton_down
   rotate: false
-  xy: 466, 132
+  xy: 241, 61
   size: 189, 56
   orig: 189, 56
   offset: 0, 0
   index: -1
 storebuybutton
   rotate: false
-  xy: 241, 61
+  xy: 218, 1
   size: 179, 58
   orig: 179, 58
   offset: 0, 0
   index: -1
 storebuybutton_down
   rotate: false
-  xy: 218, 1
+  xy: 466, 136
   size: 179, 58
   orig: 179, 58
   offset: 0, 0
   index: -1
+loadoutpassivelabel
+  rotate: false
+  xy: 716, 307
+  size: 216, 21
+  orig: 216, 21
+  offset: 0, 0
+  index: -1
+loadoutspeciallabel
+  rotate: false
+  xy: 675, 284
+  size: 216, 21
+  orig: 216, 21
+  offset: 0, 0
+  index: -1
 storebar4_dark
   rotate: false
-  xy: 755, 369
+  xy: 675, 267
   size: 200, 15
   orig: 200, 15
   offset: 0, 0
   index: -1
 storebar4_light
   rotate: false
-  xy: 759, 352
+  xy: 675, 250
   size: 200, 15
   orig: 200, 15
   offset: 0, 0
   index: -1
 settingssoundeffectlabel
   rotate: false
-  xy: 759, 329
+  xy: 652, 227
   size: 172, 21
   orig: 172, 21
   offset: 0, 0
   index: -1
-achievementIconGold
-  rotate: false
-  xy: 422, 11
-  size: 128, 119
-  orig: 128, 119
-  offset: 0, 0
-  index: -1
-achievementIconGrey
-  rotate: false
-  xy: 552, 11
-  size: 128, 119
-  orig: 128, 119
-  offset: 0, 0
-  index: -1
-leaderboardavatar
-  rotate: false
-  xy: 675, 255
-  size: 80, 80
-  orig: 80, 80
-  offset: 0, 0
-  index: -1
 storebar5_dark
   rotate: false
-  xy: 757, 312
+  xy: 652, 210
   size: 158, 15
   orig: 158, 15
   offset: 0, 0
   index: -1
 storebar5_light
   rotate: false
-  xy: 757, 295
+  xy: 652, 193
   size: 158, 15
   orig: 158, 15
   offset: 0, 0
   index: -1
+achievementIconGold
+  rotate: false
+  xy: 647, 72
+  size: 128, 119
+  orig: 128, 119
+  offset: 0, 0
+  index: -1
+achievementIconGrey
+  rotate: false
+  xy: 777, 72
+  size: 128, 119
+  orig: 128, 119
+  offset: 0, 0
+  index: -1
+storeshield
+  rotate: false
+  xy: 432, 12
+  size: 101, 122
+  orig: 101, 122
+  offset: 0, 0
+  index: -1
+leaderboardavatar
+  rotate: false
+  xy: 535, 54
+  size: 80, 80
+  orig: 80, 80
+  offset: 0, 0
+  index: -1
 settingsaudiolabel
   rotate: false
-  xy: 757, 258
+  xy: 535, 17
   size: 120, 35
   orig: 120, 35
   offset: 0, 0
   index: -1
 settingstouchlabel
   rotate: false
-  xy: 757, 222
+  xy: 657, 36
   size: 119, 34
   orig: 119, 34
   offset: 0, 0
   index: -1
 storecoin_large
   rotate: false
-  xy: 879, 253
+  xy: 778, 30
   size: 40, 40
   orig: 40, 40
   offset: 0, 0
   index: -1
-storeshield
-  rotate: false
-  xy: 878, 129
-  size: 101, 122
-  orig: 101, 122
-  offset: 0, 0
-  index: -1
 storecoin_medium
   rotate: false
-  xy: 961, 351
+  xy: 820, 37
   size: 33, 33
   orig: 33, 33
   offset: 0, 0

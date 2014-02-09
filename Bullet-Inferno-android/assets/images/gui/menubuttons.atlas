@@ -80,93 +80,135 @@ leaderboards_down
   orig: 386, 104
   offset: 0, 0
   index: -1
+loadoutdone
+  rotate: false
+  xy: 389, 662
+  size: 377, 101
+  orig: 377, 101
+  offset: 0, 0
+  index: -1
+loadoutdone_down
+  rotate: false
+  xy: 389, 559
+  size: 377, 101
+  orig: 377, 101
+  offset: 0, 0
+  index: -1
+loadoutbigselector
+  rotate: false
+  xy: 389, 414
+  size: 303, 143
+  orig: 303, 143
+  offset: 0, 0
+  index: -1
+loadoutbigselector_active
+  rotate: false
+  xy: 389, 269
+  size: 303, 143
+  orig: 303, 143
+  offset: 0, 0
+  index: -1
+loadoutsmallselector
+  rotate: false
+  xy: 389, 124
+  size: 223, 143
+  orig: 223, 143
+  offset: 0, 0
+  index: -1
+loadoutsmallselector_active
+  rotate: false
+  xy: 777, 846
+  size: 223, 143
+  orig: 223, 143
+  offset: 0, 0
+  index: -1
 leaderboardcoins
   rotate: false
-  xy: 389, 707
+  xy: 389, 66
   size: 238, 56
   orig: 238, 56
   offset: 0, 0
   index: -1
 leaderboardcoins_down
   rotate: false
-  xy: 389, 649
+  xy: 389, 8
   size: 238, 56
   orig: 238, 56
   offset: 0, 0
   index: -1
 leaderboardlongest
   rotate: false
-  xy: 389, 591
+  xy: 777, 788
   size: 215, 56
   orig: 215, 56
   offset: 0, 0
   index: -1
 leaderboardlongest_down
   rotate: false
-  xy: 389, 533
+  xy: 777, 730
   size: 215, 56
   orig: 215, 56
   offset: 0, 0
   index: -1
 leaderboardhighscorebutton
   rotate: false
-  xy: 389, 475
+  xy: 768, 672
   size: 189, 56
   orig: 189, 56
   offset: 0, 0
   index: -1
 leaderboardhighscorebutton_down
   rotate: false
-  xy: 389, 417
+  xy: 768, 614
   size: 189, 56
   orig: 189, 56
   offset: 0, 0
   index: -1
 storebuybutton
   rotate: false
-  xy: 389, 357
+  xy: 768, 554
   size: 179, 58
   orig: 179, 58
   offset: 0, 0
   index: -1
 storebuybutton_down
   rotate: false
-  xy: 389, 297
+  xy: 694, 494
   size: 179, 58
   orig: 179, 58
   offset: 0, 0
   index: -1
 menuplane
   rotate: false
-  xy: 629, 705
+  xy: 694, 434
   size: 110, 58
   orig: 110, 58
   offset: 0, 0
   index: -1
 reset
   rotate: false
-  xy: 389, 205
+  xy: 614, 177
   size: 71, 90
   orig: 71, 90
   offset: 0, 0
   index: -1
 sound_off
   rotate: false
-  xy: 462, 220
+  xy: 694, 357
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 sound_on
   rotate: false
-  xy: 389, 128
+  xy: 694, 280
   size: 81, 75
   orig: 81, 75
   offset: 0, 0
   index: -1
 sliderknob
   rotate: false
-  xy: 606, 612
+  xy: 1002, 954
   size: 18, 35
   orig: 18, 35
   offset: 0, 0
