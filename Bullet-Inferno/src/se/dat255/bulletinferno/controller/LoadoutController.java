@@ -91,13 +91,13 @@ public class LoadoutController extends SimpleController {
 			
 			@Override
 			public String getName() {
-				return "Laser Gun";
+				return "Machine gun";
 			}
 			
 			@Override
 			public String getDescription() {
 				return "Damage : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getProjectileType().getDamage()
-						+ "\n Reloading time : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getReloadTime();
+						+ "\nReloading time : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getReloadTime();
 			}
 		});
 		
@@ -116,7 +116,7 @@ public class LoadoutController extends SimpleController {
 			@Override
 			public String getDescription() {
 				return "Damage : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getProjectileType().getDamage()
-						+ "\n Reloading time : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getReloadTime();
+						+ "\nReloading time : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getReloadTime();
 			}
 		});
 		standard.add(standard.get(0));

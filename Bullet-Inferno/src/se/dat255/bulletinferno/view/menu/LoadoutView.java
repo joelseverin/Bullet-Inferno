@@ -127,14 +127,13 @@ public class LoadoutView implements Disposable {
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_GLASS_SELECT));
 		extensionTable.setSize(extensionTable.getBackground().getMinWidth(), VIRTUAL_HEIGHT);
 		extensionTable.setPosition(VIRTUAL_WIDTH - extensionTable.getWidth(), VIRTUAL_HEIGHT);
-		extensionTable.debug();
 		extensionTable.top();
 		
 		standardSelector = new LoadoutSelector(resources, standardWeaponOptions);
 		heavySelector = new LoadoutSelector(resources, heavyWeaponOptions);
 		passiveSelector = new LoadoutSelector(resources, passiveAbilityOptions);
 		specialSelector = new LoadoutSelector(resources, specialAbilityOptions);
-		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 30);
+		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 40);
 		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
