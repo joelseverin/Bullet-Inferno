@@ -1,8 +1,13 @@
 package se.dat255.bulletinferno.controller;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
+import se.dat255.bulletinferno.model.weapon.WeaponDefinitionImpl;
+import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 import se.dat255.bulletinferno.view.menu.LoadoutView;
@@ -76,9 +81,48 @@ public class LoadoutController extends SimpleController {
 
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		skin = new Skin();
+		List<Descriptable> standard = new LinkedList<Descriptable>();
+		standard.add(new Descriptable() {
+			
+			@Override
+			public String getIdentifier() {
+				return WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getIdentifier();
+			}
+			
+			@Override
+			public String getName() {
+				return "Laser Gun";
+			}
+			
+			@Override
+			public String getDescription() {
+				return "Damage : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getProjectileType().getDamage()
+						+ "\n Reloading time : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getReloadTime();
+			}
+		});
 		
-		view = new LoadoutView(resourceManager, stage);
-		
+		standard.add(new Descriptable() {
+					
+			@Override
+			public String getIdentifier() {
+				return WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getIdentifier();
+			}
+			
+			@Override
+			public String getName() {
+				return "Laser Gun";
+			}
+			
+			@Override
+			public String getDescription() {
+				return "Damage : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getProjectileType().getDamage()
+						+ "\n Reloading time : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getReloadTime();
+			}
+		});
+		standard.add(standard.get(0));
+		view = new LoadoutView(resourceManager, stage, standard, new LinkedList<Descriptable>(),
+				new LinkedList<Descriptable>(), new LinkedList<Descriptable>());
+		view.toggleStandardWeaponSelector();
 		/*
 		setupBackground(resourceManager);
 

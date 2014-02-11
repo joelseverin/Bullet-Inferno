@@ -159,7 +159,9 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	LOADOUTMENU_SELECTOR_BUTTON_SMALL(textureAtlas("images/gui/menubuttons.atlas", "loadoutsmallselector")),
 	LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE(textureAtlas("images/gui/menubuttons.atlas", "loadoutsmallselector_active")),
 	LOADOUTMENU_SELECTOR_BUTTON_BIG(textureAtlas("images/gui/menubuttons.atlas", "loadoutbigselector")),
-	LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE(textureAtlas("images/gui/menubuttons.atlas", "loadoutbigselector_active"))
+	LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE(textureAtlas("images/gui/menubuttons.atlas", "loadoutbigselector_active")),
+	LOADOUTMENU_TRIANGLE_BUTTON_UP(textureAtlas("images/gui/menubuttons.atlas", "trianglebuttonup")),
+	LOADOUTMENU_TRIANGLE_BUTTON_DOWN(textureAtlas("images/gui/menubuttons.atlas", "trianglebuttondown"))
 	;
 
 	private TextureHolder holder;

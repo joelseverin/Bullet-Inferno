@@ -1,11 +1,18 @@
 package se.dat255.bulletinferno.view.menu;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.view.menu.widget.LoadoutSelector;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -15,16 +22,24 @@ public class LoadoutView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
 	private final static int TABLE_X = 390, GLASS_WIDTH = 1113;
+	private final static float SLIDE_ANIMATION_DURATION = 0.4f;
 	
 	private final ResourceManager resources;
 	private final Stage stage;
-	private final Table table;
+	private final Table table, extensionTable;
 	private final MenuBackgroundView backgroundView;
 	private final Button standardWeaponButton, heavyWeaponButton;
 	private final Button passiveAbilityButton, specialAbilityButton;
 	private final Button doneButton;
+	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
+	private LoadoutSelector activeSelector = null;
+	private boolean isExtensionTabledown = false;
 	
-	public LoadoutView(ResourceManager resources, Stage stage) {
+	public LoadoutView(ResourceManager resources, Stage stage, 
+			List<Descriptable> standardWeaponOptions,
+			List<Descriptable> heavyWeaponOptions,
+			List<Descriptable> passiveAbilityOptions,
+			List<Descriptable> specialAbilityOptions) {
 		this.resources = resources;
 		this.stage = stage;
 		
@@ -107,7 +122,20 @@ public class LoadoutView implements Disposable {
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_DONE_BUTTON_DOWN));
 		table.add(doneButton).padTop(140);
 		
-		table.debug();
+		extensionTable = new Table();
+		extensionTable.setBackground(
+				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_GLASS_SELECT));
+		extensionTable.setSize(extensionTable.getBackground().getMinWidth(), VIRTUAL_HEIGHT);
+		extensionTable.setPosition(VIRTUAL_WIDTH - extensionTable.getWidth(), VIRTUAL_HEIGHT);
+		extensionTable.debug();
+		extensionTable.top();
+		
+		standardSelector = new LoadoutSelector(resources, standardWeaponOptions);
+		heavySelector = new LoadoutSelector(resources, heavyWeaponOptions);
+		passiveSelector = new LoadoutSelector(resources, passiveAbilityOptions);
+		specialSelector = new LoadoutSelector(resources, specialAbilityOptions);
+		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 30);
+		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
 
@@ -118,4 +146,70 @@ public class LoadoutView implements Disposable {
 		doneButton.clear();
 	}
 
+	public void toggleStandardWeaponSelector() {
+		if(activeSelector == standardSelector) {
+			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
+		} else {
+			switchActiveSelector(standardSelector);
+		}
+	}
+	
+	public void toggleHeavyWeaponSelector() {
+		if(activeSelector == heavySelector) {
+			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
+		} else {
+			switchActiveSelector(heavySelector);
+		}
+	}
+	
+	public void togglePassiveAbilitySelector() {
+		if(activeSelector == passiveSelector) {
+			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
+		} else {
+			switchActiveSelector(passiveSelector);
+		}
+	}
+	
+	public void toggleSpecialAbilitySelector() {
+		if(activeSelector == specialSelector) {
+			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
+		} else {
+			switchActiveSelector(specialSelector);
+		}
+	}
+	
+	private void switchActiveSelector(final LoadoutSelector selector) {
+		Action switchAction =  new Action() {
+			@Override
+			public boolean act(float arg0) {
+				//extensionTable.removeActor(activeSelector);
+				//extensionTable.add(selector);
+				activeSelector = selector;
+				return true;
+			}
+		};
+		
+		if(isExtensionTabledown) {
+			extensionTable.addAction(Actions.sequence(slideUpAction(), switchAction, 
+					slideDownAction()));
+		} else {
+			extensionTable.addAction(Actions.sequence(switchAction, slideDownAction()));
+		}
+	}
+	
+	private Action slideDownAction() {
+		isExtensionTabledown = true;
+		return Actions.moveTo(extensionTable.getX(), 0, SLIDE_ANIMATION_DURATION);
+	}
+	
+	private Action slideUpAction() {
+		return Actions.sequence(Actions.moveTo(extensionTable.getX(), SLIDE_ANIMATION_DURATION), 
+				new Action() {
+					@Override
+					public boolean act(float arg0) {
+						isExtensionTabledown = false;
+						return true;
+					}
+				});
+	}
 }

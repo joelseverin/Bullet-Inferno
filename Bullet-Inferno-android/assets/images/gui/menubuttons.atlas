@@ -206,6 +206,20 @@ sound_on
   orig: 81, 75
   offset: 0, 0
   index: -1
+trianglebuttondown
+  rotate: false
+  xy: 875, 480
+  size: 84, 72
+  orig: 84, 72
+  offset: 0, 0
+  index: -1
+trianglebuttonup
+  rotate: false
+  xy: 777, 360
+  size: 84, 72
+  orig: 84, 72
+  offset: 0, 0
+  index: -1
 sliderknob
   rotate: false
   xy: 1002, 954
