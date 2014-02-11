@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Scaling;
 
 public class LoadoutSelector extends Table {
 	private final static int TEXT_INTO_PADDING_LEFT = 40;
@@ -38,6 +39,7 @@ public class LoadoutSelector extends Table {
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_TRIANGLE_BUTTON_UP));
 		downButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_TRIANGLE_BUTTON_DOWN));
+		displayedItem.setScaling(Scaling.fit);
 		
 		values = new ArrayList<Option>(options.size());
 		float maxHeight = 0;
@@ -97,7 +99,6 @@ public class LoadoutSelector extends Table {
 	public Descriptable getSelected() {
 		return values.get(selectedIndex).key;
 	}
-
 	
 	private void switchSelectedOption(int index) {
 		if(index <= 0) {
@@ -112,6 +113,7 @@ public class LoadoutSelector extends Table {
 			upButton.setVisible(true);
 			downButton.setVisible(true);
 		}
+		
 		displayedItem.setDrawable(values.get(selectedIndex).value);
 		nameLabel.setText(values.get(selectedIndex).key.getName());
 		descriptionLabel.setText(values.get(selectedIndex).key.getDescription());

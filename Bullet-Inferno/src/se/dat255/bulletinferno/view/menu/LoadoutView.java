@@ -133,7 +133,8 @@ public class LoadoutView implements Disposable {
 		heavySelector = new LoadoutSelector(resources, heavyWeaponOptions);
 		passiveSelector = new LoadoutSelector(resources, passiveAbilityOptions);
 		specialSelector = new LoadoutSelector(resources, specialAbilityOptions);
-		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 40);
+		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 50);
+		extensionTable.debug();
 		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
