@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -30,6 +31,7 @@ public class LoadoutView implements Disposable {
 	private final Button standardWeaponButton, heavyWeaponButton;
 	private final Button passiveAbilityButton, specialAbilityButton;
 	private final Button doneButton;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
 	private final Image chooseLabel, standardSelectorLabel, heavySelectorLabel;
 	private final Image passiveSelectorLabel, specialSelectorLabel;
@@ -58,7 +60,7 @@ public class LoadoutView implements Disposable {
 		table.setPosition(TABLE_X, 0);
 		table.setBackground(resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_GLASS));
 		
-		
+		// Setup labels
 		table.add(new Image(resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_HEADER))
 					).padTop(120);
 		table.row();
@@ -67,13 +69,15 @@ public class LoadoutView implements Disposable {
 				)).padTop(20);
 		table.row();
 
+		// Setup the buttons
 		Group loadoutGroup = new Group();
 		loadoutGroup.setSize(900, 470);
 		ButtonStyle bigButtonStyle = new ButtonStyle(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_BIG),
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE),
-				null);
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE));
 		
 		standardWeaponButton = new Button(bigButtonStyle);
 		standardWeaponButton.setPosition(600, 255);
@@ -83,6 +87,7 @@ public class LoadoutView implements Disposable {
 				standardWeaponButton.getY() + standardWeaponButton.getHeight() + 10);
 		loadoutGroup.addActor(standardLabel);
 		loadoutGroup.addActor(standardWeaponButton);
+		buttonGroup.add(standardWeaponButton);
 		
 		
 		heavyWeaponButton = new Button(bigButtonStyle);
@@ -92,13 +97,15 @@ public class LoadoutView implements Disposable {
 		heavyLabel.setPosition(heavyWeaponButton.getX() + 40, heavyWeaponButton.getY() - 30);
 		loadoutGroup.addActor(heavyLabel);
 		loadoutGroup.addActor(heavyWeaponButton);
+		buttonGroup.add(heavyWeaponButton);
 		
 		ButtonStyle smallButtonStyle = new ButtonStyle(
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_SMALL),
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE),
-				null);
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE));
 		
 		specialAbilityButton = new Button(smallButtonStyle);
 		specialAbilityButton.setPosition(0, 255);
@@ -108,6 +115,7 @@ public class LoadoutView implements Disposable {
 				specialAbilityButton.getY() + specialAbilityButton.getHeight() + 10);
 		loadoutGroup.addActor(specialAbilityButton);
 		loadoutGroup.addActor(specialLabel);
+		buttonGroup.add(specialAbilityButton);
 		
 		passiveAbilityButton = new Button(smallButtonStyle);
 		passiveAbilityButton.setPosition(0, 35);
@@ -116,15 +124,18 @@ public class LoadoutView implements Disposable {
 		passiveLabel.setPosition(passiveAbilityButton.getX() + 3, passiveAbilityButton.getY() - 30);
 		loadoutGroup.addActor(passiveAbilityButton);
 		loadoutGroup.addActor(passiveLabel);
+		buttonGroup.add(passiveAbilityButton);
 		
 		table.add(loadoutGroup).padTop(50);
 		table.row();
 		
+		// Setup done button
 		doneButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_DONE_BUTTON), 
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_DONE_BUTTON_DOWN));
 		table.add(doneButton).padTop(140);
 		
+		// Setup the extension table and it's selectors
 		extensionTable = new Table();
 		extensionTable.setBackground(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_GLASS_SELECT));
@@ -200,6 +211,22 @@ public class LoadoutView implements Disposable {
 		} else {
 			switchActiveSelector(specialSelector, specialSelectorLabel);
 		}
+	}
+	
+	public LoadoutSelector getStandardWeaponSelector() {
+		return standardSelector;
+	}
+	
+	public LoadoutSelector getHeavyWeaponSelector() {
+		return heavySelector;
+	}
+	
+	public LoadoutSelector getSpecialAbilitySelector() {
+		return specialSelector;
+	}
+	
+	public LoadoutSelector getPassiveAbilitySelector() {
+		return passiveSelector;
 	}
 	
 	private void switchActiveSelector(final LoadoutSelector selector, final Image selectorLabel) {

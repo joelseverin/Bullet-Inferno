@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Scaling;
 
 public class LoadoutSelector extends Table {
-	private final static int TEXT_INTO_PADDING_LEFT = 40;
+	private final static int TEXT_INTO_PADDING_LEFT = 20;
 	private final Button upButton, downButton;
 	private final List<Option> values;
 	private final Image displayedItem = new Image();
