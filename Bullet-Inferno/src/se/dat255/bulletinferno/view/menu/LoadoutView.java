@@ -1,6 +1,5 @@
 package se.dat255.bulletinferno.view.menu;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import se.dat255.bulletinferno.util.Descriptable;
@@ -32,7 +31,11 @@ public class LoadoutView implements Disposable {
 	private final Button passiveAbilityButton, specialAbilityButton;
 	private final Button doneButton;
 	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
+	private final Image chooseLabel, standardSelectorLabel, heavySelectorLabel;
+	private final Image passiveSelectorLabel, specialSelectorLabel;
+	
 	private LoadoutSelector activeSelector = null;
+	private Image activeSelectorLabel = null;
 	private boolean isExtensionTabledown = false;
 	
 	public LoadoutView(ResourceManager resources, Stage stage, 
@@ -133,8 +136,29 @@ public class LoadoutView implements Disposable {
 		heavySelector = new LoadoutSelector(resources, heavyWeaponOptions);
 		passiveSelector = new LoadoutSelector(resources, passiveAbilityOptions);
 		specialSelector = new LoadoutSelector(resources, specialAbilityOptions);
-		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 50);
-		extensionTable.debug();
+		
+		chooseLabel = new Image(
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_CHOOSA_LABEL));
+		standardSelectorLabel = new Image(
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_STANDARD_LABEL));
+		heavySelectorLabel = new Image(
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_HEAVY_LABEL));
+		passiveSelectorLabel = new Image(
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_PASSIVE_LABEL));
+		specialSelectorLabel = new Image(
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_SPECIAL_LABEL));
+		
+		extensionTable.add(chooseLabel).padTop(64);
+		extensionTable.row();
+		extensionTable.add(standardSelectorLabel).padTop(12);
+		extensionTable.row();
+		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 50).padTop(20);
+
 		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
@@ -150,7 +174,7 @@ public class LoadoutView implements Disposable {
 		if(activeSelector == standardSelector) {
 			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
 		} else {
-			switchActiveSelector(standardSelector);
+			switchActiveSelector(standardSelector, standardSelectorLabel);
 		}
 	}
 	
@@ -158,7 +182,7 @@ public class LoadoutView implements Disposable {
 		if(activeSelector == heavySelector) {
 			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
 		} else {
-			switchActiveSelector(heavySelector);
+			switchActiveSelector(heavySelector, heavySelectorLabel);
 		}
 	}
 	
@@ -166,7 +190,7 @@ public class LoadoutView implements Disposable {
 		if(activeSelector == passiveSelector) {
 			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
 		} else {
-			switchActiveSelector(passiveSelector);
+			switchActiveSelector(passiveSelector, passiveSelectorLabel);
 		}
 	}
 	
@@ -174,17 +198,18 @@ public class LoadoutView implements Disposable {
 		if(activeSelector == specialSelector) {
 			extensionTable.addAction(isExtensionTabledown? slideUpAction() : slideDownAction());
 		} else {
-			switchActiveSelector(specialSelector);
+			switchActiveSelector(specialSelector, specialSelectorLabel);
 		}
 	}
 	
-	private void switchActiveSelector(final LoadoutSelector selector) {
+	private void switchActiveSelector(final LoadoutSelector selector, final Image selectorLabel) {
 		Action switchAction =  new Action() {
 			@Override
 			public boolean act(float arg0) {
-				//extensionTable.removeActor(activeSelector);
-				//extensionTable.add(selector);
+				extensionTable.swapActor(activeSelector, selector);
+				extensionTable.swapActor(activeSelectorLabel, selectorLabel);
 				activeSelector = selector;
+				activeSelectorLabel = selectorLabel;
 				return true;
 			}
 		};
