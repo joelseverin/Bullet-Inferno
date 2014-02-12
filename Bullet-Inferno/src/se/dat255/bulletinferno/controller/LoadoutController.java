@@ -4,9 +4,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
+import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinitionImpl;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
+import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinitionImpl;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinitionImpl;
+import se.dat255.bulletinferno.model.weapon.WeaponDescription;
 import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.LoadoutView;
@@ -49,47 +52,27 @@ public class LoadoutController extends SimpleController {
 		this.masterController = masterController;
 
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+
+		// TODO : Replace with avalible weapons for the user
 		List<Descriptable> standard = new LinkedList<Descriptable>();
-		standard.add(new Descriptable() {
-			
-			@Override
-			public String getIdentifier() {
-				return WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getIdentifier();
-			}
-			
-			@Override
-			public String getName() {
-				return "Machine gun";
-			}
-			
-			@Override
-			public String getDescription() {
-				return "Damage : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getProjectileType().getDamage()
-						+ "\nReloading time : " + WeaponDefinitionImpl.STANDARD_MACHINE_GUN.getReloadTime();
-			}
-		});
+		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_MACHINE_GUN));
+		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_MINI_GUN));
+		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_PLASMA_GUN));
 		
-		standard.add(new Descriptable() {
-					
-			@Override
-			public String getIdentifier() {
-				return WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getIdentifier();
-			}
-			
-			@Override
-			public String getName() {
-				return "Laser Gun";
-			}
-			
-			@Override
-			public String getDescription() {
-				return "Damage : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getProjectileType().getDamage()
-						+ "\nReloading time : " + WeaponDefinitionImpl.STANDARD_PLASMA_GUN.getReloadTime();
-			}
-		});
-		standard.add(standard.get(0));
-		view = new LoadoutView(resourceManager, stage, standard, standard,
-				new LinkedList<Descriptable>(), new LinkedList<Descriptable>());
+		List<Descriptable> heavy = new LinkedList<Descriptable>();
+		heavy.add(new WeaponDescription(WeaponDefinitionImpl.HEAVY_EGG_CANNON));
+		heavy.add(new WeaponDescription(WeaponDefinitionImpl.HEAVY_LASER_CANNON));
+		
+		List<Descriptable> passive = new LinkedList<Descriptable>();
+		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_DAMAGE_MODIFIER);
+		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_RELOADING_TIME);
+		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_TAKE_DAMAGE_MODIFIER);
+		
+		List<Descriptable> special = new LinkedList<Descriptable>();
+		special.add(SpecialAbilityDefinitionImpl.LOADOUT_SPECIAL_NUKE);
+		special.add(SpecialAbilityDefinitionImpl.LOADOUT_SPECIAL_PROJECTILE_RAIN);
+		
+		view = new LoadoutView(resourceManager, stage, standard, heavy, passive, special);
 		
 		view.getStandardWeaponButton().addListener(standardButtonListener);
 		view.getHeavyWeaponButton().addListener(heavyButtonListener);
@@ -100,6 +83,11 @@ public class LoadoutController extends SimpleController {
 		view.getHeavyWeaponSelector().addListener(heavySelectorListener);
 		view.getPassiveAbilitySelector().addListener(passiveSelectorListener);
 		view.getSpecialAbilitySelector().addListener(specialSelectorListener);
+		
+		view.getStandardWeaponButton().setGearImage(resources, standard.get(0));
+		view.getHeavyWeaponButton().setGearImage(resources, heavy.get(0));
+		view.getSpecialAbilityButton().setGearImage(resources, special.get(0));
+		view.getPassiveAbilityButton().setGearImage(resources, passive.get(0));
 	}
 
 

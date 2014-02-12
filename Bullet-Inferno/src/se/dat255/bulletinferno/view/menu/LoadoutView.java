@@ -2,8 +2,6 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
-import javax.swing.event.ChangeEvent;
-
 import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
@@ -12,20 +10,14 @@ import se.dat255.bulletinferno.view.menu.widget.LoadoutGearButton;
 import se.dat255.bulletinferno.view.menu.widget.LoadoutSelector;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Scaling;
 
 public class LoadoutView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
