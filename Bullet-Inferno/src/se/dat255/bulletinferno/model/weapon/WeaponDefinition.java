@@ -46,4 +46,10 @@ public interface WeaponDefinition extends ResourceIdentifier {
 	 */
 	Vector2 getDimensions();
 
+	/**
+	 * Returns the name of the weapon defined by this definition
+	 * @return name
+	 */
+	public String getName();
+	
 }
