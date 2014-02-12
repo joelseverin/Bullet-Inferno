@@ -2,21 +2,30 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
+import javax.swing.event.ChangeEvent;
+
 import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.view.menu.widget.LoadoutGearButton;
 import se.dat255.bulletinferno.view.menu.widget.LoadoutSelector;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Scaling;
 
 public class LoadoutView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
@@ -28,8 +37,8 @@ public class LoadoutView implements Disposable {
 	private final Stage stage;
 	private final Table table, extensionTable;
 	private final MenuBackgroundView backgroundView;
-	private final Button standardWeaponButton, heavyWeaponButton;
-	private final Button passiveAbilityButton, specialAbilityButton;
+	private final LoadoutGearButton standardWeaponButton, heavyWeaponButton;
+	private final LoadoutGearButton passiveAbilityButton, specialAbilityButton;
 	private final Button doneButton;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
@@ -79,7 +88,7 @@ public class LoadoutView implements Disposable {
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE));
 		
-		standardWeaponButton = new Button(bigButtonStyle);
+		standardWeaponButton = new LoadoutGearButton(bigButtonStyle);
 		standardWeaponButton.setPosition(600, 255);
 		Image standardLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_STANDARD_LABEL));
@@ -89,8 +98,7 @@ public class LoadoutView implements Disposable {
 		loadoutGroup.addActor(standardWeaponButton);
 		buttonGroup.add(standardWeaponButton);
 		
-		
-		heavyWeaponButton = new Button(bigButtonStyle);
+		heavyWeaponButton = new LoadoutGearButton(bigButtonStyle);
 		heavyWeaponButton.setPosition(600, 35);
 		Image heavyLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_HEAVY_LABEL));
@@ -107,7 +115,7 @@ public class LoadoutView implements Disposable {
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE));
 		
-		specialAbilityButton = new Button(smallButtonStyle);
+		specialAbilityButton = new LoadoutGearButton(smallButtonStyle);
 		specialAbilityButton.setPosition(0, 255);
 		Image specialLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_SPECIAL_LABEL));
@@ -117,7 +125,7 @@ public class LoadoutView implements Disposable {
 		loadoutGroup.addActor(specialLabel);
 		buttonGroup.add(specialAbilityButton);
 		
-		passiveAbilityButton = new Button(smallButtonStyle);
+		passiveAbilityButton = new LoadoutGearButton(smallButtonStyle);
 		passiveAbilityButton.setPosition(0, 35);
 		Image passiveLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_PASSIVE_LABEL));
@@ -169,7 +177,7 @@ public class LoadoutView implements Disposable {
 		extensionTable.add(standardSelectorLabel).padTop(12);
 		extensionTable.row();
 		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 50).padTop(20);
-
+		
 		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
@@ -227,6 +235,22 @@ public class LoadoutView implements Disposable {
 	
 	public LoadoutSelector getPassiveAbilitySelector() {
 		return passiveSelector;
+	}
+	
+	public LoadoutGearButton getStandardWeaponButton() {
+		return standardWeaponButton;
+	}
+	
+	public LoadoutGearButton getHeavyWeaponButton() {
+		return heavyWeaponButton;
+	}
+	
+	public LoadoutGearButton getPassiveAbilityButton() {
+		return passiveAbilityButton;
+	}
+	
+	public LoadoutGearButton getSpecialAbilityButton() {
+		return specialAbilityButton;
 	}
 	
 	private void switchActiveSelector(final LoadoutSelector selector, final Image selectorLabel) {

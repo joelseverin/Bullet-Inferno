@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.view.menu.widget;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import se.dat255.bulletinferno.util.Descriptable;
@@ -11,14 +12,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.Scaling;
 
 public class LoadoutSelector extends Table {
@@ -28,6 +32,8 @@ public class LoadoutSelector extends Table {
 	private final Image displayedItem = new Image();
 	private final Label nameLabel, descriptionLabel;
 	private int selectedIndex = 0;
+	
+	private final List<EventListener> listeners = new LinkedList<EventListener>();
 	
 	public LoadoutSelector(ResourceManager resources, List<Descriptable> options) {
 		this(resources, options, 0);
@@ -96,7 +102,40 @@ public class LoadoutSelector extends Table {
 		}
 	}
 
+	@Override
+	public boolean fire(Event e) {
+		// Add all local listeners to superclass
+		// so we can let it handle the firing of the event
+		// this because we don't want the buttons in this class to notify this class listeners
+		// when they get clicked, we would then get an anomaly if the user tries to get selected
+		// item in a listener callback, because we haven't changed the selected item before 
+		// parent's listeners (i.e. this class' listeners) get's called.
+		// (Utterly stupid, but libdx implementation)
+		for(EventListener l : listeners) {
+			super.addListener(l);
+		}
+		boolean result = super.fire(e);
+		// And remove them again
+		for(EventListener l : listeners) {
+			super.removeListener(l);
+		}
+		return result;
+	}
+	
+	@Override
+	public boolean addListener(EventListener listener) {
+		listeners.add(listener);
+		return true;
+	}
+	
+	@Override
+	public boolean removeListener(EventListener listener) {
+		listeners.remove(listener);
+		return true;
+	}
+	
 	public Descriptable getSelected() {
+		System.out.println(selectedIndex);
 		return values.get(selectedIndex).key;
 	}
 	
@@ -117,7 +156,10 @@ public class LoadoutSelector extends Table {
 		displayedItem.setDrawable(values.get(selectedIndex).value);
 		nameLabel.setText(values.get(selectedIndex).key.getName());
 		descriptionLabel.setText(values.get(selectedIndex).key.getDescription());
-		fire(new ChangeListener.ChangeEvent());
+		ChangeEvent e = Pools.obtain(ChangeEvent.class);
+		e.setTarget(this);
+		fire(e);
+		Pools.free(e);
 	}
 	
 	private class Option {
