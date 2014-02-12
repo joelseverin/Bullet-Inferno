@@ -135,7 +135,6 @@ public class LoadoutSelector extends Table {
 	}
 	
 	public Descriptable getSelected() {
-		System.out.println(selectedIndex);
 		return values.get(selectedIndex).key;
 	}
 	

@@ -16,15 +16,17 @@ import se.dat255.bulletinferno.view.menu.WeaponButtonsView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LoadoutController extends SimpleController {
 	private final Stage stage;
 
 	private final MasterController masterController;
-	private final ResourceManager resourceManager;
+	private final ResourceManager resources;
 
 
 	private  WeaponButtonsView weaponButtonsView;
@@ -43,7 +45,7 @@ public class LoadoutController extends SimpleController {
 	 */
 	public LoadoutController(final MasterController masterController,
 			final ResourceManager resourceManager) {
-		this.resourceManager = resourceManager;
+		this.resources = resourceManager;
 		this.masterController = masterController;
 
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
@@ -86,9 +88,18 @@ public class LoadoutController extends SimpleController {
 			}
 		});
 		standard.add(standard.get(0));
-		view = new LoadoutView(resourceManager, stage, standard, new LinkedList<Descriptable>(),
+		view = new LoadoutView(resourceManager, stage, standard, standard,
 				new LinkedList<Descriptable>(), new LinkedList<Descriptable>());
-		view.toggleStandardWeaponSelector();
+		
+		view.getStandardWeaponButton().addListener(standardButtonListener);
+		view.getHeavyWeaponButton().addListener(heavyButtonListener);
+		view.getSpecialAbilityButton().addListener(specialAbilityListener);
+		view.getPassiveAbilityButton().addListener(passiveAbilityListener);
+		
+		view.getStandardWeaponSelector().addListener(standardSelectorListener);
+		view.getHeavyWeaponSelector().addListener(heavySelectorListener);
+		view.getPassiveAbilitySelector().addListener(passiveSelectorListener);
+		view.getSpecialAbilitySelector().addListener(specialSelectorListener);
 	}
 
 
@@ -121,11 +132,11 @@ public class LoadoutController extends SimpleController {
 		stage.dispose();
 		view.dispose();
 	}
-
+	
 	public void startGame(WeaponDefinition[] weapons, SpecialAbilityDefinition special,
 			PassiveAbilityDefinition passive) {
-		//System.gc();
-		GameController gameController = new GameController(masterController, resourceManager);
+		System.gc();
+		GameController gameController = new GameController(masterController, resources);
 		gameController.createNewGame(weapons, special, passive);
 		masterController.setScreen(gameController);
 	}
@@ -143,4 +154,64 @@ public class LoadoutController extends SimpleController {
 			startGame(weapons, special, passive);
 		}
 	}
+	
+	private ClickListener standardButtonListener = new ClickListener() {
+		@Override
+		public void clicked(InputEvent event, float x, float y)  {
+			view.toggleStandardWeaponSelector();
+		}
+	};
+	
+	private ClickListener heavyButtonListener = new ClickListener() {
+		@Override
+		public void clicked(InputEvent event, float x, float y)  {
+			view.toggleHeavyWeaponSelector();
+		}
+	};
+	
+	private ClickListener passiveAbilityListener = new ClickListener() {
+		@Override
+		public void clicked(InputEvent event, float x, float y)  {
+			view.togglePassiveAbilitySelector();
+		}
+	};
+	
+	private ClickListener specialAbilityListener = new ClickListener() {
+		@Override
+		public void clicked(InputEvent event, float x, float y)  {
+			view.toggleSpecialAbilitySelector();
+		}
+	};
+	
+	private ChangeListener standardSelectorListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			view.getStandardWeaponButton().setGearImage(resources, 
+					view.getStandardWeaponSelector().getSelected());
+		}
+	};
+	
+	private ChangeListener heavySelectorListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			view.getHeavyWeaponButton().setGearImage(resources, 
+					view.getHeavyWeaponSelector().getSelected());
+		}
+	};
+	
+	private ChangeListener passiveSelectorListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			view.getPassiveAbilityButton().setGearImage(resources, 
+					view.getPassiveAbilitySelector().getSelected());
+		}
+	};
+	
+	private ChangeListener specialSelectorListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			view.getSpecialAbilityButton().setGearImage(resources, 
+					view.getSpecialAbilitySelector().getSelected());
+		}
+	};
 }

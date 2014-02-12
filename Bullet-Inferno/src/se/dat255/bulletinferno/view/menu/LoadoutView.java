@@ -31,7 +31,7 @@ public class LoadoutView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
 	private final static int TABLE_X = 390, GLASS_WIDTH = 1113;
-	private final static float SLIDE_ANIMATION_DURATION = 0.4f;
+	private final static float SLIDE_ANIMATION_DURATION = 0.3f;
 	
 	private final ResourceManager resources;
 	private final Stage stage;
@@ -172,12 +172,8 @@ public class LoadoutView implements Disposable {
 				resources.getDrawableTexture(
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_SPECIAL_LABEL));
 		
-		extensionTable.add(chooseLabel).padTop(64);
-		extensionTable.row();
-		extensionTable.add(standardSelectorLabel).padTop(12);
-		extensionTable.row();
-		extensionTable.add(standardSelector).width(extensionTable.getWidth() - 50).padTop(20);
-		
+		extensionTable.add(chooseLabel).padTop(64).padBottom(10);
+
 		stage.addActor(extensionTable);
 		stage.addActor(table);
 	}
@@ -257,14 +253,17 @@ public class LoadoutView implements Disposable {
 		Action switchAction =  new Action() {
 			@Override
 			public boolean act(float arg0) {
-				extensionTable.swapActor(activeSelector, selector);
-				extensionTable.swapActor(activeSelectorLabel, selectorLabel);
+				extensionTable.removeActor(activeSelector);
+				extensionTable.removeActor(activeSelectorLabel);
 				activeSelector = selector;
 				activeSelectorLabel = selectorLabel;
+				extensionTable.add(activeSelectorLabel);
+				extensionTable.row();
+				extensionTable.add(activeSelector).width(extensionTable.getWidth() - 50);
 				return true;
 			}
 		};
-		
+
 		if(isExtensionTabledown) {
 			extensionTable.addAction(Actions.sequence(slideUpAction(), switchAction, 
 					slideDownAction()));
@@ -274,18 +273,26 @@ public class LoadoutView implements Disposable {
 	}
 	
 	private Action slideDownAction() {
-		isExtensionTabledown = true;
-		return Actions.moveTo(extensionTable.getX(), 0, SLIDE_ANIMATION_DURATION);
+		return Actions.sequence(downBeginTrigger, Actions.moveTo(extensionTable.getX(), 0, SLIDE_ANIMATION_DURATION));
 	}
 	
 	private Action slideUpAction() {
-		return Actions.sequence(Actions.moveTo(extensionTable.getX(), SLIDE_ANIMATION_DURATION), 
-				new Action() {
-					@Override
-					public boolean act(float arg0) {
-						isExtensionTabledown = false;
-						return true;
-					}
-				});
+		return Actions.sequence(Actions.moveTo(extensionTable.getX(), VIRTUAL_HEIGHT, SLIDE_ANIMATION_DURATION), 
+				upFinishedTrigger);
 	}
+	
+	private Action upFinishedTrigger = new Action() {
+		@Override
+		public boolean act(float arg0) {
+			isExtensionTabledown = false;
+			return true;
+		}
+	};
+	private Action downBeginTrigger = new Action() {
+		@Override
+		public boolean act(float arg0) {
+			isExtensionTabledown = true;
+			return true;
+		}
+	};
 }
