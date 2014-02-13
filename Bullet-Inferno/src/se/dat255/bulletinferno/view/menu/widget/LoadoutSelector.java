@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.Scaling;
 
-public class LoadoutSelector extends Table {
+public class LoadoutSelector<T extends Descriptable> extends Table {
 	private final static int TEXT_INTO_PADDING_LEFT = 20;
 	private final Button upButton, downButton;
 	private final List<Option> values;
@@ -35,11 +35,11 @@ public class LoadoutSelector extends Table {
 	
 	private final List<EventListener> listeners = new LinkedList<EventListener>();
 	
-	public LoadoutSelector(ResourceManager resources, List<Descriptable> options) {
+	public LoadoutSelector(ResourceManager resources, List<T> options) {
 		this(resources, options, 0);
 	}
 	
-	public LoadoutSelector(ResourceManager resources, List<Descriptable> options, 
+	public LoadoutSelector(ResourceManager resources, List<T> options, 
 			int selectedOptionIndex) {
 		upButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_TRIANGLE_BUTTON_UP));
@@ -50,7 +50,7 @@ public class LoadoutSelector extends Table {
 		values = new ArrayList<Option>(options.size());
 		float maxHeight = 0;
 		Drawable d;
-		for(Descriptable item : options) {
+		for(T item : options) {
 			d = resources.getDrawableTexture(item);
 			values.add(new Option(item, d));
 			if(d.getMinHeight() > maxHeight) {
@@ -134,7 +134,7 @@ public class LoadoutSelector extends Table {
 		return true;
 	}
 	
-	public Descriptable getSelected() {
+	public T getSelected() {
 		return values.get(selectedIndex).key;
 	}
 	
@@ -163,8 +163,8 @@ public class LoadoutSelector extends Table {
 	
 	private class Option {
 		public Drawable value;
-		public Descriptable key;
-		public Option(Descriptable key, Drawable value) {
+		public T key;
+		public Option(T key, Drawable value) {
 			this.key = key;
 			this.value = value;
 		}

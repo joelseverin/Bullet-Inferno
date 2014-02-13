@@ -9,13 +9,8 @@ import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinitionImpl;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinitionImpl;
-import se.dat255.bulletinferno.model.weapon.WeaponDescription;
-import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.LoadoutView;
-import se.dat255.bulletinferno.view.menu.PassiveButtonsView;
-import se.dat255.bulletinferno.view.menu.SpecialButtonsView;
-import se.dat255.bulletinferno.view.menu.WeaponButtonsView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -30,12 +25,6 @@ public class LoadoutController extends SimpleController {
 
 	private final MasterController masterController;
 	private final ResourceManager resources;
-
-
-	private  WeaponButtonsView weaponButtonsView;
-	private  SpecialButtonsView specialButtonsView;
-	private  PassiveButtonsView passiveButtonsView;
-
 
 	private final LoadoutView view;
 	
@@ -54,21 +43,21 @@ public class LoadoutController extends SimpleController {
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
 		// TODO : Replace with avalible weapons for the user
-		List<Descriptable> standard = new LinkedList<Descriptable>();
-		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_MACHINE_GUN));
-		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_MINI_GUN));
-		standard.add(new WeaponDescription(WeaponDefinitionImpl.STANDARD_PLASMA_GUN));
+		List<WeaponDefinition> standard = new LinkedList<WeaponDefinition>();
+		standard.add(WeaponDefinitionImpl.STANDARD_MACHINE_GUN);
+		standard.add(WeaponDefinitionImpl.STANDARD_MINI_GUN);
+		standard.add(WeaponDefinitionImpl.STANDARD_PLASMA_GUN);
 		
-		List<Descriptable> heavy = new LinkedList<Descriptable>();
-		heavy.add(new WeaponDescription(WeaponDefinitionImpl.HEAVY_EGG_CANNON));
-		heavy.add(new WeaponDescription(WeaponDefinitionImpl.HEAVY_LASER_CANNON));
+		List<WeaponDefinition> heavy = new LinkedList<WeaponDefinition>();
+		heavy.add(WeaponDefinitionImpl.HEAVY_EGG_CANNON);
+		heavy.add(WeaponDefinitionImpl.HEAVY_LASER_CANNON);
 		
-		List<Descriptable> passive = new LinkedList<Descriptable>();
+		List<PassiveAbilityDefinition> passive = new LinkedList<PassiveAbilityDefinition>();
 		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_DAMAGE_MODIFIER);
 		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_RELOADING_TIME);
 		passive.add(PassiveAbilityDefinitionImpl.LOADOUT_PASSIVE_TAKE_DAMAGE_MODIFIER);
 		
-		List<Descriptable> special = new LinkedList<Descriptable>();
+		List<SpecialAbilityDefinition> special = new LinkedList<SpecialAbilityDefinition>();
 		special.add(SpecialAbilityDefinitionImpl.LOADOUT_SPECIAL_NUKE);
 		special.add(SpecialAbilityDefinitionImpl.LOADOUT_SPECIAL_PROJECTILE_RAIN);
 		
@@ -132,14 +121,12 @@ public class LoadoutController extends SimpleController {
 	public class StartButtonClickedListener extends ChangeListener {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			WeaponDefinition standardWeapon = weaponButtonsView.getStandardSelectionButton()
-					.getData();
-			WeaponDefinition heavyWeapon = weaponButtonsView.getHeavySelectionButton().getData();
-			SpecialAbilityDefinition special = specialButtonsView.getSelectionButton().getData();
-			PassiveAbilityDefinition passive = passiveButtonsView.getSelectionButton().getData();
 
-			WeaponDefinition[] weapons = new WeaponDefinition[] { standardWeapon, heavyWeapon };
-			startGame(weapons, special, passive);
+				WeaponDefinition[] weapons = new WeaponDefinition[] { 
+						view.getStandardWeaponSelector().getSelected(), 
+						view.getHeavyWeaponSelector().getSelected() };
+				startGame(weapons, view.getSpecialAbilitySelector().getSelected(), 
+						view.getPassiveAbilitySelector().getSelected());
 		}
 	}
 	

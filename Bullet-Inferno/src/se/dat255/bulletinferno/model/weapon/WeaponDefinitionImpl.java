@@ -106,4 +106,10 @@ public enum WeaponDefinitionImpl implements WeaponDefinition {
 	public String getName() {
 		return name;
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Damage : " + projectileType.getDamage()
+		+ "\nReloading time : " + reloadingTime;
+	}
 }

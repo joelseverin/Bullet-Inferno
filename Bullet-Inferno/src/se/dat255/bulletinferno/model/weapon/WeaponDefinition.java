@@ -1,11 +1,12 @@
 package se.dat255.bulletinferno.model.weapon;
 
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
+import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 
 import com.badlogic.gdx.math.Vector2;
 
-public interface WeaponDefinition extends ResourceIdentifier {
+public interface WeaponDefinition extends ResourceIdentifier, Descriptable {
 
 	/**
 	 * Returns the time it takes to reload this weapon.

@@ -2,7 +2,9 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
-import se.dat255.bulletinferno.util.Descriptable;
+import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
+import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
+import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
@@ -35,20 +37,22 @@ public class LoadoutView implements Disposable {
 	private final LoadoutGearButton passiveAbilityButton, specialAbilityButton;
 	private final Button doneButton;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
+	private final LoadoutSelector<WeaponDefinition> standardSelector, heavySelector;
+	private final LoadoutSelector<PassiveAbilityDefinition>passiveSelector;
+	private final LoadoutSelector<SpecialAbilityDefinition> specialSelector;
 	private final Image chooseLabel, standardSelectorLabel, heavySelectorLabel;
 	private final Image passiveSelectorLabel, specialSelectorLabel;
 	private final Image plane;
 	
-	private LoadoutSelector activeSelector = null;
+	private LoadoutSelector<?> activeSelector = null;
 	private Image activeSelectorLabel = null;
 	private boolean isExtensionTabledown = false;
 	
 	public LoadoutView(ResourceManager resources, Stage stage, 
-			List<Descriptable> standardWeaponOptions,
-			List<Descriptable> heavyWeaponOptions,
-			List<Descriptable> passiveAbilityOptions,
-			List<Descriptable> specialAbilityOptions) {
+			List<WeaponDefinition> standardWeaponOptions,
+			List<WeaponDefinition> heavyWeaponOptions,
+			List<PassiveAbilityDefinition> passiveAbilityOptions,
+			List<SpecialAbilityDefinition> specialAbilityOptions) {
 		this.resources = resources;
 		this.stage = stage;
 		
@@ -151,10 +155,10 @@ public class LoadoutView implements Disposable {
 		extensionTable.setPosition(VIRTUAL_WIDTH - extensionTable.getWidth(), VIRTUAL_HEIGHT);
 		extensionTable.top();
 		
-		standardSelector = new LoadoutSelector(resources, standardWeaponOptions);
-		heavySelector = new LoadoutSelector(resources, heavyWeaponOptions);
-		passiveSelector = new LoadoutSelector(resources, passiveAbilityOptions);
-		specialSelector = new LoadoutSelector(resources, specialAbilityOptions);
+		standardSelector = new LoadoutSelector<WeaponDefinition>(resources, standardWeaponOptions);
+		heavySelector = new LoadoutSelector<WeaponDefinition>(resources, heavyWeaponOptions);
+		passiveSelector = new LoadoutSelector<PassiveAbilityDefinition>(resources, passiveAbilityOptions);
+		specialSelector = new LoadoutSelector<SpecialAbilityDefinition>(resources, specialAbilityOptions);
 		
 		chooseLabel = new Image(
 				resources.getDrawableTexture(
@@ -217,19 +221,19 @@ public class LoadoutView implements Disposable {
 		}
 	}
 	
-	public LoadoutSelector getStandardWeaponSelector() {
+	public LoadoutSelector<WeaponDefinition> getStandardWeaponSelector() {
 		return standardSelector;
 	}
 	
-	public LoadoutSelector getHeavyWeaponSelector() {
+	public LoadoutSelector<WeaponDefinition> getHeavyWeaponSelector() {
 		return heavySelector;
 	}
 	
-	public LoadoutSelector getSpecialAbilitySelector() {
+	public LoadoutSelector<SpecialAbilityDefinition> getSpecialAbilitySelector() {
 		return specialSelector;
 	}
 	
-	public LoadoutSelector getPassiveAbilitySelector() {
+	public LoadoutSelector<PassiveAbilityDefinition> getPassiveAbilitySelector() {
 		return passiveSelector;
 	}
 	
@@ -249,7 +253,7 @@ public class LoadoutView implements Disposable {
 		return specialAbilityButton;
 	}
 	
-	private void switchActiveSelector(final LoadoutSelector selector, final Image selectorLabel) {
+	private void switchActiveSelector(final LoadoutSelector<?> selector, final Image selectorLabel) {
 		Action switchAction =  new Action() {
 			@Override
 			public boolean act(float arg0) {
