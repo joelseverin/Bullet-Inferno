@@ -12,6 +12,7 @@ import se.dat255.bulletinferno.view.menu.widget.LoadoutSelector;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
@@ -22,7 +23,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class LoadoutView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
-	private final static int TABLE_X = 390, GLASS_WIDTH = 1113;
+	private final static int TABLE_X = 390, GLASS_WIDTH = 1113, LOADOUT_BUTTONS_LOWER_Y = 35, 
+			LOADOUT_BUTTONS_UPPER_Y = 296, PLANE_X = 220, PLANE_Y = 77;
 	private final static float SLIDE_ANIMATION_DURATION = 0.3f;
 	
 	private final ResourceManager resources;
@@ -36,6 +38,7 @@ public class LoadoutView implements Disposable {
 	private final LoadoutSelector standardSelector, heavySelector, passiveSelector, specialSelector;
 	private final Image chooseLabel, standardSelectorLabel, heavySelectorLabel;
 	private final Image passiveSelectorLabel, specialSelectorLabel;
+	private final Image plane;
 	
 	private LoadoutSelector activeSelector = null;
 	private Image activeSelectorLabel = null;
@@ -81,7 +84,7 @@ public class LoadoutView implements Disposable {
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_BIG_ACTIVE));
 		
 		standardWeaponButton = new LoadoutGearButton(bigButtonStyle);
-		standardWeaponButton.setPosition(600, 255);
+		standardWeaponButton.setPosition(600, LOADOUT_BUTTONS_UPPER_Y);
 		Image standardLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_STANDARD_LABEL));
 		standardLabel.setPosition(standardWeaponButton.getX() + 12, 
@@ -91,7 +94,7 @@ public class LoadoutView implements Disposable {
 		buttonGroup.add(standardWeaponButton);
 		
 		heavyWeaponButton = new LoadoutGearButton(bigButtonStyle);
-		heavyWeaponButton.setPosition(600, 35);
+		heavyWeaponButton.setPosition(600, LOADOUT_BUTTONS_LOWER_Y);
 		Image heavyLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_HEAVY_LABEL));
 		heavyLabel.setPosition(heavyWeaponButton.getX() + 40, heavyWeaponButton.getY() - 30);
@@ -108,7 +111,7 @@ public class LoadoutView implements Disposable {
 						TextureDefinitionImpl.LOADOUTMENU_SELECTOR_BUTTON_SMALL_ACTIVE));
 		
 		specialAbilityButton = new LoadoutGearButton(smallButtonStyle);
-		specialAbilityButton.setPosition(0, 255);
+		specialAbilityButton.setPosition(0, LOADOUT_BUTTONS_UPPER_Y);
 		Image specialLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_SPECIAL_LABEL));
 		specialLabel.setPosition(specialAbilityButton.getX() + 5, 
@@ -118,13 +121,18 @@ public class LoadoutView implements Disposable {
 		buttonGroup.add(specialAbilityButton);
 		
 		passiveAbilityButton = new LoadoutGearButton(smallButtonStyle);
-		passiveAbilityButton.setPosition(0, 35);
+		passiveAbilityButton.setPosition(0, LOADOUT_BUTTONS_LOWER_Y);
 		Image passiveLabel = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_PASSIVE_LABEL));
 		passiveLabel.setPosition(passiveAbilityButton.getX() + 3, passiveAbilityButton.getY() - 30);
 		loadoutGroup.addActor(passiveAbilityButton);
 		loadoutGroup.addActor(passiveLabel);
 		buttonGroup.add(passiveAbilityButton);
+		
+		plane = new Image(resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_PLANE));
+		plane.setTouchable(Touchable.disabled);
+		plane.setPosition(PLANE_X, PLANE_Y);
+		loadoutGroup.addActor(plane);
 		
 		table.add(loadoutGroup).padTop(50);
 		table.row();

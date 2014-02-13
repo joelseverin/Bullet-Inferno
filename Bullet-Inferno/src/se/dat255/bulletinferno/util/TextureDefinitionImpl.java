@@ -167,6 +167,7 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	LOADOUTMENU_SELECTOR_HEAVY_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutselectorheavy")),
 	LOADOUTMENU_SELECTOR_SPECIAL_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutselectorspecial")),
 	LOADOUTMENU_SELECTOR_PASSIVE_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutselectorpassive")),
+	LOADOUTMENU_PLANE(texture("images/gui/loadoutplane.png")),
 	;
 
 	private TextureHolder holder;
