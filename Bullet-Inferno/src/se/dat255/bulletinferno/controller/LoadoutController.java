@@ -77,6 +77,8 @@ public class LoadoutController extends SimpleController {
 		view.getHeavyWeaponButton().setGearImage(resources, heavy.get(0));
 		view.getSpecialAbilityButton().setGearImage(resources, special.get(0));
 		view.getPassiveAbilityButton().setGearImage(resources, passive.get(0));
+		
+		view.addDoneButtonListener(doneButtonListener);
 	}
 
 
@@ -118,7 +120,7 @@ public class LoadoutController extends SimpleController {
 		masterController.setScreen(gameController);
 	}
 
-	public class StartButtonClickedListener extends ChangeListener {
+	private ChangeListener doneButtonListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 
@@ -128,7 +130,7 @@ public class LoadoutController extends SimpleController {
 				startGame(weapons, view.getSpecialAbilitySelector().getSelected(), 
 						view.getPassiveAbilitySelector().getSelected());
 		}
-	}
+	};
 	
 	private ClickListener standardButtonListener = new ClickListener() {
 		@Override

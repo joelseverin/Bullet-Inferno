@@ -12,6 +12,7 @@ import se.dat255.bulletinferno.view.menu.widget.LoadoutGearButton;
 import se.dat255.bulletinferno.view.menu.widget.LoadoutSelector;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -251,6 +252,14 @@ public class LoadoutView implements Disposable {
 	
 	public LoadoutGearButton getSpecialAbilityButton() {
 		return specialAbilityButton;
+	}
+	
+	public void addDoneButtonListener(EventListener listener) {
+		doneButton.addListener(listener);
+	}
+	
+	public void removeDoneButtonListener(EventListener listener) {
+		doneButton.removeListener(listener);
 	}
 	
 	private void switchActiveSelector(final LoadoutSelector<?> selector, final Image selectorLabel) {
