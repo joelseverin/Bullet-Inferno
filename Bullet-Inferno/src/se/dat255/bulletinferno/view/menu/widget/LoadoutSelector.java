@@ -25,6 +25,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.Scaling;
 
+/**
+ * A selector which contains a given set of options (values), represented with images, names and 
+ * descriptions, for a user to select from. 
+ * The options is required to be {@link Descriptable}s for their images will be identified via 
+ * ({@link ResourceIdentifier#getIdentifier()).
+ * 
+ * @author Sebastian Blomberg
+ *
+ * @param <T>
+ */
 public class LoadoutSelector<T extends Descriptable> extends Table {
 	private final static int TEXT_INTO_PADDING_LEFT = 20;
 	private final Button upButton, downButton;
@@ -35,10 +45,24 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 	
 	private final List<EventListener> listeners = new LinkedList<EventListener>();
 	
+	/**
+	 * Constructs a new LoadoutSelecor with the first option selected.
+	 * @param resources The ResourseManager
+	 * @param options The list containing the options for the selector
+	 */
 	public LoadoutSelector(ResourceManager resources, List<T> options) {
 		this(resources, options, 0);
 	}
 	
+	/**
+	 * Constructs a new LoadoutSelector with the option at the specified index in the options list
+	 * to be selected. An option's identifier are expected to be found in the specified 
+	 * ResourceManager
+	 * @pre Specified ResourceManager must contain textures with the options identifier. 
+	 * @param resources The ResourseManager
+	 * @param options The list containing the options for the selector
+	 * @param selectedOptionIndex The index for the option to be selected as default.
+	 */
 	public LoadoutSelector(ResourceManager resources, List<T> options, 
 			int selectedOptionIndex) {
 		upButton = new Button(
@@ -68,18 +92,14 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 		upButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)  {
-				if(selectedIndex > 0) {
-					switchSelectedOption(--selectedIndex);
-				}
+				switchSelectedOption(--selectedIndex);
 			}
 		});
 		
 		downButton.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y)  {
-				if(selectedIndex-1 < values.size()) {
-					switchSelectedOption(++selectedIndex);
-				}
+				switchSelectedOption(++selectedIndex);
 			}
 		});
 		
@@ -122,6 +142,68 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 		return result;
 	}
 	
+	/**
+	 * Returns the currently selected option
+	 * @return selected option
+	 */
+	public T getSelected() {
+		return values.get(selectedIndex).key;
+	}
+	
+	/**
+	 * Returns the index of the selected option. (Staring at 0)
+	 * @return selected option's index
+	 */
+	public int getSelectedIndex() {
+		return selectedIndex;
+	}
+	
+	/**
+	 * Sets the specified option as selected, if it exists in the selector, based on evaluation
+	 * with {@link Object#equals(Object)}
+	 * @param option
+	 * @return true or false based on the success (if the element exist)
+	 */
+	public boolean setSelected(T option) {
+		int i = 0;
+		for(Option current : values) {
+			if(current.key.equals(option)) {
+				return setSelected(i);
+			}
+			i++;
+		}
+		return false;
+	}
+	
+	/**
+	 * Sets the option at the specified index as selected. 
+	 * @param index (0 =< index < size)
+	 * @return true or false based on the success (the index condition above)
+	 */
+	public boolean setSelected(int index) {
+		if(index >= 0 && index < values.size()) {
+			// Optimization, also no change event is fired
+			if(selectedIndex != index) {
+				selectedIndex = index;
+				switchSelectedOption(selectedIndex);
+			}
+			return true;
+			
+		}
+		return false;
+	}
+	
+	/**
+	 * Returns the amount of options this selector holds. 
+	 * @return size of selector (amount of options)
+	 */
+	public int getSize() {
+		return values.size();
+	}
+	
+	/**
+	 * Adds a listener to be notified when any changes is made in the selector.
+	 */
 	@Override
 	public boolean addListener(EventListener listener) {
 		listeners.add(listener);
@@ -134,8 +216,11 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 		return true;
 	}
 	
-	public T getSelected() {
-		return values.get(selectedIndex).key;
+	@Override
+	public void clear() {
+		super.clear();
+		upButton.clear();
+		downButton.clear();
 	}
 	
 	private void switchSelectedOption(int index) {

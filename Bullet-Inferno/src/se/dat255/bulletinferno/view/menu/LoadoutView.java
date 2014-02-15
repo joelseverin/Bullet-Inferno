@@ -186,8 +186,18 @@ public class LoadoutView implements Disposable {
 	@Override
 	public void dispose() {
 		stage.getRoot().removeActor(table);
+		stage.getRoot().removeActor(extensionTable);
 		backgroundView.dispose();
 		doneButton.clear();
+		standardWeaponButton.clear();
+		standardSelector.clear();
+		heavyWeaponButton.clear();
+		heavySelector.clear();
+		passiveAbilityButton.clear();
+		passiveSelector.clear();
+		specialAbilityButton.clear();
+		specialSelector.clear();
+		
 	}
 
 	public void toggleStandardWeaponSelector() {
