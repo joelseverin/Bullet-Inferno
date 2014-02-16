@@ -7,15 +7,14 @@ import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -33,8 +32,6 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 	private final TextureRegionDrawable cellBackground;
 	private final Table mainTable;
 	private final Table achievementsTable;
-	private final BitmapFont subheaderFont;
-	private final BitmapFont textFont;
 	private final Stage stage;
 	private final Label achievedCountLabel;
 	private final ScrollPane scrollPane;
@@ -45,12 +42,7 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 				GLASS_ANIMATION_DURATION);
 		this.stage = stage;
 		
-		// TODO : Merge with resource handler
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		subheaderFont = generator.generateFont(28);
-		textFont = generator.generateFont(24);
-		BitmapFont font34 = generator.generateFont(34);
-		generator.dispose();
+		Skin skin = resources.getSkin();
 		
 		unAchievedIcon = resources.getDrawableTexture(
 				TextureDefinitionImpl.MENU_ACHIEVEMENT_UNACHIEVED);
@@ -59,7 +51,8 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		cellBackground = resources.getDrawableTexture(
 							TextureDefinitionImpl.MENU_ACHIEVEMENT_ENTRY_BG);
 		header = new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_ACHIEVEMENT_HEADER));
-		achievedCountLabel = new Label("", new Label.LabelStyle(font34, Color.valueOf("4c7d7d")));
+		achievedCountLabel = new Label("", new Label.LabelStyle(skin.getFont("myraid40"), 
+				skin.getColor("darkgreen")));
 		
 		mainTable = new Table();
 		mainTable.setFillParent(true);
@@ -78,10 +71,13 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		for(Achievement achievement : achievements) {
 			if(i % 2 == 0) {
 				achievementsTable.row();
-				achievementsTable.add(createAchievementCell(achievement)).padRight(CELL_PADDING)
-							.padBottom(CELL_PADDING);
+				achievementsTable.add(
+						new AchievementEntry(skin, achievedIcon, unAchievedIcon, cellBackground, achievement)
+						).padRight(CELL_PADDING).padBottom(CELL_PADDING);
 			} else {
-				achievementsTable.add(createAchievementCell(achievement)).padBottom(CELL_PADDING);
+				achievementsTable.add(
+						new AchievementEntry(skin, achievedIcon, unAchievedIcon, cellBackground, achievement)
+						).padBottom(CELL_PADDING);
 			}
 			
 			if(achievement.isAchieved()) {
@@ -97,32 +93,6 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		getToggleActor().addActor(mainTable);
 		slideToggle();
 		this.stage.addActor(getToggleActor());
-	}
-	
-	private Table createAchievementCell(Achievement achievement) {
-		Table table = new Table();
-		table.left();
-		table.bottom();
-		
-		table.setBackground(cellBackground);
-		table.add(new Image(achievement.isAchieved()? achievedIcon : unAchievedIcon))
-				.padLeft(10).bottom();
-		
-		Table textTable = new Table();
-		textTable.top();
-		textTable.padLeft(20);
-		textTable.add(new Label(achievement.getName(), 
-				new Label.LabelStyle(subheaderFont, Color.valueOf("4c7d7d")))).left().padTop(30);
-		textTable.row();
-		
-		Label l = new Label(achievement.getDescription(), new Label.LabelStyle(textFont, 
-				Color.valueOf("4b4b4b")));
-		l.setWrap(true);
-		textTable.add(l).left().width(280);
-		
-		table.add(textTable).height(150);
-		
-		return table;
 	}
 	
 	@Override
