@@ -8,10 +8,6 @@ import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+/**
+ * A sub menu view to display the game's store. Displays the items available for the user to 
+ * purchase and the user's coin balance.
+ * 
+ * @author Sebastian Blomberg
+ *
+ */
 public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
@@ -41,11 +44,6 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 				GLASS_ANIMATION_DURATION);
 		this.stage = stage;
 		
-		// TODO : Replace with skin
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		BitmapFont nameFont = generator.generateFont(32);
-		generator.dispose();
-		
 		header = new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_STORE_HEADER));
 		
 		mainTable = new Table();
@@ -61,7 +59,9 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 				new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_STORE_COIN_LARGE))
 				).right().padRight(15);
 		balanceLabel = new Label(Integer.toString(coinBalance), 
-				new Label.LabelStyle(nameFont, Color.valueOf("4c7d7d")));
+							new Label.LabelStyle(resources.getSkin().getFont("myraid40"), 
+									resources.getSkin().getColor("darkgreen"))
+						);
 		mainTable.add(balanceLabel).left();
 		mainTable.row();
 		
@@ -83,6 +83,10 @@ public class StoreView extends SimpleToggleSubMenuView implements Disposable {
 		this.stage.addActor(getToggleActor());
 	}
 	
+	/**
+	 * Updates the user's coin balance
+	 * @param balance
+	 */
 	public void updateBalance(int balance) {
 		balanceLabel.setText(Integer.toString(balance));
 	}

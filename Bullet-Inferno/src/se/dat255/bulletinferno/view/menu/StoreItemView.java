@@ -1,48 +1,62 @@
 package se.dat255.bulletinferno.view.menu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import se.dat255.bulletinferno.model.store.StoreItem;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
+/**
+ * A view to display a store item. Shows the item's properties such as name, description, level,
+ * price and image. Also contains a buy button if the item isn't already at its max level.
+ * @author Sebastian Blomberg
+ *
+ */
 public class StoreItemView extends Table {
+	// Cache variables
+	private static LabelStyle nameLabelStyle = null, infoLabelStyle = null;
+	
 	private final Table infoTable = new Table();
 	private final Table barTable = new Table();
 	private Button buyButton = null;
 	
+	/**
+	 * Constructs a new item view. The texture/image to represent the item is expected to be
+	 * found in the specified ResourceManager.
+	 * @pre Item's identifier are expected to be found in the ResourceManager
+	 * @param item The store item
+	 * @param resources The ResourceManager
+	 */
 	public StoreItemView(final StoreItem item, ResourceManager resources) {
 		add(new Image(resources.getDrawableTexture(item))).left().padLeft(10);
 		
-		// TODO replace with skin
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		BitmapFont nameFont = generator.generateFont(30);
-		BitmapFont textFont = generator.generateFont(26);
-		generator.dispose();
+		if(nameLabelStyle == null) {
+			nameLabelStyle = new Label.LabelStyle(resources.getSkin().getFont("myraid38"), 
+					resources.getSkin().getColor("darkgreen"));
+		}
+		if(infoLabelStyle == null) {
+			infoLabelStyle = new Label.LabelStyle(resources.getSkin().getFont("myraid34"), 
+					resources.getSkin().getColor("darkgrey"));
+			
+		}
 		
 		infoTable.add(new Label(item.getName() + 
 					(item.getCurrentLevel() < item.getMaxLevel()? 
-							" Level " + (item.getCurrentLevel() + 1): ""), 
-				new Label.LabelStyle(nameFont, Color.valueOf("4c7d7d")))).left();
+							" Level " + (item.getCurrentLevel() + 1): ""), nameLabelStyle)).left();
 		infoTable.add(new Image(
 					resources.getDrawableTexture(TextureDefinitionImpl.MENU_STORE_COIN_MEDIUM))
 				);
-		infoTable.add(new Label(item.getUpgradeCost() + "", 
-				new Label.LabelStyle(textFont, Color.valueOf("343433")))).left();
+		infoTable.add(new Label(item.getUpgradeCost() + "", infoLabelStyle)).left();
 		infoTable.row();
 		
 		if(item.getCurrentLevel() < item.getMaxLevel()) {
-			Label l = new Label(item.getUpdrageDescription(), 
-					new Label.LabelStyle(textFont, Color.valueOf("343433")));
+			Label l = new Label(item.getUpdrageDescription(), infoLabelStyle);
 			l.setWrap(true);
 			infoTable.add(l).width(500).left().padTop(10);
 			
@@ -80,12 +94,26 @@ public class StoreItemView extends Table {
 		add(barTable).colspan(2).padTop(20);
 	}
 	
+	/**
+	 * Adds a listener to the buy button contained in this item view. 
+	 * <strong>ONLY</strong> adds the listener if the button is actually contained in the view,
+	 * i.e. if the item isn't at its max level.
+	 * @param listener
+	 */
 	public void addBuyButtonListener(EventListener listener) {
-		buyButton.addListener(listener);
+		if(buyButton != null) {
+			buyButton.addListener(listener);
+		}
 	}
 	
+	/**
+	 * Removes the specified listener from the buy button contained in this view.
+	 * @param listener
+	 */
 	public void removeBuyButtonListener(EventListener listener) {
-		buyButton.removeListener(listener);
+		if(buyButton != null) {
+			buyButton.removeListener(listener);
+		}
 	}
 	
 	@Override
