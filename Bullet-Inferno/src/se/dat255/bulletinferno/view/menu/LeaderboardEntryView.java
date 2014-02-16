@@ -1,43 +1,69 @@
 package se.dat255.bulletinferno.view.menu;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+/**
+ * An entry view that displays a score record consisting of the record taker's name, score, rank
+ * and avatar(profile picture).
+ * 
+ * @author Sebastian Blomberg
+ *
+ */
 public class LeaderboardEntryView extends Table {
-	public static final int WIDTH = 760, HEIGHT = 80;
+	public static final int DEFAULT_WIDTH = 760, DEFAULT_HEIGHT = 80;
 	
-	public LeaderboardEntryView(Image avatar, Drawable background, String name, int score, int rank) {
-		setBackground(background);
-		// TODO replace with skin
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		BitmapFont nameFont = generator.generateFont(28);
-		BitmapFont scoreFont = generator.generateFont(24);
-		BitmapFont rankFont = generator.generateFont(34);
-		generator.dispose();
+	// Cache variables
+	private static LabelStyle nameLabelStyle = null, scoreLabelStyle = null, rankLabelStyle = null;
+	
+	/**
+	 * Constructs a new score entry. The avatar will be scaled to cover 100% of 
+	 * the view's height ({@link LeaderboardEntryView#DEFAULT_WIDTH} and will be scaled to be 
+	 * quadratically shaped.
+	 * 
+	 * @param skin
+	 * @param avatar The record taker's avatar (profile picture). 
+	 * @param background
+	 * @param name
+	 * @param score
+	 * @param rank
+	 */
+	public LeaderboardEntryView(Skin skin, Image avatar, Drawable background, String name,
+			int score, int rank) {
+		// Initiate the cache variables
+		if(nameLabelStyle == null) {
+			nameLabelStyle = new Label.LabelStyle(skin.getFont("myraid34"), 
+					skin.getColor("darkgreen"));
+		}
+		if(scoreLabelStyle == null) {
+			scoreLabelStyle = new Label.LabelStyle(skin.getFont("myraid28"), skin.getColor("grey"));
+		}
+		if(rankLabelStyle == null) {
+			rankLabelStyle = new Label.LabelStyle(skin.getFont("myraid40"), 
+					skin.getColor("darkgreen"));
+		}
 
-		avatar.setSize(HEIGHT, HEIGHT);
-		add(avatar).width(HEIGHT);
+		setBackground(background);
 		
-		Label nameLabel = new Label(name, new Label.LabelStyle(nameFont, Color.valueOf("4c7d7d")));
+		avatar.setSize(DEFAULT_HEIGHT, DEFAULT_HEIGHT);
+		add(avatar).width(DEFAULT_HEIGHT);
+		
+		Label nameLabel = new Label(name, nameLabelStyle);
 		nameLabel.setY(35);
-		Label scoreLabel = new Label(Integer.toString(score), 
-				new Label.LabelStyle(scoreFont, Color.valueOf("4b4b4b")));
+		Label scoreLabel = new Label(Integer.toString(score), scoreLabelStyle);
 		scoreLabel.setY(5);
-		Label rankLabel = new Label("#" + rank, 
-				new Label.LabelStyle(rankFont, Color.valueOf("4c7d7d")));
+		Label rankLabel = new Label("#" + rank, rankLabelStyle);
 		
 		Group nameScoreGroup = new Group();
 		nameScoreGroup.addActor(nameLabel);
 		nameScoreGroup.addActor(scoreLabel);
 		add(nameScoreGroup).padLeft(20).left().width(410).bottom();
-		add(rankLabel).padRight(15).width(WIDTH - HEIGHT - 410 - 20 - 15).right();
+		add(rankLabel).padRight(15).width(DEFAULT_WIDTH - DEFAULT_HEIGHT - 410 - 20 - 15).right();
 		
 	}
 }

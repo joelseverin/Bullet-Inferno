@@ -88,7 +88,7 @@ public class AchievementsView extends SimpleToggleSubMenuView implements Disposa
 		achievedCountLabel.setText(achievedCount + "/" + i);
 		
 		scrollPane = new ScrollPane(achievementsTable);
-		mainTable.add(scrollPane).top().height(LeaderboardEntryView.WIDTH);
+		mainTable.add(scrollPane).top().height(LeaderboardEntryView.DEFAULT_WIDTH);
 		
 		getToggleActor().addActor(mainTable);
 		slideToggle();

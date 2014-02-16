@@ -7,9 +7,6 @@ import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,9 +14,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
+/**
+ * A view to display leaderboards. The view contains three different leaderboards (see 
+ * {@link LeaderboardsView.LeaderboardType}) which can be toggled by the user.
+ * 
+ * @author Sebastian Blomberg
+ *
+ */
 public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	public static enum LeaderboardType {
@@ -33,14 +38,12 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	private final Image header;
 	
 	private final Drawable entryBackground, entryAvatar;
-	
+	private final ResourceManager resources;
 	private final Table mainTable;
 	private final Table highScoreEntriesTable = new Table();
 	private final Table collectedCoinsEntriesTable = new Table();
 	private final Table longestRunEntriesTable = new Table();
 	private final Group leaderBoardWrapper = new Group();
-	private final BitmapFont subheaderFont;
-	private final BitmapFont textFont;
 	private final Stage stage;
 	private final ScrollPane scrollPane;
 	private final Button highScoreListButton, collectedCoinsListButton, longestRunListButton;
@@ -52,12 +55,7 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		super(new Group(), GLASS_WIDTH, VIRTUAL_HEIGHT, GLASS_POSITION_X, VIRTUAL_HEIGHT, 
 				GLASS_ANIMATION_DURATION);
 		this.stage = stage;
-		
-		// TODO : Merge with resource handler
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		subheaderFont = generator.generateFont(28);
-		textFont = generator.generateFont(24);
-		generator.dispose();
+		this.resources = resources;
 				
 		header = new Image(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_LEADERBOARDS_HEADER));
@@ -133,11 +131,13 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	public void updateLeaderboard(LeaderboardType type, List<LeaderboardEntry> entries) {
 		Table temp = getLeaderboardFromType(type);
 		temp.clearChildren();
-
+		Skin skin = resources.getSkin();
+		
 		int i = 1;
 		for(LeaderboardEntry entry : entries) {
-			temp.add(new LeaderboardEntryView(new Image(entryAvatar), entryBackground, 
-					entry.getName(), entry.getScore(), i++)).padTop(CELL_PADDING).height(LeaderboardEntryView.HEIGHT);
+			temp.add(new LeaderboardEntryView(skin, new Image(entryAvatar), entryBackground, 
+						entry.getName(), entry.getScore(), i++))
+					.padTop(CELL_PADDING).height(LeaderboardEntryView.DEFAULT_HEIGHT);
 			temp.row();
 		}
 		
