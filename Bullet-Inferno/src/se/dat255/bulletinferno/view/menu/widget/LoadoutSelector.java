@@ -8,16 +8,13 @@ import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,6 +33,9 @@ import com.badlogic.gdx.utils.Scaling;
  * @param <T>
  */
 public class LoadoutSelector<T extends Descriptable> extends Table {
+	// Cache variables
+	private static LabelStyle nameLabelStyle = null, descriptionLabelStyle = null;
+	
 	private final static int TEXT_INTO_PADDING_LEFT = 20;
 	private final Button upButton, downButton;
 	private final List<Option> values;
@@ -65,6 +65,14 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 	 */
 	public LoadoutSelector(ResourceManager resources, List<T> options, 
 			int selectedOptionIndex) {
+		if(nameLabelStyle == null) {
+			nameLabelStyle = new Label.LabelStyle(resources.getSkin().getFont("myraid40"), 
+					resources.getSkin().getColor("darkgreen"));
+		}
+		if(descriptionLabelStyle == null) {
+			descriptionLabelStyle = new Label.LabelStyle(resources.getSkin().getFont("myraid38"), 
+					resources.getSkin().getColor("darkgrey"));
+		}
 		upButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.LOADOUTMENU_TRIANGLE_BUTTON_UP));
 		downButton = new Button(
@@ -103,14 +111,8 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 			}
 		});
 		
-		// TODO : Merge with resource handler
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/myraidpro.ttf"));
-		BitmapFont nameFont = generator.generateFont(38);
-		BitmapFont descriptionFont = generator.generateFont(32);
-		generator.dispose();
-		nameLabel = new Label("", new Label.LabelStyle(nameFont, Color.valueOf("4c7d7d")));
-		descriptionLabel = new Label("", new Label.LabelStyle(descriptionFont, 
-				Color.valueOf("3f3f3c")));
+		nameLabel = new Label("", nameLabelStyle);
+		descriptionLabel = new Label("", descriptionLabelStyle);
 		
 		add(nameLabel).padTop(50).padLeft(TEXT_INTO_PADDING_LEFT).left();
 		row();
