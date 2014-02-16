@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
@@ -73,6 +74,12 @@ public interface ResourceManager extends Disposable {
 	 */
 	Music getMusic(String identifier);
 
+	/**
+	 * Returns the default skin
+	 * @return default skin
+	 */
+	Skin getSkin();
+	
 	/**
 	 * Loads all the resources using an {@link AssetManager} to do asynchronous loading if blocking
 	 * is set to false. This method should only be called once.

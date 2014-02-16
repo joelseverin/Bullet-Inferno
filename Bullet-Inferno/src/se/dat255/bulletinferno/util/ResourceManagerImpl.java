@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
@@ -26,6 +28,10 @@ public class ResourceManagerImpl implements ResourceManager {
 			new Resolution(450, 800, "800450"),
 			new Resolution(720, 1280, "1280720"),
 			new Resolution(1080, 1920, "19201080")
+	};
+	
+	private static final int[] SUPPORTED_FONT_SIZES = {
+		
 	};
 
 	public enum SoundEffectType {
@@ -52,7 +58,7 @@ public class ResourceManagerImpl implements ResourceManager {
 	}
 
 	private AssetManager manager;
-
+	
 	public ResourceManagerImpl() {
 		manager = new AssetManager();
 
@@ -61,6 +67,7 @@ public class ResourceManagerImpl implements ResourceManager {
 
 		manager.setLoader(Texture.class, new TextureLoader(resolver));
 		manager.setLoader(TextureAtlas.class, new TextureAtlasLoader(resolver));
+		manager.setLoader(Skin.class, new SkinLoader(resolver));
 		Texture.setAssetManager(manager);
 	}
 
@@ -71,7 +78,7 @@ public class ResourceManagerImpl implements ResourceManager {
 	public void startLoad(boolean blocking) {
 		loadTextures();
 		loadSoundEffects();
-
+		loadSkins();
 		if (blocking) {
 			manager.finishLoading();
 		}
@@ -102,6 +109,19 @@ public class ResourceManagerImpl implements ResourceManager {
 		// return manager.get(music.get(identifier), Music.class);
 	}
 
+	@Override
+	public Skin getSkin() {
+		if(!manager.isLoaded("defaultskin.json", Skin.class)) {
+			throw new RuntimeException("The default skin wasn't loaded");
+		}
+		
+		return manager.get("defaultskin.json", Skin.class);
+	}
+	
+	private void loadSkins() {
+		manager.load("defaultskin.json", Skin.class);
+	}
+	
 	/** Adds all managed textures to the AssetManager's load queue. */
 	private void loadTextures() {
 		for (TextureDefinition definition : TextureDefinitionImpl.values()) {
@@ -185,5 +205,7 @@ public class ResourceManagerImpl implements ResourceManager {
 	public TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition) {
 		return new TextureRegionDrawable(getTexture(textureDefinition));
 	}
+	
+	
 
 }
