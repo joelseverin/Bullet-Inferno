@@ -143,10 +143,16 @@ public class SettingsController extends SimpleController implements SubMenuContr
 			if(settingsView.getBackgroundMusicMuteButton().isChecked()) {
 				settingsView.getBackgroundMusicSlider().setValue(0);
 				preferences.putBoolean("backgroundMusicMuted", true);
+				if(audioPlayer != null) {
+					audioPlayer.mute();
+				}
 			} else {
 				settingsView.getBackgroundMusicSlider().setValue(
 						preferences.getFloat("backgroundMusicVolume"));
 				preferences.putBoolean("backgroundMusicMuted", false);
+				if(audioPlayer != null) {
+					audioPlayer.unMute();
+				}
 			}
 		}
 	};

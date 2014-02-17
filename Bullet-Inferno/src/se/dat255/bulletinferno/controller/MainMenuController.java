@@ -6,7 +6,10 @@ import se.dat255.bulletinferno.controller.menu.SettingsController;
 import se.dat255.bulletinferno.controller.menu.StoreController;
 import se.dat255.bulletinferno.controller.menu.SubMenuControllHandler;
 import se.dat255.bulletinferno.controller.menu.SubMenuController;
+import se.dat255.bulletinferno.util.MusicDefinitionImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.view.audio.AudioPlayer;
+import se.dat255.bulletinferno.view.audio.AudioPlayerImpl;
 import se.dat255.bulletinferno.view.menu.MenuBackgroundView;
 import se.dat255.bulletinferno.view.menu.MainMenuView;
 
@@ -22,12 +25,15 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	private final MenuBackgroundView backgroundView;
 	private final MainMenuView menuView;
 	private final MasterController masterController;
+	private final AudioPlayer audioPlayer;
 	private SubMenuController activeSubController = null;
 	private RunLater nextSubController = null;
 	
 	public MainMenuController(MasterController masterController, ResourceManager resources) {
 		this.masterController = masterController;
 		this.resources = resources;
+		
+		
 		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		backgroundView = new MenuBackgroundView(stage, resources);
@@ -38,6 +44,13 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		menuView.addSettingsListener(settingListener);
 		menuView.addAchievementsListener(achievementsListener);
 		menuView.addPlayListener(playListener);
+		
+		audioPlayer = new AudioPlayerImpl(resources);
+		if(MasterController.getUserDefaults().contains("backgroundMusicVolume")) {
+			audioPlayer.setVolume(
+					MasterController.getUserDefaults().getFloat("backgroundMusicVolume"));
+		}
+		audioPlayer.playMusic(MusicDefinitionImpl.MENU_BACKGROUND, true);
 	}
 	
 	@Override
@@ -136,7 +149,8 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		private RunLater runlater = new RunLater() {
 			@Override
 			public SubMenuController startSubController() {
-				return new SettingsController(stage, resources, MasterController.getUserDefaults());
+				return new SettingsController(stage, resources, MasterController.getUserDefaults(), 
+						audioPlayer);
 			}
 		};
 		@Override
