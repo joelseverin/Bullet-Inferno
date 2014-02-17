@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Pools;
 import com.badlogic.gdx.utils.Scaling;
+import com.esotericsoftware.tablelayout.Cell;
 
 /**
  * A selector which contains a given set of options (values), represented with images, names and 
@@ -42,7 +43,7 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 	private final Image displayedItem = new Image();
 	private final Label nameLabel, descriptionLabel;
 	private int selectedIndex = 0;
-	
+	private Cell descriptionCell;
 	private final List<EventListener> listeners = new LinkedList<EventListener>();
 	
 	/**
@@ -113,10 +114,11 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 		
 		nameLabel = new Label("", nameLabelStyle);
 		descriptionLabel = new Label("", descriptionLabelStyle);
-		
+		descriptionLabel.setWrap(true);
 		add(nameLabel).padTop(50).padLeft(TEXT_INTO_PADDING_LEFT).left();
 		row();
-		add(descriptionLabel).padTop(5).padLeft(TEXT_INTO_PADDING_LEFT + 20).left();
+		descriptionCell = add(descriptionLabel).padTop(5).padLeft(TEXT_INTO_PADDING_LEFT)
+							.left();
 		
 		this.selectedIndex = selectedOptionIndex;
 		if(values.size() != 0) {
@@ -124,6 +126,12 @@ public class LoadoutSelector<T extends Descriptable> extends Table {
 		}
 	}
 
+	@Override
+	public void setBounds(float x, float y, float width, float height) {
+		super.setBounds(x, y, width, height);
+		descriptionCell.width(width - 2*TEXT_INTO_PADDING_LEFT);
+	}
+	
 	@Override
 	public boolean fire(Event e) {
 		// Add all local listeners to superclass
