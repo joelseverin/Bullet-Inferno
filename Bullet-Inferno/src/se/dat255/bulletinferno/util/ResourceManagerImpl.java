@@ -75,6 +75,8 @@ public class ResourceManagerImpl implements ResourceManager {
 		loadTextures();
 		loadSoundEffects();
 		loadSkins();
+		loadMusic();
+		
 		if (blocking) {
 			manager.finishLoading();
 		}
@@ -100,6 +102,22 @@ public class ResourceManagerImpl implements ResourceManager {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public Music getMusic(ResourceIdentifier identifier) {
+		for (MusicDefinitionImpl definition : MusicDefinitionImpl.values()) {
+			if (identifier.getIdentifier().equals(definition.name())) {
+				return getMusic(definition);
+			}
+		}
+		
+		throw new RuntimeException(String.format(
+				"Sound not found for the identifier:action combination '%s'", 
+				identifier.getIdentifier()));
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public Music getMusic(MusicDefinition definition) {
 		if(manager.isLoaded(definition.getSourcePath(), Music.class)) {
 			return manager.get(definition.getSourcePath(), Music.class);
@@ -117,25 +135,6 @@ public class ResourceManagerImpl implements ResourceManager {
 		return manager.get("defaultskin.json", Skin.class);
 	}
 	
-	private void loadSkins() {
-		manager.load("defaultskin.json", Skin.class);
-	}
-	
-	/** Adds all managed textures to the AssetManager's load queue. */
-	private void loadTextures() {
-		for (TextureDefinition definition : TextureDefinitionImpl.values()) {
-			definition.loadSource(manager);
-		}
-	}
-
-	/** Adds all managed sound effects to the AssetManager's load queue. */
-	private void loadSoundEffects() {
-		for (SoundEffectType type : SoundEffectType.values()) {
-			for (String src : type.mapping.values()) {
-				manager.load(src, Sound.class);
-			}
-		}
-	}
 
 	/**
 	 * {@inheritDoc}
@@ -175,6 +174,16 @@ public class ResourceManagerImpl implements ResourceManager {
 	}
 
 	@Override
+	public TextureRegionDrawable getDrawableTexture(ResourceIdentifier identifier) {
+		return new TextureRegionDrawable(getTexture(identifier));
+	}
+
+	@Override
+	public TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition) {
+		return new TextureRegionDrawable(getTexture(textureDefinition));
+	}
+	
+	@Override
 	public boolean loadAsync() {
 		return manager.update();
 	}
@@ -194,17 +203,30 @@ public class ResourceManagerImpl implements ResourceManager {
 		manager = null;
 		Texture.setAssetManager(null);
 	}
-
-	@Override
-	public TextureRegionDrawable getDrawableTexture(ResourceIdentifier identifier) {
-		return new TextureRegionDrawable(getTexture(identifier));
-	}
-
-	@Override
-	public TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition) {
-		return new TextureRegionDrawable(getTexture(textureDefinition));
+	
+	private void loadSkins() {
+		manager.load("defaultskin.json", Skin.class);
 	}
 	
-	
+	/** Adds all managed textures to the AssetManager's load queue. */
+	private void loadTextures() {
+		for (TextureDefinition definition : TextureDefinitionImpl.values()) {
+			definition.loadSource(manager);
+		}
+	}
 
+	/** Adds all managed sound effects to the AssetManager's load queue. */
+	private void loadSoundEffects() {
+		for (SoundEffectType type : SoundEffectType.values()) {
+			for (String src : type.mapping.values()) {
+				manager.load(src, Sound.class);
+			}
+		}
+	}
+	
+	private void loadMusic() {
+		for (MusicDefinition definition : MusicDefinitionImpl.values()) {
+			manager.load(definition.getSourcePath(), Music.class);
+		}
+	}
 }

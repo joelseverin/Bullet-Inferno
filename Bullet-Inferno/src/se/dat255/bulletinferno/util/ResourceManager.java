@@ -64,6 +64,15 @@ public interface ResourceManager extends Disposable {
 	Sound getSound(ResourceIdentifier identifier, GameAction action);
 
 	/**
+	 * Returns the loaded {@link Music} that is mapped to specified identifier.
+	 * 
+	 * @param identifier
+	 *        The identifier for this {@link Music}.
+	 * @return The {@link Music}.
+	 */
+	Music getMusic(ResourceIdentifier identifiter);
+	
+	/**
 	 * Returns the loaded {@link Music} that is mapped to this definition.
 	 * 
 	 * @param definition
