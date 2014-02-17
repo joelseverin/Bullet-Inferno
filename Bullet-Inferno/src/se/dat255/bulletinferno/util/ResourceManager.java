@@ -1,7 +1,5 @@
 package se.dat255.bulletinferno.util;
 
-import java.io.ObjectInputStream.GetField;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -66,13 +64,13 @@ public interface ResourceManager extends Disposable {
 	Sound getSound(ResourceIdentifier identifier, GameAction action);
 
 	/**
-	 * Returns the loaded {@link Music} that is mapped to this identifier.
+	 * Returns the loaded {@link Music} that is mapped to this definition.
 	 * 
-	 * @param identifier
-	 *        The identifier for this {@link Music}.
+	 * @param definition
+	 *        The definition for this {@link Music}.
 	 * @return The {@link Music}.
 	 */
-	Music getMusic(String identifier);
+	Music getMusic(MusicDefinition definition);
 
 	/**
 	 * Returns the default skin

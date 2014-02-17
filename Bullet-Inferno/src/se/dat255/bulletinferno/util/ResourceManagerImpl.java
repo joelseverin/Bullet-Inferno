@@ -29,10 +29,6 @@ public class ResourceManagerImpl implements ResourceManager {
 			new Resolution(720, 1280, "1280720"),
 			new Resolution(1080, 1920, "19201080")
 	};
-	
-	private static final int[] SUPPORTED_FONT_SIZES = {
-		
-	};
 
 	public enum SoundEffectType {
 		KATZE,
@@ -104,9 +100,12 @@ public class ResourceManagerImpl implements ResourceManager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Music getMusic(String identifier) {
-		return null;
-		// return manager.get(music.get(identifier), Music.class);
+	public Music getMusic(MusicDefinition definition) {
+		if(manager.isLoaded(definition.getSourcePath(), Music.class)) {
+			return manager.get(definition.getSourcePath(), Music.class);
+		}
+		
+		throw new RuntimeException("The music for the definition " + definition + " wasn't loaded");
 	}
 
 	@Override
