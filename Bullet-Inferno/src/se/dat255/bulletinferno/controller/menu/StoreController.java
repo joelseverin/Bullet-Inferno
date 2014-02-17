@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.model.store.StoreItem;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.StoreView;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class StoreController implements SubMenuController {
+public class StoreController extends SimpleController implements SubMenuController {
 	private final StoreView view;
 	private final ArrayList<BuyButtonClickListener> listeners = 
 			new ArrayList<BuyButtonClickListener>();

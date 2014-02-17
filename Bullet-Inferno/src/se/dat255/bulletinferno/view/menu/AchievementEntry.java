@@ -18,7 +18,6 @@ public class AchievementEntry extends Table {
 		left();
 		bottom();
 		setBackground(background);
-		System.out.println(skin.getColor("darkgreen").r + " " + skin.getColor("darkgreen").b);
 		if(headerStyle == null) {
 			headerStyle = new Label.LabelStyle(skin.getFont("myraid34"), skin.getColor("darkgreen"));
 		}

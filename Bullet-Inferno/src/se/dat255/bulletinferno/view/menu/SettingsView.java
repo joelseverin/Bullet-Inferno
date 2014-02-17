@@ -48,8 +48,8 @@ public class SettingsView extends SimpleToggleSubMenuView implements Disposable 
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SLIDER_BG),
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SLIDER_KNOB));
 		
-		backgroundMusicSlider = new Slider(0, 1, 0.02f, false, sliderStyle);
-		soundEffectSlider = new Slider(0, 1, 0.02f, false, sliderStyle);
+		backgroundMusicSlider = new Slider(0, 1, 0.05f, false, sliderStyle);
+		soundEffectSlider = new Slider(0, 1, 0.05f, false, sliderStyle);
 		sensSlider = new Slider(0, 2, 0.01f, false, sliderStyle);
 		
 		CheckBox.CheckBoxStyle checkboxStyle = new CheckBox.CheckBoxStyle(

@@ -1,5 +1,6 @@
 package se.dat255.bulletinferno.controller;
 
+
 import se.dat255.bulletinferno.controller.LoadingScreenController.FinishedLoadingEventListener;
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
@@ -8,6 +9,8 @@ import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.ResourceManagerImpl;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 
 /**
@@ -137,4 +140,8 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 			setScreen(new MainMenuController(MasterController.this, resourceManager));
 		}
 	};
+	
+	public static Preferences getUserDefaults() {
+		return Gdx.app.getPreferences("bulletinferno_default");
+	}
 }

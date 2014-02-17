@@ -7,12 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.model.achievement.Achievement;
 import se.dat255.bulletinferno.model.achievement.AchievementImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.AchievementsView;
 
-public class AchievementsController implements SubMenuController {
+public class AchievementsController extends SimpleController implements SubMenuController {
 	private final AchievementsView view;
 	
 	public AchievementsController(Stage stage, ResourceManager resources) {
@@ -79,5 +80,4 @@ public class AchievementsController implements SubMenuController {
 	public void dispose() {
 		view.dispose();
 	}
-
 }

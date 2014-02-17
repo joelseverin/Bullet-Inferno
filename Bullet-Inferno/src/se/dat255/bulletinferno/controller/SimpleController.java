@@ -32,5 +32,15 @@ public abstract class SimpleController implements Controller {
 	public void resume() {
 		isPaused = false;
 	}
+	
+	@Override
+	public void render(float arg0) {
+		
+	}
+
+	@Override
+	public void resize(int arg0, int arg1) {
+	} 
+	
 
 }

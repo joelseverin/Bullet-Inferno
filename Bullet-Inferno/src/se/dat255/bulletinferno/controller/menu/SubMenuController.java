@@ -1,8 +1,9 @@
 package se.dat255.bulletinferno.controller.menu;
 
+import se.dat255.bulletinferno.controller.Controller;
 import se.dat255.bulletinferno.util.Disposable;
 
-public interface SubMenuController extends Disposable {
+public interface SubMenuController extends Disposable, Controller {
 	/**
 	 * Requests the controller to dispose of itself, leaving time for the controller and it's 
 	 * components to perform finishing tasks before dispose (Such as waiting for view animations 

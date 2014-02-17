@@ -1,16 +1,36 @@
 package se.dat255.bulletinferno.controller.menu;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
+import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.view.audio.AudioPlayer;
 import se.dat255.bulletinferno.view.menu.SettingsView;
 
-public class SettingsController implements SubMenuController {
-	private SettingsView settingsView;
+import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+
+/**
+ * Controller for the settings sub menu.
+ * 
+ * <strong>Observe</strong>
+ * To make sure user preferences are persistent, call 
+ * {@link SettingsController#saveUserPreferences()} or {@link SettingsController#dispose()}.
+ * 
+ * @author Sebastian Blomberg
+ *
+ */
+public class SettingsController extends SimpleController implements SubMenuController {
+	private final SettingsView settingsView;
+	private AudioPlayer audioPlayer = null;
+	private final Preferences preferences;
 	
-	public SettingsController(Stage stage, ResourceManager resources) {
+	public SettingsController(Stage stage, ResourceManager resources, Preferences preferences) {
+		this.preferences = preferences;
+		
 		settingsView = new SettingsView(stage, resources);
 		settingsView.getBackgroundMusicSlider().addListener(backgroundMusicListener);
 		settingsView.getSoundEffectsSlider().addListener(soundEffectsListener);
@@ -19,57 +39,129 @@ public class SettingsController implements SubMenuController {
 		settingsView.getSoundEffectsMuteButton().addListener(soundEffectsMuteListener);
 		settingsView.getSenseResetButton().addListener(sensResetListener);
 		settingsView.setSlideToggleListener(slideToggleListener);
+		
+		// Initialize slider and buttons with user preference
+		if(preferences.contains("backgroundMusicVolume")) {
+			float volume = 0;
+			if(preferences.getBoolean("backgroundMusicMuted")) {
+				settingsView.getBackgroundMusicMuteButton().setChecked(true);
+			} else {
+				volume = preferences.getFloat("backgroundMusicVolume");
+			}
+			settingsView.getBackgroundMusicSlider().setValue(volume);
+		} else {
+			settingsView.getBackgroundMusicSlider().setValue(0.7f);
+		}
+		
+		if(preferences.contains("backgroundMusicVolume")) {
+			float volume = 0;
+			if(preferences.getBoolean("soundEffectsMuted")) {
+				settingsView.getSoundEffectsMuteButton().setChecked(true);
+			} else {
+				volume = preferences.getFloat("soundEffectsVolume");
+			}
+			settingsView.getSoundEffectsSlider().setValue(volume);
+		} else {
+			settingsView.getSoundEffectsSlider().setValue(1);
+		}
+		
+		if(preferences.contains("steeringsense")) {
+			settingsView.getSensSlider()
+						.setValue(preferences.getFloat("steeringsense"));
+		} else {
+			settingsView.getSensSlider().setValue(1);
+		}
 	}
 	
+	public SettingsController(Stage stage, ResourceManager resources, Preferences preferences,
+			AudioPlayer backgroundAudioPlayer) {
+		this(stage, resources, preferences);
+		this.audioPlayer = backgroundAudioPlayer;
+	}
+	
+	/**
+	 * Disposes of the controller's resources (including views) and saves the user settings (see 
+	 * {@link SettingsController#saveUserPreferences()}
+	 */
 	@Override
 	public void dispose() {
+		saveUserPreferences();
 		settingsView.dispose();
 	}
 	
-	private ChangeListener backgroundMusicListener = new ChangeListener() {
+	private DragListener backgroundMusicListener = new DragListener() {
 		@Override
-		public void changed(ChangeEvent event, Actor actor) {
+		public void dragStop(InputEvent event, float x, float y, int pointer)  {
 			float value = settingsView.getBackgroundMusicSlider().getValue();
 			if(value > 0) {
-				settingsView.getBackgroundMusicMuteButton().setChecked(false);
+				// Uncheck mute button if checked
+				if(settingsView.getBackgroundMusicMuteButton().isChecked()) {
+					settingsView.getBackgroundMusicMuteButton().setChecked(false);
+					preferences.putBoolean("backgroundMusicMuted", false);
+				}
+				// Update the user's preferences
+				preferences.putFloat("backgroundMusicVolume", value);
+				
+				if(audioPlayer != null) {
+					audioPlayer.setVolume(value);
+					
+				} 
+			} else {
+				settingsView.getBackgroundMusicMuteButton().setChecked(true);
+				preferences.putBoolean("backgroundMusicMuted", true);
 			}
 		}
 	};
 	
-	private ChangeListener soundEffectsListener = new ChangeListener() {
+	private DragListener soundEffectsListener = new DragListener() {
 		@Override
-		public void changed(ChangeEvent event, Actor actor) {
+		public void dragStop(InputEvent event, float x, float y, int pointer)  {
 			float value = settingsView.getSoundEffectsSlider().getValue();
 			if(value > 0) {
-				settingsView.getSoundEffectsMuteButton().setChecked(false);
+				if(settingsView.getSoundEffectsMuteButton().isChecked()) {
+					settingsView.getSoundEffectsMuteButton().setChecked(false);
+					preferences.putBoolean("soundEffectsMuted", false);
+				}
+				preferences.putFloat("soundEffectsVolume", value);
+			} else {
+				settingsView.getSoundEffectsMuteButton().setChecked(true);
+				preferences.putBoolean("soundEffectsMuted", true);
 			}
 		}
 	};
 	
-	private ChangeListener sensListener = new ChangeListener() {
+	private DragListener sensListener = new DragListener() {
 		@Override
-		public void changed(ChangeEvent event, Actor actor) {
+		public void dragStop(InputEvent event, float x, float y, int pointer)  {
+			preferences.putFloat("steeringsense", settingsView.getSensSlider().getValue());
 		}
 	};
 	
-	private ChangeListener backgroundMusicMuteListener = new ChangeListener() {
+	private ClickListener backgroundMusicMuteListener = new ClickListener() {
 		@Override
-		public void changed(ChangeEvent event, Actor actor) {
+		public void clicked(InputEvent event, float x, float y)  {
 			if(settingsView.getBackgroundMusicMuteButton().isChecked()) {
 				settingsView.getBackgroundMusicSlider().setValue(0);
+				preferences.putBoolean("backgroundMusicMuted", true);
 			} else {
-				// Reset to previous state
+				settingsView.getBackgroundMusicSlider().setValue(
+						preferences.getFloat("backgroundMusicVolume"));
+				preferences.putBoolean("backgroundMusicMuted", false);
 			}
 		}
 	};
 	
-	private ChangeListener soundEffectsMuteListener = new ChangeListener() {
+	
+	private ClickListener soundEffectsMuteListener = new ClickListener() {
 		@Override
-		public void changed(ChangeEvent event, Actor actor) {
+		public void clicked(InputEvent event, float x, float y)  {
 			if(settingsView.getSoundEffectsMuteButton().isChecked()) {
 				settingsView.getSoundEffectsSlider().setValue(0);
+				preferences.putBoolean("soundEffectsMuted", true);
 			} else {
-				// Reset to previous state
+				settingsView.getSoundEffectsSlider().setValue(
+						preferences.getFloat("soundEffectsVolume"));
+				preferences.putBoolean("soundEffectsMuted", false);
 			}
 		}
 	};
@@ -78,6 +170,7 @@ public class SettingsController implements SubMenuController {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			settingsView.getSensSlider().setValue(1);
+			preferences.putFloat("steeringsense", 1);
 		}
 	};
 
@@ -85,7 +178,6 @@ public class SettingsController implements SubMenuController {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			// If the event was fired upon a slide down;
-			System.out.println(settingsView.isToggledVisible());
 			if(settingsView.isToggledVisible()) {
 				return;
 			}
@@ -114,5 +206,14 @@ public class SettingsController implements SubMenuController {
 		} else {
 			settingsView.slideToggle();
 		}
+	}
+	
+	public void saveUserPreferences() {
+		preferences.flush();
+	}
+	
+	@Override
+	public void pause() {
+		saveUserPreferences();
 	}
 }

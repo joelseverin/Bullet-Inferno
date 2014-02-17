@@ -67,11 +67,31 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	public void show() {
 		super.show();
 		Gdx.input.setInputProcessor(stage);
+		if(activeSubController != null) {
+			activeSubController.show();
+		}
 	}
 	
 	@Override
 	public void hide() {
 		Gdx.input.setInputProcessor(null);
+		if(activeSubController != null) {
+			activeSubController.hide();
+		}
+	}
+	
+	@Override
+	public void resume() {
+		if(activeSubController != null) {
+			activeSubController.resume();
+		}
+	}
+	
+	@Override
+	public void pause() {
+		if(activeSubController != null) {
+			activeSubController.pause();
+		}
 	}
 	
 	@Override
@@ -116,7 +136,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		private RunLater runlater = new RunLater() {
 			@Override
 			public SubMenuController startSubController() {
-				return new SettingsController(stage, resources);
+				return new SettingsController(stage, resources, MasterController.getUserDefaults());
 			}
 		};
 		@Override

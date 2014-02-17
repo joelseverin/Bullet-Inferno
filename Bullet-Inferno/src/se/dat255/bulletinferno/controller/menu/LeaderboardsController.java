@@ -11,11 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.model.leaderboard.LeaderboardEntry;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.LeaderboardsView;
 
-public class LeaderboardsController implements SubMenuController {
+public class LeaderboardsController extends SimpleController implements SubMenuController {
 	private final LeaderboardsView view;
 	
 	public LeaderboardsController(Stage stage, ResourceManager resources) {
