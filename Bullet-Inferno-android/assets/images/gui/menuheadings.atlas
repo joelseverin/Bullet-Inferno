@@ -5,23 +5,30 @@ filter: Nearest,Nearest
 repeat: none
 loadoutheader
   rotate: false
-  xy: 1, 305
+  xy: 1, 364
   size: 679, 43
   orig: 679, 43
   offset: 0, 0
   index: -1
 leaderboards
   rotate: false
-  xy: 1, 239
+  xy: 1, 298
   size: 645, 64
   orig: 645, 64
   offset: 0, 0
   index: -1
 achievements
   rotate: false
-  xy: 1, 160
+  xy: 1, 219
   size: 621, 77
   orig: 621, 77
+  offset: 0, 0
+  index: -1
+pauseheader
+  rotate: false
+  xy: 1, 160
+  size: 521, 57
+  orig: 521, 57
   offset: 0, 0
   index: -1
 settings

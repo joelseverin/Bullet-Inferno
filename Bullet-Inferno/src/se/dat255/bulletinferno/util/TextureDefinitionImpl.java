@@ -168,6 +168,14 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	LOADOUTMENU_SELECTOR_SPECIAL_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutselectorspecial")),
 	LOADOUTMENU_SELECTOR_PASSIVE_LABEL(textureAtlas("images/gui/menulabels.atlas", "loadoutselectorpassive")),
 	LOADOUTMENU_PLANE(texture("images/gui/loadoutplane.png")),
+	
+	PAUSEMENU_HEADER(textureAtlas("images/gui/menuheadings.atlas", "pauseheader")),
+	PAUSEMENU_RESUME_BUTTON(textureAtlas("images/gui/menubuttons.atlas", "pauseresume")),
+	PAUSEMENU_RESUME_BUTTON_DOWN(textureAtlas("images/gui/menubuttons.atlas", "pauseresume_down")),
+	PAUSEMENU_MAINMENU_BUTTON(textureAtlas("images/gui/menubuttons.atlas", "pausemainmenu")),
+	PAUSEMENU_MAINMENU_BUTTON_DOWN(textureAtlas("images/gui/menubuttons.atlas", "pausemainmenu_down")),
+	PAUSEMENU_RESTART_BUTTON(textureAtlas("images/gui/menubuttons.atlas", "pauserestart")),
+	PAUSEMENU_RESTART_BUTTON_DOWN(textureAtlas("images/gui/menubuttons.atlas", "pauserestart_down")),
 	;
 
 	private TextureHolder holder;
