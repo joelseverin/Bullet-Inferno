@@ -33,7 +33,7 @@ public class AudioPlayerImpl implements AudioPlayer, Music.OnCompletionListener 
 	@Override
 	public void playSoundEffect(GameActionEvent<? extends ResourceIdentifier> e) {
 		Sound sound = resources.getSound(e.getSource(), e.getAction());
-		sounds.put(sound.play(volume), sound);
+		sounds.put(sound.play(isMuted? 0 : volume), sound);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AudioPlayerImpl implements AudioPlayer, Music.OnCompletionListener 
 	public void playMusic(MusicDefinition musicDefinition, boolean loop) {
 		Music music = resources.getMusic(musicDefinition);
 		music.play();
-		music.setVolume(volume);
+		music.setVolume(isMuted? 0 : volume);
 		music.setLooping(loop);
 		musicTracks.put(musicDefinition, music);
 	}

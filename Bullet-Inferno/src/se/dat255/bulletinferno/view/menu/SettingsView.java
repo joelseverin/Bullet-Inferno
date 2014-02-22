@@ -82,6 +82,7 @@ public class SettingsView extends SimpleToggleSubMenuView implements Disposable 
 		soundEffectsMuteButton.clear();
 		sensSlider.clear();
 		sensResetButton.clear();
+		stage.getRoot().removeActor(getToggleActor());
 	}
 	
 	public Slider getBackgroundMusicSlider() {

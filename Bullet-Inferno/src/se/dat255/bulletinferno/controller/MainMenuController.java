@@ -14,6 +14,7 @@ import se.dat255.bulletinferno.view.menu.MenuBackgroundView;
 import se.dat255.bulletinferno.view.menu.MainMenuView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -33,8 +34,6 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		this.masterController = masterController;
 		this.resources = resources;
 		
-		
-		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		backgroundView = new MenuBackgroundView(stage, resources);
 		menuView = new MainMenuView(stage, resources);
@@ -46,16 +45,20 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		menuView.addPlayListener(playListener);
 		
 		audioPlayer = new AudioPlayerImpl(resources);
-		if(MasterController.getUserDefaults().contains("backgroundMusicVolume")) {
-			audioPlayer.setVolume(
-					MasterController.getUserDefaults().getFloat("backgroundMusicVolume"));
+		Preferences preferences = MasterController.getUserDefaults();
+		if(preferences.contains("backgroundMusicVolume")) {
+			if(preferences.contains("backgroundMusicMuted") 
+					&& preferences.getBoolean("backgroundMusicMuted")) {
+				audioPlayer.mute();
+			}
+			audioPlayer.setVolume(preferences.getFloat("backgroundMusicVolume"));
 		}
 		audioPlayer.playMusic(MusicDefinitionImpl.MENU_BACKGROUND, true);
 	}
 	
 	@Override
 	public void render(float delta) {
-		stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+		stage.act(Math.min(delta, 1 / 30f));
 		stage.draw();
 		Table.drawDebug(stage);
 	}
@@ -71,6 +74,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		stage.clear();
 		stage.dispose();
 		backgroundView.dispose();
+		audioPlayer.dispose();
 		if(activeSubController != null) {
 			activeSubController.dispose();
 		}
