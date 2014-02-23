@@ -36,11 +36,6 @@ public class GameController extends SimpleController {
 	 */
 	private Graphics graphics;
 
-	/**
-	 * The touch input handler
-	 */
-	private GameTouchController touchController;
-
 	/** The current session instance of the game model. */
 	private ModelEnvironment models;
 
@@ -77,6 +72,7 @@ public class GameController extends SimpleController {
 	private Stage hudStage;
 	private PlayerShip ship;
 	private final InputMultiplexer inputMultiplexer;
+	private final GameTouchController touchController = new GameTouchController();
 	
 	/**
 	 * Default controller to set required references
@@ -98,7 +94,7 @@ public class GameController extends SimpleController {
 		hudView.addPauseButtonListener(pauseButtonListener);
 		hudView.addSpecialAbilityButtonListener(specialAbilityButtonListener);
 		
-		inputMultiplexer = new InputMultiplexer(hudStage);
+		inputMultiplexer = new InputMultiplexer(hudStage, touchController);
 	}
 
 	/**
@@ -125,17 +121,9 @@ public class GameController extends SimpleController {
 			models = null;
 		}
 
-		// Initialize the action listener
-		Listener<GameActionEvent<Enemy>> actionListener = new Listener<GameActionEvent<Enemy>>() {
-			@Override
-			public void call(GameActionEvent<Enemy> e) {
-				audioPlayer.playSoundEffect(e);
-			}
-		};
-
 		// Set up the model environment with the provided weaponData, includes creating the player
 		// ship.
-		models = new ModelEnvironmentImpl(weaponData, actionListener);
+		models = new ModelEnvironmentImpl(weaponData, enemyActionListener);
 		ship = models.getPlayerShip();
 		
 		// Initialize the graphics controller
@@ -157,10 +145,9 @@ public class GameController extends SimpleController {
 		ProjectileView projectileView = new ProjectileView(models, resourceManager);
 		graphics.addRenderable(projectileView);
 		
-		touchController = new GameTouchController(graphics, ship, this, myGame);
-		inputMultiplexer.addProcessor(touchController);
-		
-		
+		// Set the new graphics and ship in the touch controller
+		touchController.setGraphics(graphics);
+		touchController.setPlayerShip(ship);
 	}
 
 	/** The player has died, the game is over */
@@ -207,6 +194,7 @@ public class GameController extends SimpleController {
 
 		// Render the game
 		graphics.render();
+		
 		// Debug render
 		// graphics.renderWithDebug(models.getPhysicsEnvironment());
 		
@@ -289,6 +277,14 @@ public class GameController extends SimpleController {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
 			special.getSpecialAbility(models).getEffect().activate(ship);
+		}
+	};
+	
+	private Listener<GameActionEvent<Enemy>> enemyActionListener = 
+			new Listener<GameActionEvent<Enemy>>() {
+		@Override
+		public void call(GameActionEvent<Enemy> e) {
+			audioPlayer.playSoundEffect(e);
 		}
 	};
 }

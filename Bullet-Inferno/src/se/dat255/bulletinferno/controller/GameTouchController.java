@@ -13,34 +13,30 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class GameTouchController implements InputProcessor {
 	/** The keyboard key to shot the heavy weapon */
-	private final int SHOT_KEY = Input.Keys.SPACE;
+	private static final int SHOT_KEY = Input.Keys.SPACE;
 	/** The keyboard key to use the special ability */
-	private final int SPECIAL_ABILITY_KEY = Input.Keys.G;
+	private static final int SPECIAL_ABILITY_KEY = Input.Keys.G;
 
 	/** Describes the sense of the point device */
-	private static final float SENSE_SCALE = 1f;
-
-	/**
-	 * The game camera. This is needed to un-project x/y values to the virtual
-	 * screen size.
-	 */
-	private final Graphics graphics;
-
-	/**
-	 * Hard reference to the ship model.
-	 */
-	private final PlayerShip ship;
+	private float SENSE_SCALE = 1f;
+	/** The game camera. This is needed to un-project x/y values to the virtual screen size. */
+	private Graphics graphics;
+	/** Hard reference to the ship model. */
+	private PlayerShip ship;
 
 	/** The finger index controlling the position of the ship. */
 	private int steeringFinger = -1;
 	/** The origin of touch down finger controlling the ship */
 	private final Vector2 touchOrigin = new Vector2();
-
 	/** Flag indicating that keyboard presses should be ignored */
 	private boolean suppressKeyboard;
 
-	public GameTouchController(final Graphics graphics, final PlayerShip ship,
-			GameController gameController, MasterController masterController) {
+	
+	public GameTouchController() {
+		
+	}
+	
+	public GameTouchController(Graphics graphics, PlayerShip ship) {
 		this.graphics = graphics;
 		this.ship = ship;
 	}
@@ -65,10 +61,6 @@ public class GameTouchController implements InputProcessor {
 	public boolean keyTyped(char character) {
 		return suppressKeyboard;
 	}
-
-	/** Pre-calculated values to increase speed */
-	private static float INVERTER_WIDTH = 1.0f / 16.0f,
-			INVERTER_HEIGHT = 1.0f / 9.0f;
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -124,6 +116,14 @@ public class GameTouchController implements InputProcessor {
 
 	public void setSuppressKeyboard(boolean suppressKeyboard) {
 		this.suppressKeyboard = suppressKeyboard;
+	}
+	
+	public void setGraphics(Graphics graphics) {
+		this.graphics = graphics;
+	}
+	
+	public void setPlayerShip(PlayerShip ship) {
+		this.ship = ship;
 	}
 
 }
