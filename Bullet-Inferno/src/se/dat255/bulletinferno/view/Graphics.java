@@ -1,7 +1,7 @@
 package se.dat255.bulletinferno.view;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
 
@@ -36,7 +36,7 @@ public class Graphics {
 	private final Vector2 nextCameraPos = new Vector2();
 
 	/** List of all objects that are to be rendered in the world */
-	private final Set<Renderable> renderables = new HashSet<Renderable>();
+	private final List<Renderable> renderables = new ArrayList<Renderable>();
 	
 	/**
 	 * Initializes all the required assets
