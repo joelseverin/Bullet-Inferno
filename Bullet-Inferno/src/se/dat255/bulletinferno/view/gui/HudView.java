@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
 
 public class HudView implements Disposable {
@@ -21,22 +20,22 @@ public class HudView implements Disposable {
 	private final Label coinLabel;
 	private final Image bar;
 	private final Image specialAbilityButtonBg;
-	private final Button specialAbilityButton;
+	private final Button specialAbilityButton, pauseButton;
 	private final Stage stage;
 	
 	private final TextureRegion healthTexture;
 	private final Image healthBar;
 	
-	public HudView(Stage stage, ResourceManager resourceManager) {
+	public HudView(Stage stage, ResourceManager resources) {
 		this.stage = stage;
 		
-		Skin skin = resourceManager.getSkin();
+		Skin skin = resources.getSkin();
 		
 		if(stage.getHeight() != VIRTUAL_HEIGHT || stage.getWidth() != VIRTUAL_WIDTH) {
 			stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
 		}
 		
-		bar = new Image(resourceManager.getTexture(TextureDefinitionImpl.HUD_BAR));
+		bar = new Image(resources.getTexture(TextureDefinitionImpl.HUD_BAR));
 		bar.setPosition(0, VIRTUAL_HEIGHT - bar.getHeight());
 		stage.addActor(bar);
 		
@@ -49,18 +48,25 @@ public class HudView implements Disposable {
 		stage.addActor(coinLabel);
 		
 		specialAbilityButtonBg = new Image(
-				resourceManager.getTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BACKGROUND));
+				resources.getTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BACKGROUND));
 		specialAbilityButtonBg.setPosition(VIRTUAL_WIDTH - specialAbilityButtonBg.getWidth() , 0);
 		stage.addActor(specialAbilityButtonBg);
 		
 		specialAbilityButton = new Button(
-				resourceManager.getDrawableTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BUTTON),
-				resourceManager.getDrawableTexture(
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BUTTON),
+				resources.getDrawableTexture(
 						TextureDefinitionImpl.HUD_SPECIALABILITY_BUTTON_DOWN));
 		specialAbilityButton.setPosition(VIRTUAL_WIDTH - specialAbilityButton.getWidth(), 0);
 		stage.addActor(specialAbilityButton);
 		
-		healthTexture = resourceManager.getTexture(TextureDefinitionImpl.HUD_BARMETER_GRADIENT);
+		pauseButton = new Button(
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_PAUSE_BUTTON),
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_PAUSE_BUTTON_DOWN)
+				);
+		pauseButton.setPosition(stage.getWidth() - 110, bar.getY() + 78);
+		stage.addActor(pauseButton);
+		
+		healthTexture = resources.getTexture(TextureDefinitionImpl.HUD_BARMETER_GRADIENT);
 		healthBar = new Image(healthTexture);
 		healthBar.setWidth(275);
 		healthBar.setPosition(772, bar.getY() + 92);
@@ -77,6 +83,14 @@ public class HudView implements Disposable {
 		specialAbilityButton.removeListener(listener);
 	}
 
+	public void addPauseButtonListener(EventListener listener) {
+		pauseButton.addListener(listener);
+	}
+	
+	public void removePauseButtonListener(EventListener listener) {
+		pauseButton.removeListener(listener);
+	}
+	
 	private int cachedScore = 0;
 	public void setScore(int score) {
 		if(score != cachedScore) {
@@ -105,7 +119,7 @@ public class HudView implements Disposable {
 			if(x < 0) {
 				x = 0;
 			}
-			
+
 			healthTexture.setRegion(x, 0, 5, BARMETER_HEIGHT);
 			healthBar.setWidth(BARMETER_WIDTH * health);
 			cachedHealth = health;

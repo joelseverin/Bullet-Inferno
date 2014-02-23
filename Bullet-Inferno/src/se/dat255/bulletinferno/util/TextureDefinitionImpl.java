@@ -181,7 +181,9 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	HUD_SPECIALABILITY_BACKGROUND(textureAtlas("images/game/gameui.atlas", "specialabilitybuttonbackground")),
 	HUD_SPECIALABILITY_BUTTON(textureAtlas("images/game/gameui.atlas", "specialabilitybutton")),
 	HUD_SPECIALABILITY_BUTTON_DOWN(textureAtlas("images/game/gameui.atlas", "specialabilitybutton_down")),
-	HUD_BARMETER_GRADIENT(textureAtlas("images/game/gameui.atlas", "barmetergradient")),
+	HUD_BARMETER_GRADIENT(texture("images/game/barmetergradient.png")),
+	HUD_PAUSE_BUTTON(textureAtlas("images/game/gameui.atlas", "pausebutton")),
+	HUD_PAUSE_BUTTON_DOWN(textureAtlas("images/game/gameui.atlas", "pausebutton_down")),
 	;
 
 	private TextureHolder holder;
