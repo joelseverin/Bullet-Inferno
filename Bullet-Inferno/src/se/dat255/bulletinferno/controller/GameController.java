@@ -19,8 +19,11 @@ import se.dat255.bulletinferno.view.audio.AudioPlayerImpl;
 import se.dat255.bulletinferno.view.gui.HudView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * The main controller of the game, handles main initiation and update of time
@@ -73,6 +76,7 @@ public class GameController extends SimpleController {
 	private HudView hudView;
 	private Stage hudStage;
 	private PlayerShip ship;
+	private final InputMultiplexer inputMultiplexer;
 	
 	/**
 	 * Default controller to set required references
@@ -85,13 +89,16 @@ public class GameController extends SimpleController {
 	public GameController(final MasterController myGame, ResourceManager resourceManager) {
 		this.myGame = myGame;
 		this.resourceManager = resourceManager;
+		
+		pauseController = new PauseMenuController(myGame, this, resourceManager);
 		audioPlayer = new AudioPlayerImpl(resourceManager);
 		
 		hudStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		hudView = new HudView(hudStage, resourceManager);
+		hudView.addPauseButtonListener(pauseButtonListener);
+		hudView.addSpecialAbilityButtonListener(specialAbilityButtonListener);
 		
-		pauseController = new PauseMenuController(myGame, this, resourceManager);
-		
+		inputMultiplexer = new InputMultiplexer(hudStage);
 	}
 
 	/**
@@ -151,6 +158,7 @@ public class GameController extends SimpleController {
 		graphics.addRenderable(projectileView);
 		
 		touchController = new GameTouchController(graphics, ship, this, myGame);
+		inputMultiplexer.addProcessor(touchController);
 		
 		
 	}
@@ -159,28 +167,6 @@ public class GameController extends SimpleController {
 	public void gameOver() {
 		gameOver = true;
 		touchController.setSuppressKeyboard(true);
-	}
-
-	/**
-	 * Pauses the game when the application loses focus. If game isn't over, show pause gui. If it
-	 * is over, only keep track of pause state.
-	 */
-	@Override
-	public void pause() {
-		// Don't show pause gui, only track pause state if game is over
-		if (gameOver) {
-			super.pause();
-		} else {
-			pauseGame();
-		}
-	}
-
-	/** Pauses the game */
-	public void pauseGame() {
-		//super.pause();
-		//touchController.setSuppressKeyboard(true);
-		//graphics.getHudView().pause();
-		myGame.setScreen(pauseController);
 	}
 
 	/**
@@ -194,16 +180,10 @@ public class GameController extends SimpleController {
 		}
 	}
 
-	/** Un-pauses the game */
-	public void unpauseGame() {
-		super.resume();
-		touchController.setSuppressKeyboard(false);
-	}
-
 	@Override
 	public void show() {
 		super.show();
-		Gdx.input.setInputProcessor(touchController);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
@@ -232,7 +212,6 @@ public class GameController extends SimpleController {
 		
 		hudView.setScore(ship.getScore());
 		hudView.setHealth(ship.getHealth());
-		hudStage.act(delta);
 		hudStage.draw();
 		
 		if (!gameOver && models.getPlayerShip().isDead()) {
@@ -256,6 +235,8 @@ public class GameController extends SimpleController {
 
 			models.update(delta);
 		}
+		
+		hudStage.act(delta);
 	}
 
 	@Override
@@ -296,4 +277,18 @@ public class GameController extends SimpleController {
 	public PassiveAbilityDefinition getPassive() {
 		return passive;
 	}
+	
+	private ChangeListener pauseButtonListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			myGame.setScreen(pauseController);
+		}
+	};
+	
+	private ChangeListener specialAbilityButtonListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			special.getSpecialAbility(models).getEffect().activate(ship);
+		}
+	};
 }
