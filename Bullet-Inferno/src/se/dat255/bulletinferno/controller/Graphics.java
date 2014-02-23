@@ -38,24 +38,11 @@ public class Graphics {
 
 	/** List of all objects that are to be rendered in the world */
 	private final Set<Renderable> renderables = new HashSet<Renderable>();
-
-	/** The game controller instance */
-	private final GameController gameController;
-
-	/**
-	 * Sets required references
-	 * 
-	 * @param gameController
-	 *        the game controller instance.
-	 */
-	public Graphics(GameController gameController) {
-		this.gameController = gameController;
-	}
-
+	
 	/**
 	 * Initializes all the required assets
 	 */
-	public void create() {
+	public void initialize() {
 		Texture.setEnforcePotImages(false);
 
 		worldCamera = new OrthographicCamera();
@@ -94,11 +81,7 @@ public class Graphics {
 		// Clear the screen every frame
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-
-		worldBatch.begin();
-		gameController.getBgView().render(worldBatch, worldCamera);
-		worldBatch.end();
-
+		
 		// Render units that have alpha
 		worldBatch.begin();
 		for (Renderable renderable : renderables) {

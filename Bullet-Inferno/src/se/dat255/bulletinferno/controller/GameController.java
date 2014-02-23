@@ -127,14 +127,15 @@ public class GameController extends SimpleController {
 		ship = models.getPlayerShip();
 		
 		// Initialize the graphics controller
-		graphics = new Graphics(this);
-		graphics.create();
+		graphics = new Graphics();
+		graphics.initialize();
 		
 		// Apply the passive ability to the ship
 		passive.getPassiveAbility().getEffect().applyEffect(ship);
 
 		// Set up the bg view, rendering the segments
 		bgView = new BackgroundView(models, resourceManager, ship);
+		graphics.addRenderable(bgView);
 		
 		PlayerShipView shipView = new PlayerShipView(ship, resourceManager);
 		graphics.addRenderable(shipView);
