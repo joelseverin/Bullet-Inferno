@@ -6,10 +6,8 @@ import se.dat255.bulletinferno.model.entity.Enemy;
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
-import se.dat255.bulletinferno.model.loadout.SpecialEffect;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.GameActionEvent;
-import se.dat255.bulletinferno.util.GameActionImpl;
 import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.BackgroundView;
@@ -22,6 +20,7 @@ import se.dat255.bulletinferno.view.gui.HudView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * The main controller of the game, handles main initiation and update of time
@@ -60,8 +59,6 @@ public class GameController extends SimpleController {
 	/** Reference to the background view */
 	private BackgroundView bgView;
 
-	private HudView hudView;
-	
 	private final AudioPlayer audioPlayer;
 
 	/** Reference to the main resource manager of the game */
@@ -72,9 +69,11 @@ public class GameController extends SimpleController {
 	/** Reference to the shared passive ability definition */
 	private PassiveAbilityDefinition passive;
 
-	/** Holds the players last position, in order to check if the player has moved */
-	private float lastPlayerPositionX;
-
+	private PauseMenuController pauseController;
+	private HudView hudView;
+	private Stage hudStage;
+	private PlayerShip ship;
+	
 	/**
 	 * Default controller to set required references
 	 * 
@@ -83,10 +82,16 @@ public class GameController extends SimpleController {
 	 * @param resourceManager
 	 *        the resource manager instance.
 	 */
-	public GameController(final MasterController myGame, final ResourceManager resourceManager) {
+	public GameController(final MasterController myGame, ResourceManager resourceManager) {
 		this.myGame = myGame;
 		this.resourceManager = resourceManager;
 		audioPlayer = new AudioPlayerImpl(resourceManager);
+		
+		hudStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		hudView = new HudView(hudStage, resourceManager);
+		
+		pauseController = new PauseMenuController(myGame, this, resourceManager);
+		
 	}
 
 	/**
@@ -124,29 +129,14 @@ public class GameController extends SimpleController {
 		// Set up the model environment with the provided weaponData, includes creating the player
 		// ship.
 		models = new ModelEnvironmentImpl(weaponData, actionListener);
-		final PlayerShip ship = models.getPlayerShip();
-		
-		hudView = new HudView(resourceManager, ship);
-		
-		// Set up the special effect on the model environment
-		final SpecialEffect specialEffect = special.getSpecialAbility(models).getEffect();
-		hudView.setSpecialEffect(specialEffect);
+		ship = models.getPlayerShip();
 		
 		// Initialize the graphics controller
-		graphics = new Graphics(this, hudView);
+		graphics = new Graphics(this);
 		graphics.create();
 		
 		// Apply the passive ability to the ship
 		passive.getPassiveAbility().getEffect().applyEffect(ship);
-
-		// Set up input handler and add listener for the special ability
-		touchController = new GameTouchController(graphics, ship, this, myGame);
-		touchController.addSpecialAbilityListener(new GameTouchController.SpecialAbilityListener() {
-			@Override
-			public void specialAbilityRequested() {
-				specialEffect.activate(ship);
-			}
-		});
 
 		// Set up the bg view, rendering the segments
 		bgView = new BackgroundView(models, resourceManager, ship);
@@ -159,13 +149,16 @@ public class GameController extends SimpleController {
 
 		ProjectileView projectileView = new ProjectileView(models, resourceManager);
 		graphics.addRenderable(projectileView);
+		
+		touchController = new GameTouchController(graphics, ship, this, myGame);
+		
+		
 	}
 
 	/** The player has died, the game is over */
 	public void gameOver() {
 		gameOver = true;
 		touchController.setSuppressKeyboard(true);
-		graphics.getHudView().gameOver();
 	}
 
 	/**
@@ -184,9 +177,10 @@ public class GameController extends SimpleController {
 
 	/** Pauses the game */
 	public void pauseGame() {
-		super.pause();
-		touchController.setSuppressKeyboard(true);
-		graphics.getHudView().pause();
+		//super.pause();
+		//touchController.setSuppressKeyboard(true);
+		//graphics.getHudView().pause();
+		myGame.setScreen(pauseController);
 	}
 
 	/**
@@ -204,7 +198,6 @@ public class GameController extends SimpleController {
 	public void unpauseGame() {
 		super.resume();
 		touchController.setSuppressKeyboard(false);
-		graphics.getHudView().unpause();
 	}
 
 	@Override
@@ -234,10 +227,14 @@ public class GameController extends SimpleController {
 
 		// Render the game
 		graphics.render();
-
 		// Debug render
 		// graphics.renderWithDebug(models.getPhysicsEnvironment());
-
+		
+		hudView.setScore(ship.getScore());
+		hudView.setHealth(ship.getHealth());
+		hudStage.act(delta);
+		hudStage.draw();
+		
 		if (!gameOver && models.getPlayerShip().isDead()) {
 			gameOver();
 		}
@@ -259,7 +256,6 @@ public class GameController extends SimpleController {
 
 			models.update(delta);
 		}
-
 	}
 
 	@Override

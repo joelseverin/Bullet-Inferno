@@ -5,7 +5,6 @@ import java.util.Set;
 
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
 import se.dat255.bulletinferno.view.Renderable;
-import se.dat255.bulletinferno.view.gui.HudView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -23,10 +22,8 @@ public class Graphics {
 
 	/** 2D world camera */
 	private OrthographicCamera worldCamera;
-	/** 2D GUI camera */
-	private OrthographicCamera guiCamera;
 	/** Handles efficient drawing of several images */
-	private SpriteBatch worldBatch, guiBatch;
+	private SpriteBatch worldBatch;
 
 	private Box2DDebugRenderer debugRenderer;
 
@@ -42,9 +39,6 @@ public class Graphics {
 	/** List of all objects that are to be rendered in the world */
 	private final Set<Renderable> renderables = new HashSet<Renderable>();
 
-	/** List of all objects that are to be rendered as HUD elements */
-	private final HudView hudView;
-
 	/** The game controller instance */
 	private final GameController gameController;
 
@@ -54,8 +48,7 @@ public class Graphics {
 	 * @param gameController
 	 *        the game controller instance.
 	 */
-	public Graphics(GameController gameController, HudView hudView) {
-		this.hudView = hudView;
+	public Graphics(GameController gameController) {
 		this.gameController = gameController;
 	}
 
@@ -69,10 +62,6 @@ public class Graphics {
 		worldBatch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();
 		debugRenderer.setDrawBodies(true);
-
-		guiCamera = new OrthographicCamera(16, 9);
-		guiBatch = new SpriteBatch();
-		guiBatch.setProjectionMatrix(guiCamera.combined);
 
 		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 	}
@@ -97,7 +86,6 @@ public class Graphics {
 	 * Positions the camera correctly and renders all the graphics of the game
 	 */
 	public void render() {
-
 		// Update the camera position
 		worldCamera.position.set(nextCameraPos.x, nextCameraPos.y, 0);
 		worldCamera.update(true);
@@ -117,16 +105,6 @@ public class Graphics {
 			renderable.render(worldBatch, worldCamera);
 		}
 		worldBatch.end();
-
-		// Render HUD and GUI elements
-		guiBatch.begin();
-		hudView.render(guiBatch, null);
-		guiBatch.end();
-	}
-
-	/** Gets hold of the HudView */
-	public HudView getHudView() {
-		return hudView;
 	}
 
 	public void renderWithDebug(PhysicsEnvironment physics) {

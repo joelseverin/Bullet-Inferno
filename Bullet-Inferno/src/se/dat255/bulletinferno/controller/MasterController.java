@@ -47,7 +47,7 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 	@Override
 	public void setScreen(Screen screen) {
 		if(getScreen() != null && getScreen() != loadingScreen) {
-			queuedForDisposal = getScreen();
+			//queuedForDisposal = getScreen();
 		}
 		super.setScreen(screen);
 	}

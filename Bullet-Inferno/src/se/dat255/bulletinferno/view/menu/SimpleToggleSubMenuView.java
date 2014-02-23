@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-abstract class SimpleToggleSubMenuView implements Disposable {
+public abstract class SimpleToggleSubMenuView implements Disposable {
 	
 	private final Group toggleActor;
 	private final float toggleSlideDuration;

@@ -50,7 +50,6 @@ public class PauseMenuController extends SimpleController {
 	public void show() {
 		view.setBackground(ScreenUtils.getFrameBufferTexture(0, 0, Gdx.graphics.getWidth(), 
 				Gdx.graphics.getHeight()));
-		
 		Gdx.input.setInputProcessor(stage);
 		if(!view.isToggledVisible()) {
 			view.slideToggle();

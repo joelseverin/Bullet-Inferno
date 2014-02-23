@@ -1,12 +1,7 @@
 package se.dat255.bulletinferno.controller;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import se.dat255.bulletinferno.model.entity.PlayerShip;
-import se.dat255.bulletinferno.view.gui.GuiEvent;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -17,17 +12,6 @@ import com.badlogic.gdx.math.Vector2;
  * https://code.google.com/p/libgdx/wiki/InputEvent
  */
 public class GameTouchController implements InputProcessor {
-
-	/**
-	 * Listener for special effect requests from the user.
-	 */
-	public interface SpecialAbilityListener {
-		/**
-		 * A special effect was requested by the user (needs to be validated).
-		 */
-		public void specialAbilityRequested();
-	}
-
 	/** The keyboard key to shot the heavy weapon */
 	private final int SHOT_KEY = Input.Keys.SPACE;
 	/** The keyboard key to use the special ability */
@@ -35,9 +19,6 @@ public class GameTouchController implements InputProcessor {
 
 	/** Describes the sense of the point device */
 	private static final float SENSE_SCALE = 1f;
-
-	/** A list of special ability listeners */
-	private final List<SpecialAbilityListener> specialAbilityListeners = new LinkedList<GameTouchController.SpecialAbilityListener>();
 
 	/**
 	 * The game camera. This is needed to un-project x/y values to the virtual
@@ -49,9 +30,6 @@ public class GameTouchController implements InputProcessor {
 	 * Hard reference to the ship model.
 	 */
 	private final PlayerShip ship;
-
-	private final GameController gameController;
-	private final MasterController masterController;
 
 	/** The finger index controlling the position of the ship. */
 	private int steeringFinger = -1;
@@ -65,8 +43,6 @@ public class GameTouchController implements InputProcessor {
 			GameController gameController, MasterController masterController) {
 		this.graphics = graphics;
 		this.ship = ship;
-		this.gameController = gameController;
-		this.masterController = masterController;
 	}
 
 	@Override
@@ -76,11 +52,6 @@ public class GameTouchController implements InputProcessor {
 		}
 		if (keycode == SHOT_KEY) {
 			ship.fireWeapon();
-		}
-		if (keycode == SPECIAL_ABILITY_KEY) {
-			for (SpecialAbilityListener listener : specialAbilityListeners) {
-				listener.specialAbilityRequested();
-			}
 		}
 		return false;
 	}
@@ -101,43 +72,6 @@ public class GameTouchController implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// Check if GUI input was to be handled
-		float guiX = screenX / (Gdx.graphics.getWidth() * INVERTER_WIDTH);
-		float guiY = screenY / (Gdx.graphics.getHeight() * INVERTER_HEIGHT);
-		guiX -= 8.0f;
-		guiY = 4.5f - guiY;
-		GuiEvent event = graphics.getHudView().guiInput(guiX, guiY);
-		if (event != null) {
-			switch (event) {
-			case PAUSE:
-				gameController.pauseGame();
-				break;
-			case UNPAUSE:
-				gameController.unpauseGame();
-				break;
-			case GAMEOVER:
-				gameController.gameOver();
-				break;
-			case RESTARTGAME:
-				masterController.startGame(null,
-						masterController.getGameScreen().getWeaponData(),
-						masterController.getGameScreen().getSpecial(),
-						masterController.getGameScreen().getPassive(),
-						false
-						);
-				break;
-			case STOPGAME:
-				masterController.setScreen(masterController.getLoadoutScreen());
-				break;
-			case SPECIAL_ABILITY:
-				for (SpecialAbilityListener listener : specialAbilityListeners) {
-					listener.specialAbilityRequested();
-				}
-				break;
-			}
-			return true;
-		}
-
 		// Otherwise it's world input
 		// Unproject the touch location to the virtual screen.
 		Vector2 touchVector = new Vector2(screenX, screenY);
@@ -161,7 +95,7 @@ public class GameTouchController implements InputProcessor {
 			touchOrigin.set(new Vector2());
 			steeringFinger = -1;
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -180,38 +114,12 @@ public class GameTouchController implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// Same as touchDragged but for desktop
-		// Un-project the touch location to the virtual screen.
-		Vector2 touchVector = new Vector2(screenX, screenY);
-		graphics.screenToWorld(touchVector);
-
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
-	}
-
-	/**
-	 * Adds a SpecialAbilityListener to the list of listeners.
-	 * 
-	 * @param specialAbilityListener
-	 *        the listener that should be added.
-	 */
-	public void addSpecialAbilityListener(SpecialAbilityListener specialAbilityListener) {
-		specialAbilityListeners.add(specialAbilityListener);
-	}
-
-	/**
-	 * Removes the first occurrence of the specified SpecialAbilityListener from the list of
-	 * listeners.
-	 * 
-	 * @param specialAbilityListener
-	 *        the listener that should be removed.
-	 */
-	public void removeSpecialAbilityListener(SpecialAbilityListener specialAbilityListener) {
-		specialAbilityListeners.remove(specialAbilityListener);
 	}
 
 	public void setSuppressKeyboard(boolean suppressKeyboard) {
