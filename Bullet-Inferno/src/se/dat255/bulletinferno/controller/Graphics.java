@@ -44,7 +44,8 @@ public class Graphics {
 	 */
 	public void initialize() {
 		Texture.setEnforcePotImages(false);
-
+		
+		nextCameraPos.set(0, 0);
 		worldCamera = new OrthographicCamera();
 		worldBatch = new SpriteBatch();
 		debugRenderer = new Box2DDebugRenderer();

@@ -34,7 +34,7 @@ public class GameController extends SimpleController {
 	 * Handles all the graphics with the game.<br>
 	 * Also handles converting between <b>world</b> and <b>local</b> positions.
 	 */
-	private Graphics graphics;
+	private final Graphics graphics = new Graphics();
 
 	/** The current session instance of the game model. */
 	private ModelEnvironment models;
@@ -113,7 +113,6 @@ public class GameController extends SimpleController {
 		// Clear previous state
 		if (graphics != null) {
 			graphics.dispose();
-			graphics = null;
 		}
 
 		if (models != null) {
@@ -127,7 +126,6 @@ public class GameController extends SimpleController {
 		ship = models.getPlayerShip();
 		
 		// Initialize the graphics controller
-		graphics = new Graphics();
 		graphics.initialize();
 		
 		// Apply the passive ability to the ship

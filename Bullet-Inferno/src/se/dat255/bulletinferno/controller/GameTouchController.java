@@ -21,7 +21,7 @@ public class GameTouchController implements InputProcessor, Disposable {
 	/** Describes the sense of the point device */
 	private float SENSE_SCALE = 1f;
 	/** The game camera. This is needed to un-project x/y values to the virtual screen size. */
-	private Graphics graphics;
+	private Graphics graphics = new Graphics();
 	/** Hard reference to the ship model. */
 	private PlayerShip ship;
 
