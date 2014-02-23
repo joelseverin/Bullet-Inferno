@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.controller;
 
 import se.dat255.bulletinferno.model.entity.PlayerShip;
+import se.dat255.bulletinferno.view.Graphics;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
