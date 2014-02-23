@@ -48,10 +48,13 @@ public class Graphics {
 		nextCameraPos.set(0, 0);
 		worldCamera = new OrthographicCamera();
 		worldBatch = new SpriteBatch();
+		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+	}
+	
+	public void initializeWithDebug() {
 		debugRenderer = new Box2DDebugRenderer();
 		debugRenderer.setDrawBodies(true);
-
-		resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		initialize();
 	}
 
 	/**
@@ -67,7 +70,12 @@ public class Graphics {
 	 * Releases the assets when called
 	 */
 	public void dispose() {
-		worldBatch.dispose();
+		if(worldBatch != null) {
+			worldBatch.dispose();
+		}
+		if(debugRenderer != null) {
+			debugRenderer.dispose();
+		}
 	}
 
 	/**
