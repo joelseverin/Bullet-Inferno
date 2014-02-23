@@ -175,8 +175,15 @@ public class GameController extends SimpleController {
 
 	@Override
 	public void dispose() {
-		graphics.dispose();
-
+		audioPlayer.dispose();
+		pauseController.dispose();
+		hudStage.dispose();
+		hudView.dispose();
+		touchController.dispose();
+		
+		if(graphics != null) {
+			graphics.dispose();
+		}
 		if (models != null) {
 			models.dispose();
 		}

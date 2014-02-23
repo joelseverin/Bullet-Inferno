@@ -5,13 +5,14 @@ import se.dat255.bulletinferno.model.entity.PlayerShip;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 
 /**
  * The main touch controller<br>
  * Information on development of LibGDX input handling:<br>
  * https://code.google.com/p/libgdx/wiki/InputEvent
  */
-public class GameTouchController implements InputProcessor {
+public class GameTouchController implements InputProcessor, Disposable {
 	/** The keyboard key to shot the heavy weapon */
 	private static final int SHOT_KEY = Input.Keys.SPACE;
 	/** The keyboard key to use the special ability */
@@ -124,6 +125,12 @@ public class GameTouchController implements InputProcessor {
 	
 	public void setPlayerShip(PlayerShip ship) {
 		this.ship = ship;
+	}
+
+	@Override
+	public void dispose() {
+		ship = null;
+		graphics = null;
 	}
 
 }
