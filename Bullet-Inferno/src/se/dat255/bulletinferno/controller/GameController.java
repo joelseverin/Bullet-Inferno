@@ -21,6 +21,7 @@ import se.dat255.bulletinferno.view.gui.HudView;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -58,7 +59,6 @@ public class GameController extends SimpleController {
 	/** Reference to the background view */
 	private BackgroundView bgView;
 
-	private final AudioPlayer audioPlayer;
 
 	/** Reference to the main resource manager of the game */
 	private final ResourceManager resourceManager;
@@ -68,6 +68,7 @@ public class GameController extends SimpleController {
 	/** Reference to the shared passive ability definition */
 	private PassiveAbilityDefinition passive;
 
+	private final AudioPlayer soundEffectsPlayer;
 	private PauseMenuController pauseController;
 	private HudView hudView;
 	private Stage hudStage;
@@ -88,7 +89,16 @@ public class GameController extends SimpleController {
 		this.resourceManager = resourceManager;
 		
 		pauseController = new PauseMenuController(myGame, this, resourceManager);
-		audioPlayer = new AudioPlayerImpl(resourceManager);
+		
+		soundEffectsPlayer = new AudioPlayerImpl(resourceManager);
+		Preferences preferences = MasterController.getUserDefaults();
+		if(preferences.contains("soundEffectsVolume")) {
+			if(preferences.contains("soundEffectsMuted") 
+					&& preferences.getBoolean("soundEffectsVolume")) {
+				soundEffectsPlayer.mute();
+			}
+			soundEffectsPlayer.setVolume(preferences.getFloat("backgroundMusicVolume"));
+		}
 		
 		hudStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		hudView = new HudView(hudStage, resourceManager);
@@ -175,7 +185,7 @@ public class GameController extends SimpleController {
 
 	@Override
 	public void dispose() {
-		audioPlayer.dispose();
+		soundEffectsPlayer.dispose();
 		pauseController.dispose();
 		hudStage.dispose();
 		hudView.dispose();
@@ -291,7 +301,7 @@ public class GameController extends SimpleController {
 			new Listener<GameActionEvent<Enemy>>() {
 		@Override
 		public void call(GameActionEvent<Enemy> e) {
-			audioPlayer.playSoundEffect(e);
+			soundEffectsPlayer.playSoundEffect(e);
 		}
 	};
 }
