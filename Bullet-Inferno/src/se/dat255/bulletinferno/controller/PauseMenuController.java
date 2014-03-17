@@ -87,7 +87,7 @@ public class PauseMenuController extends SimpleController {
 	private ChangeListener restartListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent arg0, Actor arg1) {
-			// TODO : gameController.restart();
+			gameController.restartGame();
 			masterController.setScreen(gameController);
 		}
 	};

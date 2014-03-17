@@ -54,7 +54,7 @@ public class GameController extends SimpleController {
 	private WeaponDefinition[] weaponData;
 
 	/** Reference to the master controller */
-	private final MasterController myGame;
+	private final MasterController masterController;
 
 	/** Reference to the background view */
 	private BackgroundView bgView;
@@ -79,16 +79,16 @@ public class GameController extends SimpleController {
 	/**
 	 * Default controller to set required references
 	 * 
-	 * @param myGame
+	 * @param masterController
 	 *        The master controller that creates this controller
 	 * @param resourceManager
 	 *        the resource manager instance.
 	 */
-	public GameController(final MasterController myGame, ResourceManager resourceManager) {
-		this.myGame = myGame;
+	public GameController(final MasterController masterController, ResourceManager resourceManager) {
+		this.masterController = masterController;
 		this.resourceManager = resourceManager;
 		
-		pauseController = new PauseMenuController(myGame, this, resourceManager);
+		pauseController = new PauseMenuController(masterController, this, resourceManager);
 		
 		soundEffectsPlayer = new AudioPlayerImpl(resourceManager);
 		Preferences preferences = MasterController.getUserDefaults();
@@ -108,6 +108,10 @@ public class GameController extends SimpleController {
 		inputMultiplexer = new InputMultiplexer(hudStage, touchController);
 	}
 
+	public void restartGame() {
+		createNewGame(weaponData, special, passive);
+	}
+	
 	/**
 	 * Creates or recreates a game "state". This method should be called before switching to the
 	 * GameScreen.
@@ -263,30 +267,15 @@ public class GameController extends SimpleController {
 		models.setViewport(viewportPosition, viewportDimensions);
 	}
 
-	/** Gets the game background view */
-	public BackgroundView getBgView() {
-		return bgView;
-	}
-
 	/** Get method for weapon data set in create new game */
 	public WeaponDefinition[] getWeaponData() {
 		return weaponData;
 	}
 
-	/** Get method for data set in create new game */
-	public SpecialAbilityDefinition getSpecial() {
-		return special;
-	}
-
-	/** Get method for data set in create new game */
-	public PassiveAbilityDefinition getPassive() {
-		return passive;
-	}
-	
 	private ChangeListener pauseButtonListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			myGame.setScreen(pauseController);
+			masterController.setScreen(pauseController);
 		}
 	};
 	
