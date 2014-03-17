@@ -1,6 +1,7 @@
 package se.dat255.bulletinferno.controller;
 
 import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.view.audio.AudioPlayer;
 import se.dat255.bulletinferno.view.gui.PauseView;
 
 import com.badlogic.gdx.Gdx;
@@ -20,13 +21,14 @@ public class PauseMenuController extends SimpleController {
 	private final MasterController masterController;
 	private final GameController gameController;
 	private final ResourceManager resources;
-	
+	private final AudioPlayer audioPlayer;
 	
 	public PauseMenuController(MasterController masterController, GameController gameController, 
-			ResourceManager resources) {
+			ResourceManager resources, AudioPlayer audioPlayer) {
 		this.masterController = masterController;
 		this.gameController = gameController;
 		this.resources = resources;
+		this.audioPlayer = audioPlayer;
 		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		
@@ -99,7 +101,11 @@ public class PauseMenuController extends SimpleController {
 			MasterController.getUserDefaults().putBoolean("soundEffectsMuted", !muted);
 			MasterController.getUserDefaults().putBoolean("backgroundMusicMuted", !muted);
 			
-			// TODO audioplayer.mute()
+			if(muted) {
+				audioPlayer.mute();
+			} else {
+				audioPlayer.unMute();
+			}
 		}
 	};
 }

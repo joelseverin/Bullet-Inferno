@@ -127,13 +127,12 @@ public class AudioPlayerImpl implements AudioPlayer, Music.OnCompletionListener 
 	@Override
 	public void onCompletion(Music music) {
 		MusicDefinition definition = null;
-		
 		for(Entry<MusicDefinition, Music> entry : musicTracks.entrySet()) {
 			if(entry.getValue() == music) {
 				definition = entry.getKey();
 			}
 		}
-		
+
 		// If the music is found
 		if(definition != null) {
 			musicTracks.remove(definition);
@@ -143,7 +142,14 @@ public class AudioPlayerImpl implements AudioPlayer, Music.OnCompletionListener 
 	
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		for(Music m : musicTracks.values()) {
+			m.stop();
+			m.dispose();
+		}
 		
+		for(Sound sound : sounds.values()) {
+			sound.stop();
+			sound.dispose();
+		}
 	}
 }

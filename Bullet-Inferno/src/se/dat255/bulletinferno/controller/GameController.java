@@ -88,8 +88,6 @@ public class GameController extends SimpleController {
 		this.masterController = masterController;
 		this.resourceManager = resourceManager;
 		
-		pauseController = new PauseMenuController(masterController, this, resourceManager);
-		
 		soundEffectsPlayer = new AudioPlayerImpl(resourceManager);
 		Preferences preferences = MasterController.getUserDefaults();
 		if(preferences.contains("soundEffectsVolume")) {
@@ -99,6 +97,9 @@ public class GameController extends SimpleController {
 			}
 			soundEffectsPlayer.setVolume(preferences.getFloat("backgroundMusicVolume"));
 		}
+		
+		pauseController = new PauseMenuController(masterController, this, resourceManager, 
+				soundEffectsPlayer);
 		
 		hudStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 		hudView = new HudView(hudStage, resourceManager);
