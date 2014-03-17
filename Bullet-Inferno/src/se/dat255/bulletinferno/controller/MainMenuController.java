@@ -145,7 +145,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 	private ChangeListener playListener = new ChangeListener() {
 		@Override
 		public void changed(ChangeEvent event, Actor actor) {
-			masterController.setScreen(new LoadoutController(masterController, resources));
+			masterController.setScreenWithDisposal(new LoadoutController(masterController, resources));
 		}
 	};
 	

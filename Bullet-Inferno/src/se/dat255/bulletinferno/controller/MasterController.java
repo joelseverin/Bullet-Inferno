@@ -43,13 +43,12 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 		loadingScreen.setClickToSwitch(true);
 		setScreen(loadingScreen);
 	}
-
-	@Override
-	public void setScreen(Screen screen) {
+	
+	public void setScreenWithDisposal(Controller controller) {
 		if(getScreen() != null && getScreen() != loadingScreen) {
 			queuedForDisposal = getScreen();
 		}
-		super.setScreen(screen);
+		setScreen(controller);
 	}
 	
 	@Override
