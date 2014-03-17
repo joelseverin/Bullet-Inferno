@@ -98,8 +98,8 @@ public class PauseMenuController extends SimpleController {
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
 			boolean muted = view.getMuteButton().isChecked();
-			MasterController.getUserDefaults().putBoolean("soundEffectsMuted", !muted);
-			MasterController.getUserDefaults().putBoolean("backgroundMusicMuted", !muted);
+			MasterController.getUserDefaults().putBoolean("soundEffectsMuted", muted);
+			MasterController.getUserDefaults().putBoolean("backgroundMusicMuted", muted);
 			
 			if(muted) {
 				audioPlayer.mute();
@@ -108,4 +108,9 @@ public class PauseMenuController extends SimpleController {
 			}
 		}
 	};
+	
+	@Override
+	public void pause() {
+		MasterController.getUserDefaults().flush();
+	}
 }
