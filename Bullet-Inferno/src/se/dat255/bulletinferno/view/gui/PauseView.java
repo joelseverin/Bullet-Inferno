@@ -2,9 +2,10 @@ package se.dat255.bulletinferno.view.gui;
 
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
-import se.dat255.bulletinferno.view.menu.MenuBackgroundView;
 import se.dat255.bulletinferno.view.menu.SimpleToggleSubMenuView;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -66,13 +67,26 @@ public class PauseView extends SimpleToggleSubMenuView implements Disposable {
 				resources.getDrawableTexture(TextureDefinitionImpl.PAUSEMENU_RESTART_BUTTON_DOWN));
 		table.add(restartButton).padTop(35);
 		table.row();
-		table.debug();
 		
 		muteButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SOUND_ON),
 				null,
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_SOUND_OFF));
 		table.add(muteButton).padTop(60);
+		
+		// Create textures for the overlay of the background
+		Pixmap p = new Pixmap((VIRTUAL_WIDTH - GLASS_WIDTH)/2, VIRTUAL_HEIGHT, Format.RGBA8888);
+		p.setColor(0, 0, 0, 0.3f);
+		p.fillRectangle(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+		TextureRegionDrawable trd = new TextureRegionDrawable(new TextureRegion(new Texture(p)));
+		Image leftDarkOverlay = new Image(trd);
+		Image rightDarkOverlay = new Image(trd);
+		rightDarkOverlay.setPosition((VIRTUAL_WIDTH - GLASS_WIDTH)/2 + GLASS_WIDTH, 0);
+		p.dispose();
+		
+		stage.addActor(leftDarkOverlay);
+		stage.addActor(rightDarkOverlay);
+		
 		
 		getToggleActor().addActor(table);
 		stage.addActor(getToggleActor());
