@@ -82,7 +82,7 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	// Menu
 	MENU_BACKGROUND(texture("images/gui/menubackground.png")),
 	MENU_PLANE(textureAtlas("images/gui/menubuttons.atlas", "menuplane")),
-	
+	MENU_MR_BEAR(texture("images/gui/mrbear.png")),
 	MENU_SOUND_ON(textureAtlas("images/gui/menubuttons.atlas", "sound_on")),
 	MENU_SOUND_OFF(textureAtlas("images/gui/menubuttons.atlas", "sound_off")),
 	MENU_RESETBUTTON(textureAtlas("images/gui/menubuttons.atlas", "reset")),

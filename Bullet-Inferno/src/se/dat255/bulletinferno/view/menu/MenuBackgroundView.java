@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 public class MenuBackgroundView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	
-	private final static int PLANE_POSITION_Y = 660, PLANE_ANIMATION_DURATION = 20;
+	private final static int PLANE_POSITION_Y = 740, PLANE_ANIMATION_DURATION = 20;
 
 	private final Stage stage;
 	private final Image background;

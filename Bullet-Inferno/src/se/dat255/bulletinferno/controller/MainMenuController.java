@@ -23,7 +23,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 public class MainMenuController extends SimpleController implements SubMenuControllHandler {
 	private final Stage stage;
 	private final ResourceManager resources;
-	private final MenuBackgroundView backgroundView;
 	private final MainMenuView menuView;
 	private final MasterController masterController;
 	private final AudioPlayer audioPlayer;
@@ -35,7 +34,7 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		this.resources = resources;
 		
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-		backgroundView = new MenuBackgroundView(stage, resources);
+		
 		menuView = new MainMenuView(stage, resources);
 		
 		menuView.addStoreListener(storeListener);
@@ -73,7 +72,6 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		menuView.dispose();
 		stage.clear();
 		stage.dispose();
-		backgroundView.dispose();
 		audioPlayer.dispose();
 		if(activeSubController != null) {
 			activeSubController.dispose();

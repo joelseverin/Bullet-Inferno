@@ -17,6 +17,7 @@ public class MainMenuView implements Disposable {
 	private final static int BUTTONGROUP_POSITION_X = 1508, BUTTONGROUP_POSITION_Y = 130, 
 			BUTTONGROUP_MARGIN_Y = 35;
 	private final static int GLAS_WIDTH = 453;
+	private final static int MR_BEAR_X = 110, MR_BEAR_Y = 40;
 	
 	private final Stage stage;
 	private final Button playButton;
@@ -24,7 +25,8 @@ public class MainMenuView implements Disposable {
 	private final Button settingsButton;
 	private final Button achievementsButton;
 	private final Button storeButton;
-	private final Image glass;
+	private final Image glass, mrBear;
+	private final MenuBackgroundView backgroundView;
 	
 	public MainMenuView(Stage stage, ResourceManager resources) {
 		this.stage = stage;
@@ -34,9 +36,14 @@ public class MainMenuView implements Disposable {
 			stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
 		}
 		
+		backgroundView = new MenuBackgroundView(stage, resources);
+		
 		glass = new Image(resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_GLAS));
 		glass.setSize(GLAS_WIDTH, VIRTUAL_HEIGHT);
 		glass.setPosition(VIRTUAL_WIDTH - GLAS_WIDTH, 0);
+		
+		mrBear = new Image(resources.getTexture(TextureDefinitionImpl.MENU_MR_BEAR));
+		mrBear.setPosition(MR_BEAR_X, MR_BEAR_Y);
 		
 		playButton = new Button(
 				resources.getDrawableTexture(TextureDefinitionImpl.MENU_MAIN_PLAYBUTTON), 
@@ -74,6 +81,7 @@ public class MainMenuView implements Disposable {
 		storeButton.setPosition(BUTTONGROUP_POSITION_X, BUTTONGROUP_POSITION_Y + 
 				BUTTON_PLAY_HEIGHT + BUTTON_PLAY_MARGIN_Y + 3*(BUTTON_HEIGHT + BUTTONGROUP_MARGIN_Y));
 		
+		this.stage.addActor(mrBear);
 		this.stage.addActor(glass);
 		this.stage.addActor(playButton);
 		this.stage.addActor(leaderboardsButton);
@@ -84,6 +92,7 @@ public class MainMenuView implements Disposable {
 	
 	@Override
 	public void dispose() {
+		backgroundView.dispose();
 		stage.getRoot().removeActor(playButton);
 		playButton.clear();
 		stage.getRoot().removeActor(leaderboardsButton);
