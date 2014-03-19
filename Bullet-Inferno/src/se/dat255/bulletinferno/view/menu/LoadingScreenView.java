@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.Disposable;
 public class LoadingScreenView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
 	private final static int LOADING_BAR_HEIGHT = 80, LOADING_BAR_WIDTH = 14,
-			LOADING_BAR_POSITION_X = 660, LOADING_BAR_POSITION_Y = 170,
+			LOADING_BAR_POSITION_X = 645, LOADING_BAR_POSITION_Y = 170,
 			LOADING_BAR_PADDING_X = 18;
 	private final static Color BACKGROUND_COLOR = new Color(0.1797f, 0.1797f, 0.1719f, 1f);
 	private final static Color LOADINGBAR_FILLED_COLOR = new Color(0.2980f, 0.490196f, 
@@ -107,7 +107,7 @@ public class LoadingScreenView implements Disposable {
 				.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		LabelStyle ls = new LabelStyle(progressLabelFont, LOADINGBAR_FILLED_COLOR);
 		progressLabel = new Label("Loading", ls);
-		progressLabel.setPosition(890, 110);
+		progressLabel.setPosition(875, 110);
 		stage.addActor(progressLabel);
 	}
 
