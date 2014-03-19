@@ -123,10 +123,10 @@ public class LoadingScreenView implements Disposable {
 			progressLabel.setText("Loading " + (int) (loadProgress * 100) + "%");
 			percent = loadProgress;
 			
-			int barsToBeFilled = Math.min((int) (loadProgress * 20), 19); 
+			int barsToBeFilled = Math.min((int) (loadProgress * 20), 20); 
 			
 			if(barsToBeFilled > barsFilled) {
-				for(; barsFilled <= barsToBeFilled; barsFilled++) {
+				for(; barsFilled < barsToBeFilled; barsFilled++) {
 					loadingBars[barsFilled].setDrawable(loadinbarFilledTexture);
 				}
 			}
