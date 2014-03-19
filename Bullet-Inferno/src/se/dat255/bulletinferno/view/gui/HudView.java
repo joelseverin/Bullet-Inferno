@@ -1,207 +1,138 @@
 package se.dat255.bulletinferno.view.gui;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import se.dat255.bulletinferno.model.entity.PlayerShip;
-import se.dat255.bulletinferno.model.loadout.SpecialEffect;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
-import se.dat255.bulletinferno.view.Renderable;
-import se.dat255.bulletinferno.view.RenderableGUI;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Disposable;
 
-/**
- * Main view of all the HUD elements in the game
- */
-public class HudView implements Renderable {
-
-	/** The rate of alpha value that the the life bar should fade out at when life is full */
-	private static final float LIFE_ALPHA_FADEOUT_PER_SECOND = 1.5f;
-
-	/** The minimum value of alpha the health bar should have */
-	private static final float MIN_LIFE_BAR_ALPHA = 0.4f;
-
-	/** Reference to the resource manager */
-	private final ResourceManager resourceManager;
-
-	/** The region for life background */
-	private final TextureRegion lifeBackground;
-	/** The region for life statuses */
-	private final TextureRegion lifeRegion;
-	/** The different regions for weapon heat statuses */
-	private final TextureRegion[] heatRegions;
-	/** The different regions for displaying numbers in game */
-	private final TextureRegion[] numberRegions;
-	/** The regions for the different HUD elements */
-	private final Set<RenderableGUI> hudRegions = new HashSet<RenderableGUI>();
-
-	/** The backing array of the score */
-	private final int[] scoreArray = new int[10];
-	/** Number of active score numbers to draw */
-	private int activeScoreNumbers = 1;
-	/** The width of the health bar */
-	private float lifeWidth;
-
-	private PlayerShip	playerShip;
-	/** The interpolation coefficient value between 0 and 1 for fading alpha of the life bar */
-	private float lifeFadeoutTime;
-	/** The amount of heat regions to display; 0.0f -> 1.0f */
-	private final float heatValue = 0.5f;
-
-	/** Reference to the pause view for easily showing/hiding them */
-	private final RenderableGUI pauseScreen, pauseButton;
-
-	/** Button for activating the special ability */
-	private final SpecialIconView specialButton;
-
-	/**
-	 * Loads the initial image and sets the regions
-	 * 
-	 * @param resourceManager
-	 *        The manager that holds the assets
-	 * @param playerShip
-	 * 		  The active player ship in the game
-	 */
-	public HudView(ResourceManager resourceManager, PlayerShip playerShip) {
-		this.resourceManager = resourceManager;
-		this.playerShip = playerShip;
+public class HudView implements Disposable {
+	private static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920, BARMETER_WIDTH = 275, 
+			BARMETER_HEIGHT = 19;
+	private final Label scoreLabel;
+	private final Label coinLabel;
+	private final Image bar;
+	private final Image specialAbilityButtonBg;
+	private final Button specialAbilityButton, pauseButton;
+	private final Stage stage;
+	
+	private final TextureRegion healthTexture;
+	private final Image healthBar;
+	
+	public HudView(Stage stage, ResourceManager resources) {
+		this.stage = stage;
 		
-		Texture hudTexture = resourceManager.getTexture(TextureDefinitionImpl.HUD_TEXTURE)
-				.getTexture();
-
-		lifeBackground = new TextureRegion(hudTexture, 2, 35, 162, 33);
-		lifeRegion = new TextureRegion(hudTexture, 9, 10, 1, 20); // 9 -> 158
-		heatRegions = new TextureRegion[] {
-				new TextureRegion(hudTexture, 167, 29, 20, 38), // No heat
-				new TextureRegion(hudTexture, 190, 30, 20, 38), // Overheat
-				new TextureRegion(hudTexture, 242, 3, 270, 86), // Heat background
-		};
-		numberRegions = new TextureRegion[] {
-				new TextureRegion(hudTexture, 13, 90, 30, 65), // 0
-				new TextureRegion(hudTexture, 60, 90, 20, 65), // 1
-				new TextureRegion(hudTexture, 92, 90, 30, 65), // 2
-				new TextureRegion(hudTexture, 139, 90, 30, 65), // 3
-				new TextureRegion(hudTexture, 184, 90, 30, 65), // 4
-				new TextureRegion(hudTexture, 234, 90, 30, 65), // 5
-				new TextureRegion(hudTexture, 280, 90, 30, 65), // 6
-				new TextureRegion(hudTexture, 324, 90, 30, 65), // 7
-				new TextureRegion(hudTexture, 372, 90, 30, 65), // 8
-				new TextureRegion(hudTexture, 420, 90, 30, 65), // 9
-		};
-		pauseScreen = new PauseScreenView(resourceManager);
-		pauseButton = new PauseIconView(new TextureRegion(hudTexture, 6, 158, 74, 85));
-		hudRegions.add(pauseButton);
-		specialButton = new SpecialIconView(new TextureRegion(hudTexture, 105, 162, 89, 89));
-		hudRegions.add(specialButton);
+		Skin skin = resources.getSkin();
+		
+		if(stage.getHeight() != VIRTUAL_HEIGHT || stage.getWidth() != VIRTUAL_WIDTH) {
+			stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
+		}
+		
+		bar = new Image(resources.getTexture(TextureDefinitionImpl.HUD_BAR));
+		bar.setPosition(0, VIRTUAL_HEIGHT - bar.getHeight());
+		stage.addActor(bar);
+		
+		LabelStyle style = new LabelStyle(skin.getFont("myraid40"), skin.getColor("darkgrey"));
+		scoreLabel = new Label("0", style);
+		scoreLabel.setPosition(105, bar.getY() + 82);
+		stage.addActor(scoreLabel);
+		coinLabel = new Label("0", style);
+		coinLabel.setPosition(412, bar.getY() + 82);
+		stage.addActor(coinLabel);
+		
+		specialAbilityButtonBg = new Image(
+				resources.getTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BACKGROUND));
+		specialAbilityButtonBg.setPosition(VIRTUAL_WIDTH - specialAbilityButtonBg.getWidth() , 0);
+		stage.addActor(specialAbilityButtonBg);
+		
+		specialAbilityButton = new Button(
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_SPECIALABILITY_BUTTON),
+				resources.getDrawableTexture(
+						TextureDefinitionImpl.HUD_SPECIALABILITY_BUTTON_DOWN));
+		specialAbilityButton.setPosition(VIRTUAL_WIDTH - specialAbilityButton.getWidth(), 0);
+		stage.addActor(specialAbilityButton);
+		
+		pauseButton = new Button(
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_PAUSE_BUTTON),
+				resources.getDrawableTexture(TextureDefinitionImpl.HUD_PAUSE_BUTTON_DOWN)
+				);
+		pauseButton.setPosition(stage.getWidth() - 110, bar.getY() + 78);
+		stage.addActor(pauseButton);
+		
+		healthTexture = resources.getTexture(TextureDefinitionImpl.HUD_BARMETER_GRADIENT);
+		healthBar = new Image(healthTexture);
+		healthBar.setWidth(275);
+		healthBar.setPosition(772, bar.getY() + 92);
+		stage.addActor(healthBar);
+		setHealth(1);
+		
 	}
 
-	/** Sets the backing array of the graphic score */
+	public void addSpecialAbilityButtonListener(EventListener listener) {
+		specialAbilityButton.addListener(listener);
+	}
+	
+	public void removeSpecialAbilityButtonListener(EventListener listener) {
+		specialAbilityButton.removeListener(listener);
+	}
+
+	public void addPauseButtonListener(EventListener listener) {
+		pauseButton.addListener(listener);
+	}
+	
+	public void removePauseButtonListener(EventListener listener) {
+		pauseButton.removeListener(listener);
+	}
+	
+	private int cachedScore = 0;
 	public void setScore(int score) {
-		for (int i = 9; i >= 0; i--) {
-			scoreArray[i] = score % 10;
-			score /= 10;
-		}
-		for (activeScoreNumbers = 0; activeScoreNumbers < 10 && scoreArray[activeScoreNumbers] == 0; activeScoreNumbers++) {
-			;
-		}
-		if (activeScoreNumbers == 0) {
-			activeScoreNumbers++;
-		} else {
-			activeScoreNumbers = 10 - activeScoreNumbers;
+		if(score != cachedScore) {
+			scoreLabel.setText(Integer.toString(score));
+			cachedScore = score;
 		}
 	}
-
-	private void setLife(float life) {
-		lifeRegion.setRegionX((int) (9 + 149f * life));
-		lifeRegion.setRegionWidth(1);
-		lifeWidth = 3f * life;
+	
+	private int cachedCoin = 0;
+	public void setCoinScore(int coinScore) {
+		if(coinScore != cachedCoin) {
+			coinLabel.setText(Integer.toString(coinScore));
+			cachedCoin = coinScore;
+		}
 	}
-
-	/** Displays pause screen */
-	public void pause() {
-		hudRegions.remove(pauseButton);
-		hudRegions.remove(specialButton);
-		hudRegions.add(pauseScreen);
-	}
-
-	/** Removes pause screen */
-	public void unpause() {
-		hudRegions.remove(pauseScreen);
-		hudRegions.add(pauseButton);
-		hudRegions.add(specialButton);
-	}
-
-	/** Shows the game over screen **/
-	public void gameOver() {
-		RenderableGUI gameOver = new GameoverScreenView(resourceManager, playerShip.getScore());
-		hudRegions.clear();
-		hudRegions.add(gameOver);
-	}
-
-	/**
-	 * Checks if a GUI element was activated, also calling that
-	 * element.
-	 * 
-	 * @param x
-	 *        The X position of the GUI
-	 * @param y
-	 *        The Y position of the GUI
-	 * @return If a GUI element was activated
-	 */
-	public GuiEvent guiInput(float x, float y) {
-		for (RenderableGUI gui : hudRegions) {
-			Vector2 position = gui.getPosition();
-			Vector2 size = gui.getSize();
-			if (x > position.x && y > position.y && x < position.x + size.x
-					&& y < position.y + size.y) {
-				return gui.pressed(x, y);
+	
+	private float cachedHealth = 0;
+	public void setHealth(float health) {
+		if(health != cachedHealth) {
+			if(health > 1f) {
+				health = 1f;
 			}
-		}
-		return null;
-	}
+			// Calculate where on the gradient to crop
+			int x = (int) (health * BARMETER_WIDTH - 5);
+			// If calculation turned negative, make x have the lowest value (0)
+			if(x < 0) {
+				x = 0;
+			}
 
-	@Override
-	public void render(SpriteBatch batch, Camera viewport) {
-		setLife(playerShip.getHealth());
-		if (playerShip.getHealth() >= 1) {
-			lifeFadeoutTime += LIFE_ALPHA_FADEOUT_PER_SECOND * Gdx.graphics.getDeltaTime();
-			lifeFadeoutTime = Math.min(1, lifeFadeoutTime);
-			
-			Color prevColor = batch.getColor();
-			batch.setColor(Color.WHITE.cpy().lerp(
-					1f, 1f, 1f, MIN_LIFE_BAR_ALPHA, lifeFadeoutTime));
-			batch.draw(lifeBackground, -1.6f, 3.9f, 3.2f, 0.7f);
-			batch.draw(lifeRegion, -1.5f, 4f, lifeWidth, 0.5f);
-			batch.setColor(prevColor);
-		} else {
-			lifeFadeoutTime = 0;
-			batch.draw(lifeBackground, -1.6f, 3.9f, 3.2f, 0.7f);
-			batch.draw(lifeRegion, -1.5f, 4f, lifeWidth, 0.5f);
-		}
-		setScore(playerShip.getScore());
-		for (int i = 10 - activeScoreNumbers, j = 0; i < 10; i++, j++) {
-			batch.draw(numberRegions[scoreArray[i]], j * 0.4f - 8, 4f, 0.5f, 0.5f);
-		}
-
-		for (RenderableGUI gui : hudRegions) {
-			gui.render(batch);
+			healthTexture.setRegion(x, 0, 5, BARMETER_HEIGHT);
+			healthBar.setWidth(BARMETER_WIDTH * health);
+			cachedHealth = health;
 		}
 	}
-
+	
 	@Override
 	public void dispose() {
-		pauseScreen.dispose(resourceManager);
+		stage.getRoot().removeActor(scoreLabel);
+		stage.getRoot().removeActor(coinLabel);
+		stage.getRoot().removeActor(bar);
+		stage.getRoot().removeActor(specialAbilityButtonBg);
+		stage.getRoot().removeActor(specialAbilityButton);
 	}
-
-	public void setSpecialEffect(SpecialEffect effect) {
-		specialButton.setSpecialEffect(effect);
-	}
+	
 }

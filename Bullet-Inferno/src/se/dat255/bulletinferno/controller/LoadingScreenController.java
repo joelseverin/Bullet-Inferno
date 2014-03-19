@@ -78,9 +78,7 @@ public class LoadingScreenController extends SimpleController {
 
 		// Set up the GUI elements
 		stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-		loadingScreenView = new LoadingScreenView();
-		loadingScreenView.setFillParent(true);
-		stage.addActor(loadingScreenView);
+		loadingScreenView = new LoadingScreenView(stage);
 
 		// Add a click listener to the whole stage to capture "click to continue" touches
 		stage.addListener(stageClickInputListener);
@@ -129,7 +127,7 @@ public class LoadingScreenController extends SimpleController {
 
 	@Override
 	public void resize(int width, int height) {
-		stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
+		//stage.setViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, false);
 	}
 
 	@Override

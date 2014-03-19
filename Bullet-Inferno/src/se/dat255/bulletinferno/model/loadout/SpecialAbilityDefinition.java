@@ -1,9 +1,10 @@
 package se.dat255.bulletinferno.model.loadout;
 
 import se.dat255.bulletinferno.model.ModelEnvironment;
+import se.dat255.bulletinferno.util.Descriptable;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 
-public interface SpecialAbilityDefinition extends ResourceIdentifier {
+public interface SpecialAbilityDefinition extends ResourceIdentifier, Descriptable {
 
 	/**
 	 * Returns the SpecialAbility selected.

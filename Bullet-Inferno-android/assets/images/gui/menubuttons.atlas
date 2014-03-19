@@ -1,0 +1,276 @@
+
+menubuttons.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+sliderbackground
+  rotate: false
+  xy: 1, 1010
+  size: 755, 12
+  orig: 755, 12
+  offset: 0, 0
+  index: -1
+leaderboardcoins
+  rotate: false
+  xy: 758, 966
+  size: 238, 56
+  orig: 238, 56
+  offset: 0, 0
+  index: -1
+sliderknob
+  rotate: false
+  xy: 998, 987
+  size: 18, 35
+  orig: 18, 35
+  offset: 0, 0
+  index: -1
+pauserestart
+  rotate: false
+  xy: 1, 916
+  size: 402, 92
+  orig: 402, 92
+  offset: 0, 0
+  index: -1
+loadoutbigselector
+  rotate: false
+  xy: 405, 865
+  size: 303, 143
+  orig: 303, 143
+  offset: 0, 0
+  index: -1
+pauserestart_down
+  rotate: false
+  xy: 1, 822
+  size: 402, 92
+  orig: 402, 92
+  offset: 0, 0
+  index: -1
+loadoutbigselector_active
+  rotate: false
+  xy: 710, 821
+  size: 303, 143
+  orig: 303, 143
+  offset: 0, 0
+  index: -1
+leaderboardcoins_down
+  rotate: false
+  xy: 405, 807
+  size: 238, 56
+  orig: 238, 56
+  offset: 0, 0
+  index: -1
+pauseresume
+  rotate: false
+  xy: 1, 728
+  size: 402, 92
+  orig: 402, 92
+  offset: 0, 0
+  index: -1
+loadoutdone
+  rotate: false
+  xy: 645, 718
+  size: 377, 101
+  orig: 377, 101
+  offset: 0, 0
+  index: -1
+loadoutsmallselector
+  rotate: false
+  xy: 405, 662
+  size: 223, 143
+  orig: 223, 143
+  offset: 0, 0
+  index: -1
+pauseresume_down
+  rotate: false
+  xy: 1, 634
+  size: 402, 92
+  orig: 402, 92
+  offset: 0, 0
+  index: -1
+play
+  rotate: false
+  xy: 630, 551
+  size: 386, 165
+  orig: 386, 165
+  offset: 0, 0
+  index: -1
+loadoutsmallselector_active
+  rotate: false
+  xy: 405, 517
+  size: 223, 143
+  orig: 223, 143
+  offset: 0, 0
+  index: -1
+pausemainmenu
+  rotate: false
+  xy: 1, 540
+  size: 400, 92
+  orig: 400, 92
+  offset: 0, 0
+  index: -1
+pausemainmenu_down
+  rotate: false
+  xy: 1, 446
+  size: 400, 92
+  orig: 400, 92
+  offset: 0, 0
+  index: -1
+play_down
+  rotate: false
+  xy: 630, 384
+  size: 386, 165
+  orig: 386, 165
+  offset: 0, 0
+  index: -1
+leaderboardlongest
+  rotate: false
+  xy: 403, 459
+  size: 215, 56
+  orig: 215, 56
+  offset: 0, 0
+  index: -1
+leaderboardlongest_down
+  rotate: false
+  xy: 403, 401
+  size: 215, 56
+  orig: 215, 56
+  offset: 0, 0
+  index: -1
+achievements
+  rotate: false
+  xy: 1, 339
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+leaderboardhighscorebutton
+  rotate: false
+  xy: 389, 343
+  size: 189, 56
+  orig: 189, 56
+  offset: 0, 0
+  index: -1
+achievements_down
+  rotate: false
+  xy: 580, 277
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+leaderboardhighscorebutton_down
+  rotate: false
+  xy: 389, 285
+  size: 189, 56
+  orig: 189, 56
+  offset: 0, 0
+  index: -1
+settings
+  rotate: false
+  xy: 1, 232
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+storebuybutton
+  rotate: false
+  xy: 389, 225
+  size: 179, 58
+  orig: 179, 58
+  offset: 0, 0
+  index: -1
+settings_down
+  rotate: false
+  xy: 1, 125
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+store
+  rotate: false
+  xy: 1, 18
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+store_down
+  rotate: false
+  xy: 570, 170
+  size: 386, 105
+  orig: 386, 105
+  offset: 0, 0
+  index: -1
+storebuybutton_down
+  rotate: false
+  xy: 389, 165
+  size: 179, 58
+  orig: 179, 58
+  offset: 0, 0
+  index: -1
+leaderboards
+  rotate: false
+  xy: 389, 59
+  size: 386, 104
+  orig: 386, 104
+  offset: 0, 0
+  index: -1
+reset
+  rotate: false
+  xy: 777, 78
+  size: 71, 90
+  orig: 71, 90
+  offset: 0, 0
+  index: -1
+sound_off
+  rotate: false
+  xy: 777, 1
+  size: 81, 75
+  orig: 81, 75
+  offset: 0, 0
+  index: -1
+sound_on
+  rotate: false
+  xy: 850, 93
+  size: 81, 75
+  orig: 81, 75
+  offset: 0, 0
+  index: -1
+trianglebuttondown
+  rotate: false
+  xy: 933, 96
+  size: 84, 72
+  orig: 84, 72
+  offset: 0, 0
+  index: -1
+trianglebuttonup
+  rotate: false
+  xy: 933, 22
+  size: 84, 72
+  orig: 84, 72
+  offset: 0, 0
+  index: -1
+
+menubuttons2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+leaderboards_down
+  rotate: false
+  xy: 1, 1
+  size: 386, 104
+  orig: 386, 104
+  offset: 0, 0
+  index: -1
+loadoutdone_down
+  rotate: false
+  xy: 389, 4
+  size: 377, 101
+  orig: 377, 101
+  offset: 0, 0
+  index: -1
+menuplane
+  rotate: false
+  xy: 768, 47
+  size: 110, 58
+  orig: 110, 58
+  offset: 0, 0
+  index: -1

@@ -1,11 +1,11 @@
 package se.dat255.bulletinferno.model.loadout;
 
-import se.dat255.bulletinferno.controller.Graphics;
 import se.dat255.bulletinferno.model.entity.Destructible;
 import se.dat255.bulletinferno.model.entity.Enemy;
 import se.dat255.bulletinferno.model.entity.EntityEnvironment;
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
+import se.dat255.bulletinferno.view.Graphics;
 
 /**
  * A special effect that slightly damages all enemies on the screen.

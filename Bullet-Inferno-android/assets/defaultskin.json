@@ -1,0 +1,13 @@
+{
+        com.badlogic.gdx.graphics.Color: {
+                darkgreen: { r: 0.2980, g: 0.4902, b: 0.4902, a: 1},
+                darkgrey : {r: 0.2471, g: 0.2471, b: 0.2471, a: 1},
+                grey : {r: 0.2980, g: 0.2980, b:0.2980, a: 1}
+        },
+        com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                myraid28: { file: fonts/myraid/myraid28.fnt },
+                myraid34: { file: fonts/myraid/myraid34.fnt },
+                myraid38: { file: fonts/myraid/myraid38.fnt },
+                myraid40: { file: fonts/myraid/myraid40.fnt }
+        }
+}

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.SkinLoader;
 import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Definition of all the assets that should be handled by the resource manager
@@ -51,7 +54,7 @@ public class ResourceManagerImpl implements ResourceManager {
 	}
 
 	private AssetManager manager;
-
+	
 	public ResourceManagerImpl() {
 		manager = new AssetManager();
 
@@ -60,6 +63,7 @@ public class ResourceManagerImpl implements ResourceManager {
 
 		manager.setLoader(Texture.class, new TextureLoader(resolver));
 		manager.setLoader(TextureAtlas.class, new TextureAtlasLoader(resolver));
+		manager.setLoader(Skin.class, new SkinLoader(resolver));
 		Texture.setAssetManager(manager);
 	}
 
@@ -70,7 +74,9 @@ public class ResourceManagerImpl implements ResourceManager {
 	public void startLoad(boolean blocking) {
 		loadTextures();
 		loadSoundEffects();
-
+		loadSkins();
+		loadMusic();
+		
 		if (blocking) {
 			manager.finishLoading();
 		}
@@ -96,26 +102,39 @@ public class ResourceManagerImpl implements ResourceManager {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Music getMusic(String identifier) {
-		return null;
-		// return manager.get(music.get(identifier), Music.class);
-	}
-
-	/** Adds all managed textures to the AssetManager's load queue. */
-	private void loadTextures() {
-		for (TextureDefinition definition : TextureDefinitionImpl.values()) {
-			definition.loadSource(manager);
-		}
-	}
-
-	/** Adds all managed sound effects to the AssetManager's load queue. */
-	private void loadSoundEffects() {
-		for (SoundEffectType type : SoundEffectType.values()) {
-			for (String src : type.mapping.values()) {
-				manager.load(src, Sound.class);
+	public Music getMusic(ResourceIdentifier identifier) {
+		for (MusicDefinitionImpl definition : MusicDefinitionImpl.values()) {
+			if (identifier.getIdentifier().equals(definition.name())) {
+				return getMusic(definition);
 			}
 		}
+		
+		throw new RuntimeException(String.format(
+				"Sound not found for the identifier:action combination '%s'", 
+				identifier.getIdentifier()));
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Music getMusic(MusicDefinition definition) {
+		if(manager.isLoaded(definition.getSourcePath(), Music.class)) {
+			return manager.get(definition.getSourcePath(), Music.class);
+		}
+		
+		throw new RuntimeException("The music for the definition " + definition + " wasn't loaded");
+	}
+
+	@Override
+	public Skin getSkin() {
+		if(!manager.isLoaded("defaultskin.json", Skin.class)) {
+			throw new RuntimeException("The default skin wasn't loaded");
+		}
+		
+		return manager.get("defaultskin.json", Skin.class);
+	}
+	
 
 	/**
 	 * {@inheritDoc}
@@ -155,6 +174,16 @@ public class ResourceManagerImpl implements ResourceManager {
 	}
 
 	@Override
+	public TextureRegionDrawable getDrawableTexture(ResourceIdentifier identifier) {
+		return new TextureRegionDrawable(getTexture(identifier));
+	}
+
+	@Override
+	public TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition) {
+		return new TextureRegionDrawable(getTexture(textureDefinition));
+	}
+	
+	@Override
 	public boolean loadAsync() {
 		return manager.update();
 	}
@@ -174,5 +203,30 @@ public class ResourceManagerImpl implements ResourceManager {
 		manager = null;
 		Texture.setAssetManager(null);
 	}
+	
+	private void loadSkins() {
+		manager.load("defaultskin.json", Skin.class);
+	}
+	
+	/** Adds all managed textures to the AssetManager's load queue. */
+	private void loadTextures() {
+		for (TextureDefinition definition : TextureDefinitionImpl.values()) {
+			definition.loadSource(manager);
+		}
+	}
 
+	/** Adds all managed sound effects to the AssetManager's load queue. */
+	private void loadSoundEffects() {
+		for (SoundEffectType type : SoundEffectType.values()) {
+			for (String src : type.mapping.values()) {
+				manager.load(src, Sound.class);
+			}
+		}
+	}
+	
+	private void loadMusic() {
+		for (MusicDefinition definition : MusicDefinitionImpl.values()) {
+			manager.load(definition.getSourcePath(), Music.class);
+		}
+	}
 }

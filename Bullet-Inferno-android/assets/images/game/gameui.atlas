@@ -1,0 +1,47 @@
+
+gameui.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+specialabilitybuttonbackground
+  rotate: false
+  xy: 1, 71
+  size: 287, 280
+  orig: 287, 280
+  offset: 0, 0
+  index: -1
+specialabilitybutton
+  rotate: false
+  xy: 290, 93
+  size: 267, 258
+  orig: 267, 258
+  offset: 0, 0
+  index: -1
+specialabilitybutton_down
+  rotate: false
+  xy: 559, 93
+  size: 267, 258
+  orig: 267, 258
+  offset: 0, 0
+  index: -1
+barmetergradient
+  rotate: false
+  xy: 1, 50
+  size: 275, 19
+  orig: 275, 19
+  offset: 0, 0
+  index: -1
+pausebutton
+  rotate: false
+  xy: 828, 304
+  size: 79, 47
+  orig: 79, 47
+  offset: 0, 0
+  index: -1
+pausebutton_down
+  rotate: false
+  xy: 1, 1
+  size: 79, 47
+  orig: 79, 47
+  offset: 0, 0
+  index: -1

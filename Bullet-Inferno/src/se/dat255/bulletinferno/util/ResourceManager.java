@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * A class that holds mappings between types of objects in the game and static resources
@@ -17,8 +19,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public interface ResourceManager extends Disposable {
 
 	/**
-	 * Returns a ManagedTexture-object containing the Texture connected
-	 * with this TextureType.
+	 * Returns a texture region containing the Texture connected
+	 * with specified TextureDefinition.
 	 * 
 	 * @param textureDefinition
 	 *        The Texture Definition connected with the Texture you want.
@@ -27,7 +29,7 @@ public interface ResourceManager extends Disposable {
 	TextureRegion getTexture(TextureDefinition textureDefinition);
 
 	/**
-	 * Returns a ManagedTexture-object containing the Texture connected
+	 * Returns a texture region containing the Texture connected
 	 * with this ResourceIdentifier.
 	 * 
 	 * @param identifier
@@ -36,6 +38,22 @@ public interface ResourceManager extends Disposable {
 	 */
 	TextureRegion getTexture(ResourceIdentifier identifier);
 
+	/**
+	 * Returns a drawable texture associated with specified identifier
+	 * See {@link ResourceManager#getTexture(ResourceIdentifier)}.
+	 * @param identifier
+	 * @return
+	 */
+	TextureRegionDrawable getDrawableTexture(ResourceIdentifier identifier);
+	
+	/**
+	 * Returns a drawable texture associated with specified definition
+	 * See {@link ResourceManager#getTexture(TextureDefinition)}.
+	 * @param identifier
+	 * @return
+	 */
+	TextureRegionDrawable getDrawableTexture(TextureDefinition textureDefinition);
+	
 	/**
 	 * Returns the loaded {@link Sound} that is mapped to this identifier.
 	 * 
@@ -46,14 +64,29 @@ public interface ResourceManager extends Disposable {
 	Sound getSound(ResourceIdentifier identifier, GameAction action);
 
 	/**
-	 * Returns the loaded {@link Music} that is mapped to this identifier.
+	 * Returns the loaded {@link Music} that is mapped to specified identifier.
 	 * 
 	 * @param identifier
 	 *        The identifier for this {@link Music}.
 	 * @return The {@link Music}.
 	 */
-	Music getMusic(String identifier);
+	Music getMusic(ResourceIdentifier identifiter);
+	
+	/**
+	 * Returns the loaded {@link Music} that is mapped to this definition.
+	 * 
+	 * @param definition
+	 *        The definition for this {@link Music}.
+	 * @return The {@link Music}.
+	 */
+	Music getMusic(MusicDefinition definition);
 
+	/**
+	 * Returns the default skin
+	 * @return default skin
+	 */
+	Skin getSkin();
+	
 	/**
 	 * Loads all the resources using an {@link AssetManager} to do asynchronous loading if blocking
 	 * is set to false. This method should only be called once.

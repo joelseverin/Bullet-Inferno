@@ -6,13 +6,13 @@ import se.dat255.bulletinferno.model.entity.Enemy;
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.loadout.PassiveAbilityDefinition;
 import se.dat255.bulletinferno.model.loadout.SpecialAbilityDefinition;
-import se.dat255.bulletinferno.model.loadout.SpecialEffect;
 import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.GameActionEvent;
 import se.dat255.bulletinferno.util.Listener;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.BackgroundView;
 import se.dat255.bulletinferno.view.EnemyView;
+import se.dat255.bulletinferno.view.Graphics;
 import se.dat255.bulletinferno.view.PlayerShipView;
 import se.dat255.bulletinferno.view.ProjectileView;
 import se.dat255.bulletinferno.view.audio.AudioPlayer;
@@ -20,7 +20,12 @@ import se.dat255.bulletinferno.view.audio.AudioPlayerImpl;
 import se.dat255.bulletinferno.view.gui.HudView;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * The main controller of the game, handles main initiation and update of time
@@ -31,12 +36,7 @@ public class GameController extends SimpleController {
 	 * Handles all the graphics with the game.<br>
 	 * Also handles converting between <b>world</b> and <b>local</b> positions.
 	 */
-	private Graphics graphics;
-
-	/**
-	 * The touch input handler
-	 */
-	private GameTouchController touchController;
+	private final Graphics graphics = new Graphics();
 
 	/** The current session instance of the game model. */
 	private ModelEnvironment models;
@@ -54,14 +54,11 @@ public class GameController extends SimpleController {
 	private WeaponDefinition[] weaponData;
 
 	/** Reference to the master controller */
-	private final MasterController myGame;
+	private final MasterController masterController;
 
 	/** Reference to the background view */
 	private BackgroundView bgView;
 
-	private HudView hudView;
-	
-	private final AudioPlayer audioPlayer;
 
 	/** Reference to the main resource manager of the game */
 	private final ResourceManager resourceManager;
@@ -71,23 +68,51 @@ public class GameController extends SimpleController {
 	/** Reference to the shared passive ability definition */
 	private PassiveAbilityDefinition passive;
 
-	/** Holds the players last position, in order to check if the player has moved */
-	private float lastPlayerPositionX;
-
+	private final AudioPlayer soundEffectsPlayer;
+	private PauseMenuController pauseController;
+	private HudView hudView;
+	private Stage hudStage;
+	private PlayerShip ship;
+	private final InputMultiplexer inputMultiplexer;
+	private final GameTouchController touchController = new GameTouchController();
+	
 	/**
 	 * Default controller to set required references
 	 * 
-	 * @param myGame
+	 * @param masterController
 	 *        The master controller that creates this controller
 	 * @param resourceManager
 	 *        the resource manager instance.
 	 */
-	public GameController(final MasterController myGame, final ResourceManager resourceManager) {
-		this.myGame = myGame;
+	public GameController(final MasterController masterController, ResourceManager resourceManager) {
+		this.masterController = masterController;
 		this.resourceManager = resourceManager;
-		audioPlayer = new AudioPlayerImpl(resourceManager);
+		
+		soundEffectsPlayer = new AudioPlayerImpl(resourceManager);
+		Preferences preferences = MasterController.getUserDefaults();
+		if(preferences.contains("soundEffectsVolume")) {
+			if(preferences.contains("soundEffectsMuted") 
+					&& preferences.getBoolean("soundEffectsVolume")) {
+				soundEffectsPlayer.mute();
+			}
+			soundEffectsPlayer.setVolume(preferences.getFloat("backgroundMusicVolume"));
+		}
+		
+		pauseController = new PauseMenuController(masterController, this, resourceManager, 
+				soundEffectsPlayer);
+		
+		hudStage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+		hudView = new HudView(hudStage, resourceManager);
+		hudView.addPauseButtonListener(pauseButtonListener);
+		hudView.addSpecialAbilityButtonListener(specialAbilityButtonListener);
+		
+		inputMultiplexer = new InputMultiplexer(hudStage, touchController);
 	}
 
+	public void restartGame() {
+		createNewGame(weaponData, special, passive);
+	}
+	
 	/**
 	 * Creates or recreates a game "state". This method should be called before switching to the
 	 * GameScreen.
@@ -104,7 +129,6 @@ public class GameController extends SimpleController {
 		// Clear previous state
 		if (graphics != null) {
 			graphics.dispose();
-			graphics = null;
 		}
 
 		if (models != null) {
@@ -112,43 +136,20 @@ public class GameController extends SimpleController {
 			models = null;
 		}
 
-		// Initialize the action listener
-		Listener<GameActionEvent<Enemy>> actionListener = new Listener<GameActionEvent<Enemy>>() {
-			@Override
-			public void call(GameActionEvent<Enemy> e) {
-				audioPlayer.playSoundEffect(e);
-			}
-		};
-
 		// Set up the model environment with the provided weaponData, includes creating the player
 		// ship.
-		models = new ModelEnvironmentImpl(weaponData, actionListener);
-		final PlayerShip ship = models.getPlayerShip();
-		
-		hudView = new HudView(resourceManager, ship);
-		
-		// Set up the special effect on the model environment
-		final SpecialEffect specialEffect = special.getSpecialAbility(models).getEffect();
-		hudView.setSpecialEffect(specialEffect);
+		models = new ModelEnvironmentImpl(weaponData, enemyActionListener);
+		ship = models.getPlayerShip();
 		
 		// Initialize the graphics controller
-		graphics = new Graphics(this, hudView);
-		graphics.create();
+		graphics.initialize();
 		
 		// Apply the passive ability to the ship
 		passive.getPassiveAbility().getEffect().applyEffect(ship);
 
-		// Set up input handler and add listener for the special ability
-		touchController = new GameTouchController(graphics, ship, this, myGame);
-		touchController.addSpecialAbilityListener(new GameTouchController.SpecialAbilityListener() {
-			@Override
-			public void specialAbilityRequested() {
-				specialEffect.activate(ship);
-			}
-		});
-
 		// Set up the bg view, rendering the segments
 		bgView = new BackgroundView(models, resourceManager, ship);
+		graphics.addRenderable(bgView);
 		
 		PlayerShipView shipView = new PlayerShipView(ship, resourceManager);
 		graphics.addRenderable(shipView);
@@ -158,34 +159,16 @@ public class GameController extends SimpleController {
 
 		ProjectileView projectileView = new ProjectileView(models, resourceManager);
 		graphics.addRenderable(projectileView);
+		
+		// Set the new graphics and ship in the touch controller
+		touchController.setGraphics(graphics);
+		touchController.setPlayerShip(ship);
 	}
 
 	/** The player has died, the game is over */
 	public void gameOver() {
 		gameOver = true;
 		touchController.setSuppressKeyboard(true);
-		graphics.getHudView().gameOver();
-	}
-
-	/**
-	 * Pauses the game when the application loses focus. If game isn't over, show pause gui. If it
-	 * is over, only keep track of pause state.
-	 */
-	@Override
-	public void pause() {
-		// Don't show pause gui, only track pause state if game is over
-		if (gameOver) {
-			super.pause();
-		} else {
-			pauseGame();
-		}
-	}
-
-	/** Pauses the game */
-	public void pauseGame() {
-		super.pause();
-		touchController.setSuppressKeyboard(true);
-		graphics.getHudView().pause();
 	}
 
 	/**
@@ -199,23 +182,23 @@ public class GameController extends SimpleController {
 		}
 	}
 
-	/** Un-pauses the game */
-	public void unpauseGame() {
-		super.resume();
-		touchController.setSuppressKeyboard(false);
-		graphics.getHudView().unpause();
-	}
-
 	@Override
 	public void show() {
 		super.show();
-		Gdx.input.setInputProcessor(touchController);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	@Override
 	public void dispose() {
-		graphics.dispose();
-
+		soundEffectsPlayer.dispose();
+		pauseController.dispose();
+		hudStage.dispose();
+		hudView.dispose();
+		touchController.dispose();
+		
+		if(graphics != null) {
+			graphics.dispose();
+		}
 		if (models != null) {
 			models.dispose();
 		}
@@ -233,10 +216,14 @@ public class GameController extends SimpleController {
 
 		// Render the game
 		graphics.render();
-
+		
 		// Debug render
 		// graphics.renderWithDebug(models.getPhysicsEnvironment());
-
+		
+		hudView.setScore(ship.getScore());
+		hudView.setHealth(ship.getHealth());
+		hudStage.draw();
+		
 		if (!gameOver && models.getPlayerShip().isDead()) {
 			gameOver();
 		}
@@ -258,7 +245,8 @@ public class GameController extends SimpleController {
 
 			models.update(delta);
 		}
-
+		
+		hudStage.act(delta);
 	}
 
 	@Override
@@ -280,23 +268,30 @@ public class GameController extends SimpleController {
 		models.setViewport(viewportPosition, viewportDimensions);
 	}
 
-	/** Gets the game background view */
-	public BackgroundView getBgView() {
-		return bgView;
-	}
-
 	/** Get method for weapon data set in create new game */
 	public WeaponDefinition[] getWeaponData() {
 		return weaponData;
 	}
 
-	/** Get method for data set in create new game */
-	public SpecialAbilityDefinition getSpecial() {
-		return special;
-	}
-
-	/** Get method for data set in create new game */
-	public PassiveAbilityDefinition getPassive() {
-		return passive;
-	}
+	private ChangeListener pauseButtonListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			masterController.setScreen(pauseController);
+		}
+	};
+	
+	private ChangeListener specialAbilityButtonListener = new ChangeListener() {
+		@Override
+		public void changed(ChangeEvent event, Actor actor) {
+			special.getSpecialAbility(models).getEffect().activate(ship);
+		}
+	};
+	
+	private Listener<GameActionEvent<Enemy>> enemyActionListener = 
+			new Listener<GameActionEvent<Enemy>>() {
+		@Override
+		public void call(GameActionEvent<Enemy> e) {
+			soundEffectsPlayer.playSoundEffect(e);
+		}
+	};
 }

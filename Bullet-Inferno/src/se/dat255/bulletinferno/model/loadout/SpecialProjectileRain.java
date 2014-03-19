@@ -3,13 +3,13 @@ package se.dat255.bulletinferno.model.loadout;
 import java.util.ArrayList;
 import java.util.List;
 
-import se.dat255.bulletinferno.controller.Graphics;
 import se.dat255.bulletinferno.model.entity.PlayerShip;
 import se.dat255.bulletinferno.model.physics.PhysicsEnvironment;
 import se.dat255.bulletinferno.model.weapon.ProjectileDefinitionImpl;
 import se.dat255.bulletinferno.model.weapon.WeaponEnvironment;
 import se.dat255.bulletinferno.util.Timer;
 import se.dat255.bulletinferno.util.Timerable;
+import se.dat255.bulletinferno.view.Graphics;
 
 import com.badlogic.gdx.math.Vector2;
 
