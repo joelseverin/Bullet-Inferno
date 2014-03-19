@@ -51,21 +51,12 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	LOADOUT_PASSIVE_DAMAGE_MODIFIER_BUTTON(texture("data/loadout/passive_ability/damageButton.png")),
 	LOADOUT_SPECIAL_PROJECTILE_RAIN(texture("data/projectileRain.png")),
 	LOADOUT_SPECIAL_NUKE(texture("data/nuke.png")),
-	LOADOUT_BACKGROUND(texture("data/menu.png")),
-	LOADOUT_SHIP(texture("data/menuship.png")),
-	LOADOUT_SPECIAL_ABILITIES(texture("data/menuspecialabilities.png")),
-	LOADOUT_PASSIVE_ABILITIES(texture("data/menupassiveabilities.png")),
-	LOADOUT_STANDARD_WEAPON(texture("data/menustandardweapon.png")),
-	LOADOUT_HEAVYWEAPON(texture("data/menuheavyweapon.png")),
 
 	// Buttons
-	PAUSE_SCREEN(texture("images/gui/screen_pause.png")),
 	BLUE_BACKGROUND(texture("images/game/background.png")),
 	GAMEOVER_SCREEN(texture("images/gui/screen_gameover.png")),
 	PROJECTILE_RAIN(texture("data/projectileRain.png")),
-	LOADOUT_START_BUTTON(texture("data/startBtn.png")),
-	HUD_TEXTURE(texture("images/game/hud.png")),
-
+	
 	// Slices
 	MOUNTAIN_1(textureAtlas("data/packedMountain.atlas", "mountain1")),
 	MOUNTAIN_2(textureAtlas("data/packedMountain.atlas", "mountain2")),
