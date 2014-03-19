@@ -20,9 +20,9 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class LoadingScreenView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
-	private final static int LOADING_BAR_HEIGHT = 80, LOADING_BAR_WIDTH = 14,
+	private final static int LOADING_BAR_STOCK_HEIGHT = 80, LOADING_BAR_STOCK_WIDTH = 14,
 			LOADING_BAR_POSITION_X = 645, LOADING_BAR_POSITION_Y = 170,
-			LOADING_BAR_PADDING_X = 18;
+			LOADING_BAR_STOCK_PADDING_X = 18;
 	private final static Color BACKGROUND_COLOR = new Color(0.1797f, 0.1797f, 0.1719f, 1f);
 	private final static Color LOADINGBAR_FILLED_COLOR = new Color(0.2980f, 0.490196f, 
 			0.490196f, 1f);
@@ -41,7 +41,7 @@ public class LoadingScreenView implements Disposable {
 	
 	// Should be disposed GUI elements
 	private final Texture screenBgTexture, logoTexture; 
-	private final TextureRegionDrawable loadinbarFilledTexture, loadinbarUnfilledTexture;
+	private final TextureRegionDrawable loadingBarFilledTexture, loadingBarUnfilledTexture;
 	private final BitmapFont progressLabelFont;
 
 	// GUI elements
@@ -81,23 +81,23 @@ public class LoadingScreenView implements Disposable {
 		stage.addActor(logo);
 		
 		// Create filled loading bar texture
-		p = new Pixmap(LOADING_BAR_WIDTH, LOADING_BAR_HEIGHT, Format.RGBA8888);
+		p = new Pixmap(LOADING_BAR_STOCK_WIDTH, LOADING_BAR_STOCK_HEIGHT, Format.RGBA8888);
 		p.setColor(LOADINGBAR_FILLED_COLOR);
-		p.fillRectangle(0, 0, LOADING_BAR_WIDTH, LOADING_BAR_HEIGHT);
-		loadinbarFilledTexture = new TextureRegionDrawable(new TextureRegion(new Texture(p)));
+		p.fillRectangle(0, 0, LOADING_BAR_STOCK_WIDTH, LOADING_BAR_STOCK_HEIGHT);
+		loadingBarFilledTexture = new TextureRegionDrawable(new TextureRegion(new Texture(p)));
 		
 		// Create unfilled loading bar texture
 		p.setColor(LOADINGBAR_UNFILLED_COLOR);
-		p.fillRectangle(0, 0, LOADING_BAR_WIDTH, LOADING_BAR_HEIGHT);
-		loadinbarUnfilledTexture = new TextureRegionDrawable(new TextureRegion(new Texture(p)));
+		p.fillRectangle(0, 0, LOADING_BAR_STOCK_WIDTH, LOADING_BAR_STOCK_HEIGHT);
+		loadingBarUnfilledTexture = new TextureRegionDrawable(new TextureRegion(new Texture(p)));
 		p.dispose();
 		
 		// Create the loading bar images
 		int x = LOADING_BAR_POSITION_X;
 		for(int i = 0; i < 20; i++) {
-			loadingBars[i] = new Image(loadinbarUnfilledTexture);
+			loadingBars[i] = new Image(loadingBarUnfilledTexture);
 			loadingBars[i].setPosition(x, LOADING_BAR_POSITION_Y);
-			x += LOADING_BAR_WIDTH + LOADING_BAR_PADDING_X;
+			x += LOADING_BAR_STOCK_WIDTH + LOADING_BAR_STOCK_PADDING_X;
 			stage.addActor(loadingBars[i]);
 		}
 		
@@ -127,7 +127,7 @@ public class LoadingScreenView implements Disposable {
 			
 			if(barsToBeFilled > barsFilled) {
 				for(; barsFilled < barsToBeFilled; barsFilled++) {
-					loadingBars[barsFilled].setDrawable(loadinbarFilledTexture);
+					loadingBars[barsFilled].setDrawable(loadingBarFilledTexture);
 				}
 			}
 		} else if (loadProgress < percent - 0.01) {
@@ -138,7 +138,7 @@ public class LoadingScreenView implements Disposable {
 			
 			if(barsToBeFilled < barsFilled) {
 				for(; barsFilled > barsToBeFilled; barsFilled--) {
-					loadingBars[barsFilled].setDrawable(loadinbarUnfilledTexture);
+					loadingBars[barsFilled].setDrawable(loadingBarUnfilledTexture);
 				}
 			}
 		}
@@ -151,7 +151,7 @@ public class LoadingScreenView implements Disposable {
 		if (!progressLabel.getText().equals(ON_FINISHED_LABEL_TEXT)) {
 			progressLabel.setText(ON_FINISHED_LABEL_TEXT);
 			for(; barsFilled < 20; barsFilled++) {
-				loadingBars[barsFilled].setDrawable(loadinbarFilledTexture);
+				loadingBars[barsFilled].setDrawable(loadingBarFilledTexture);
 			}
 		}
 	}
@@ -160,8 +160,8 @@ public class LoadingScreenView implements Disposable {
 	public void dispose() {
 		screenBgTexture.dispose();
 		logoTexture.dispose();
-		loadinbarFilledTexture.getRegion().getTexture().dispose();
-		loadinbarUnfilledTexture.getRegion().getTexture().dispose();
+		loadingBarFilledTexture.getRegion().getTexture().dispose();
+		loadingBarUnfilledTexture.getRegion().getTexture().dispose();
 		progressLabelFont.dispose();
 		
 		for(Image i : loadingBars) {
