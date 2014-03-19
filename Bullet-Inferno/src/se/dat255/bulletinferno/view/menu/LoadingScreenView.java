@@ -75,6 +75,7 @@ public class LoadingScreenView implements Disposable {
 		
 		// Create logo
 		logoTexture = new Texture(Gdx.files.internal("images/loadingscreen/logo.png"));
+		logoTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		logo = new Image(logoTexture);
 		logo.setPosition(352, 280);
 		stage.addActor(logo);
