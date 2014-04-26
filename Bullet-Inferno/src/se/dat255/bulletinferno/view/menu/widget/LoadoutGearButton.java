@@ -3,7 +3,7 @@ package se.dat255.bulletinferno.view.menu.widget;
 import se.dat255.bulletinferno.util.ResourceIdentifier;
 import se.dat255.bulletinferno.util.ResourceManager;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -69,7 +69,7 @@ public class LoadoutGearButton extends Button {
 	}
 	
 	@Override
-	public void draw(Batch batch, float parentAlpha) {
+	public void draw(SpriteBatch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
 		gearImage.draw(batch, parentAlpha);
 	}

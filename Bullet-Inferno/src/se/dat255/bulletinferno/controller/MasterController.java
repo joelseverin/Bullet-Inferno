@@ -8,6 +8,7 @@ import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.ResourceManagerImpl;
+import se.dat255.bulletinferno.util.UserConnectable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -32,7 +33,10 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 
 	private ResourceManager resourceManager;
 	
-
+	public MasterController(UserConnectable uc) {
+		super();
+	}
+	
 	@Override
 	public void create() {
 		resourceManager = new ResourceManagerImpl();
