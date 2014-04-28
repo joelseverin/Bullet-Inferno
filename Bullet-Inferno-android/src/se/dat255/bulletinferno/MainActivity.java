@@ -13,11 +13,13 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.games.Games;
 import com.google.android.gms.games.leaderboard.LeaderboardScore;
 import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
 import com.google.android.gms.games.leaderboard.Leaderboards;
+import com.google.android.gms.games.leaderboard.Leaderboards.LoadScoresResult;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
@@ -101,10 +103,10 @@ public class MainActivity extends AndroidApplication implements UserConnectable,
 	public List<LeaderboardEntry> getLeaderboardEntries(Leaderboard leaderboard, int limit) {
 		Leaderboards.LoadScoresResult res = Games.Leaderboards.loadTopScores(
 												gameHelper.getApiClient(), 
-												"CgkI5M20-JYXEAIQAQ", 
+												leaderboard.getId(), 
 												LeaderboardVariant.TIME_SPAN_ALL_TIME, 
 												LeaderboardVariant.COLLECTION_PUBLIC, 
-												10).await();
+												limit).await();
 		
 		LeaderboardScoreBuffer buffer = res.getScores();
 		List<LeaderboardEntry> result = new ArrayList<LeaderboardEntry>();
@@ -121,6 +123,29 @@ public class MainActivity extends AndroidApplication implements UserConnectable,
 	@Override
 	public void getLeaderboardEntriesAsync(UserConnectableListener<List<LeaderboardEntry>> listener,
 			Leaderboard leaderboard, int limit) {
+		Games.Leaderboards.loadTopScores(gameHelper.getApiClient(), leaderboard.getId(), 
+				LeaderboardVariant.TIME_SPAN_ALL_TIME, 
+				LeaderboardVariant.COLLECTION_PUBLIC, 
+				limit).setResultCallback(new LeaderboardResultListAdapter(listener));
+	}
+	
+	private class LeaderboardResultListAdapter extends ArrayList<LeaderboardEntry> implements ResultCallback<LoadScoresResult> {
+		private static final long serialVersionUID = -9116006803604091757L;
+		private UserConnectableListener<List<LeaderboardEntry>> listener;
+		public LeaderboardResultListAdapter(UserConnectableListener<List<LeaderboardEntry>> listener) {
+			this.listener = listener;
+		}
+		
+		@Override
+		public void onResult(LoadScoresResult res) {
+			LeaderboardScoreBuffer buffer = res.getScores();
+			
+			for(LeaderboardScore score : buffer) {
+				add(new LeaderboardEntry(score.getScoreHolderDisplayName(), score.getRawScore(), 
+													score.getRank()));
+			}
+			listener.onDoneLoading(this);
+		}
 		
 	}
 }
