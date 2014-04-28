@@ -52,4 +52,12 @@ public interface Leaderboard {
 	 */
 	public void getEntriesAsync(LeaderboardListener listener, UserConnectable uc, 
 			int from, int to);
+	
+	
+	/**
+	 * Inserts a score into this leaderboard.
+	 * @pre Requires {@link UserConnectable#isLoggedOn()} to be true
+	 * @return Returns true on successful insertion
+	 */
+	public boolean insertScore(UserConnectable uc, int score);
 }
