@@ -8,7 +8,7 @@ import se.dat255.bulletinferno.model.weapon.WeaponDefinition;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.ResourceManagerImpl;
-import se.dat255.bulletinferno.util.UserConnectable;
+import se.dat255.bulletinferno.util.userconnectivity.UserConnectable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;

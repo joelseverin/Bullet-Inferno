@@ -1,4 +1,4 @@
-package se.dat255.bulletinferno.model.leaderboard;
+package se.dat255.bulletinferno.util.userconnectivity;
 
 public class LeaderboardEntry {
 	private String name;

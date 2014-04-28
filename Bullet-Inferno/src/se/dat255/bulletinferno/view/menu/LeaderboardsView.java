@@ -2,10 +2,10 @@ package se.dat255.bulletinferno.view.menu;
 
 import java.util.List;
 
-import se.dat255.bulletinferno.model.leaderboard.LeaderboardEntry;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.userconnectivity.LeaderboardEntry;
 
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;

@@ -4,7 +4,6 @@ package se.dat255.bulletinferno.controller.menu;
 import java.util.LinkedList;
 import java.util.List;
 
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -12,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import se.dat255.bulletinferno.controller.SimpleController;
-import se.dat255.bulletinferno.model.leaderboard.LeaderboardEntry;
 import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.util.userconnectivity.LeaderboardEntry;
 import se.dat255.bulletinferno.view.menu.LeaderboardsView;
 
 public class LeaderboardsController extends SimpleController implements SubMenuController {

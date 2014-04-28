@@ -1,7 +1,7 @@
 package se.dat255.bulletinferno;
 
 import se.dat255.bulletinferno.controller.MasterController;
-import se.dat255.bulletinferno.util.UserConnectable;
+import se.dat255.bulletinferno.util.userconnectivity.UserConnectable;
 import android.content.Intent;
 import android.os.Bundle;
 

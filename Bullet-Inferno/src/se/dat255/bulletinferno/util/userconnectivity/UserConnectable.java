@@ -1,4 +1,6 @@
-package se.dat255.bulletinferno.util;
+package se.dat255.bulletinferno.util.userconnectivity;
+
+import java.util.List;
 
 /**
  * An intermediary for handling the functionality for everything user related, that depend on a 
@@ -24,4 +26,14 @@ public interface UserConnectable {
 	 * Logout the user
 	 */
 	public void logout();
+	
+	/**
+	 * 
+	 * @param leaderboard
+	 * @param from
+	 * @param to
+	 */
+	public List<LeaderboardEntry> getLeaderboardEntries(Leaderboard leaderboard, int from,  int to);
+	
+	public void getLeaderboardEntriesAsync(Leaderboard leaderboard, int from,  int to);
 }

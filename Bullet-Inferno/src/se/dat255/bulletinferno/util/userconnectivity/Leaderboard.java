@@ -1,8 +1,6 @@
-package se.dat255.bulletinferno.model.leaderboard;
+package se.dat255.bulletinferno.util.userconnectivity;
 
 import java.util.List;
-
-import se.dat255.bulletinferno.util.UserConnectable;
 
 public interface Leaderboard {
 	/**
