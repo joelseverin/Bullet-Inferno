@@ -34,7 +34,7 @@ public class LeaderboardEntryView extends Table {
 	 * @param rank
 	 */
 	public LeaderboardEntryView(Skin skin, Image avatar, Drawable background, String name,
-			int score, int rank) {
+			long score, long rank) {
 		// Initiate the cache variables
 		if(nameLabelStyle == null) {
 			nameLabelStyle = new Label.LabelStyle(skin.getFont("myraid34"), 
@@ -55,7 +55,7 @@ public class LeaderboardEntryView extends Table {
 		
 		Label nameLabel = new Label(name, nameLabelStyle);
 		nameLabel.setY(35);
-		Label scoreLabel = new Label(Integer.toString(score), scoreLabelStyle);
+		Label scoreLabel = new Label(Long.toString(score), scoreLabelStyle);
 		scoreLabel.setY(5);
 		Label rankLabel = new Label("#" + rank, rankLabelStyle);
 		

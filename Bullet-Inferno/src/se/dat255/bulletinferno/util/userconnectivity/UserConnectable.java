@@ -28,12 +28,19 @@ public interface UserConnectable {
 	public void logout();
 	
 	/**
-	 * 
+	 * Returns the first leaderboard entries within the specified limit
 	 * @param leaderboard
-	 * @param from
-	 * @param to
+	 * @param limit
 	 */
-	public List<LeaderboardEntry> getLeaderboardEntries(Leaderboard leaderboard, int from,  int to);
+	List<LeaderboardEntry> getLeaderboardEntries(Leaderboard leaderboard, int limit);
 	
-	public void getLeaderboardEntriesAsync(Leaderboard leaderboard, int from,  int to);
+	/**
+	 * Loads the first leaderboard entries in the, within the specified limit, asynchronously and returns them in 
+	 * a callback to the specified listener
+	 * @param listener
+	 * @param leaderboard
+	 * @param limit
+	 */
+	void getLeaderboardEntriesAsync(UserConnectableListener<List<LeaderboardEntry>> listener,
+			Leaderboard leaderboard, int limit);
 }

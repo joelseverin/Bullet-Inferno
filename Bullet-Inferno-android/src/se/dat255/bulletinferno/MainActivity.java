@@ -1,12 +1,23 @@
 package se.dat255.bulletinferno;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import se.dat255.bulletinferno.controller.MasterController;
+import se.dat255.bulletinferno.util.userconnectivity.Leaderboard;
+import se.dat255.bulletinferno.util.userconnectivity.LeaderboardEntry;
 import se.dat255.bulletinferno.util.userconnectivity.UserConnectable;
+import se.dat255.bulletinferno.util.userconnectivity.UserConnectableListener;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.leaderboard.LeaderboardScore;
+import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
+import com.google.android.gms.games.leaderboard.LeaderboardVariant;
+import com.google.android.gms.games.leaderboard.Leaderboards;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
@@ -14,9 +25,7 @@ import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
  * Main entry for the Android deployment
  * Game development should be done in the "Bullet-Inferno" project.
  * Here all the menu screens should be made.
- * @author Marc Jamot
- * @version 1.0
- * @since 2013-09-12
+ * @author Sebastian Blomberg, Marc Jamot
  */
 public class MainActivity extends AndroidApplication implements UserConnectable, GameHelperListener{
 	private GameHelper gameHelper;
@@ -85,6 +94,33 @@ public class MainActivity extends AndroidApplication implements UserConnectable,
 
 	@Override
 	public void onSignInSucceeded() {
+		
+	}
+
+	@Override
+	public List<LeaderboardEntry> getLeaderboardEntries(Leaderboard leaderboard, int limit) {
+		Leaderboards.LoadScoresResult res = Games.Leaderboards.loadTopScores(
+												gameHelper.getApiClient(), 
+												"CgkI5M20-JYXEAIQAQ", 
+												LeaderboardVariant.TIME_SPAN_ALL_TIME, 
+												LeaderboardVariant.COLLECTION_PUBLIC, 
+												10).await();
+		
+		LeaderboardScoreBuffer buffer = res.getScores();
+		List<LeaderboardEntry> result = new ArrayList<LeaderboardEntry>();
+		
+		for(LeaderboardScore score : buffer) {
+			result.add(new LeaderboardEntry(score.getScoreHolderDisplayName(), score.getRawScore(), 
+												score.getRank()));
+		}
+
+		
+		return result;
+	}
+
+	@Override
+	public void getLeaderboardEntriesAsync(UserConnectableListener<List<LeaderboardEntry>> listener,
+			Leaderboard leaderboard, int limit) {
 		
 	}
 }

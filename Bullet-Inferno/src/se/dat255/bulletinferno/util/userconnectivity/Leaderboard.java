@@ -24,15 +24,6 @@ public interface Leaderboard {
 	public List<LeaderboardEntry> getEntries(UserConnectable uc, int limit);
 	
 	/**
-	 * Returns the leaderboard entries in the specified range
-	 * @param uc
-	 * @param from The beginning of the range (1 is the first entry)
-	 * @param to The end of the range
-	 * @return entries
-	 */
-	public List<LeaderboardEntry> getEntries(UserConnectable uc, int from, int to);
-	
-	/**
 	 * Loads the specified amount of leaderboard entries, taken from the top of the board, 
 	 * asynchronously and deliver the results through a callback to the specified listener, when
 	 * done loading.
@@ -42,16 +33,6 @@ public interface Leaderboard {
 	 */
 	public void getEntriesAsync(LeaderboardListener listener, UserConnectable uc, 
 			int limit);
-	
-	/**
-	 * Loads the leaderboard entries, in the specified range, asynchronously and deliver the results 
-	 * through a callback to the specified listener, when done loading.
-	 * @param uc
-	 * @param from The beginning of the range (1 is the first entry)
-	 * @param to The end of the range
-	 */
-	public void getEntriesAsync(LeaderboardListener listener, UserConnectable uc, 
-			int from, int to);
 	
 	
 	/**
