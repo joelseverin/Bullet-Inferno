@@ -3,7 +3,9 @@ package se.dat255.bulletinferno.util.userconnectivity;
 import java.util.List;
 
 public enum LeaderboardImpl implements Leaderboard {
-	HIGHSCORE("CgkI5M20-JYXEAIQAQ", "Highscore");
+	HIGHSCORE("CgkI5M20-JYXEAIQAQ", "Highscore"),
+	LONGEST_RUN("CgkI5M20-JYXEAIQAQ", "Longest run"),
+	COIN_SCORE("CgkI5M20-JYXEAIQAQ", "Collected coins");
 	
 	private final String id, name;
 	

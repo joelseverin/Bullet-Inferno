@@ -178,7 +178,8 @@ public class MainMenuController extends SimpleController implements SubMenuContr
 		private RunLater runlater = new RunLater() {
 			@Override
 			public SubMenuController startSubController() {
-				return new LeaderboardsController(stage, resources);
+				return new LeaderboardsController(stage, resources,
+						masterController.getUserConnectable());
 			}
 		};
 		@Override

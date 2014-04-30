@@ -146,6 +146,5 @@ public class MainActivity extends AndroidApplication implements UserConnectable,
 			}
 			listener.onDoneLoading(this);
 		}
-		
 	}
 }

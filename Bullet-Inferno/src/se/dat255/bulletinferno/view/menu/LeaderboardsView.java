@@ -5,7 +5,9 @@ import java.util.List;
 import se.dat255.bulletinferno.util.Disposable;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.util.TextureDefinitionImpl;
+import se.dat255.bulletinferno.util.userconnectivity.Leaderboard;
 import se.dat255.bulletinferno.util.userconnectivity.LeaderboardEntry;
+import se.dat255.bulletinferno.view.menu.widget.LoadingIcon;
 
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -27,15 +29,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
  */
 public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposable {
 	public final static int VIRTUAL_HEIGHT = 1080, VIRTUAL_WIDTH = 1920;
-	public static enum LeaderboardType {
-		HIGHSCORE, COLLECTED_COINS, LONGEST_RUN;
-	}
-	
+
 	private final static int GLASS_WIDTH = 1182, GLASS_POSITION_X = 285;
 	private final static int CELL_PADDING = 20;
 	private final static float GLASS_ANIMATION_DURATION = 0.4f;
 	
 	private final Image header;
+	
+	private final LoadingIcon loadingIcon;
+	private final Table loadingIconWrapper = new Table();
 	
 	private final Drawable entryBackground, entryAvatar;
 	private final ResourceManager resources;
@@ -49,9 +51,7 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	private final Button highScoreListButton, collectedCoinsListButton, longestRunListButton;
 	private final ButtonGroup buttonGroup;
 	
-	public LeaderboardsView(Stage stage, ResourceManager resources, 
-			List<LeaderboardEntry> highscoreEntries, List<LeaderboardEntry> collectedCoinEntries,
-			List<LeaderboardEntry> longestRunEntries) {
+	public LeaderboardsView(Stage stage, ResourceManager resources) {
 		super(new Group(), GLASS_WIDTH, VIRTUAL_HEIGHT, GLASS_POSITION_X, VIRTUAL_HEIGHT, 
 				GLASS_ANIMATION_DURATION);
 		this.stage = stage;
@@ -89,6 +89,16 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		buttonGroup.setMaxCheckCount(1);
 		buttonGroup.setMinCheckCount(1);
 		
+		loadingIcon = new LoadingIcon(
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_1),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_2),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_3),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_4),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_5),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_6),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_7),
+						resources.getDrawableTexture(TextureDefinitionImpl.LOADIN_ICON_8));
+		
 		mainTable = new Table();
 		mainTable.setFillParent(true);
 		mainTable.setBackground(resources.getDrawableTexture(
@@ -108,15 +118,13 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		highScoreEntriesTable.top();
 		collectedCoinsEntriesTable.top();
 		longestRunEntriesTable.top();
-		updateLeaderboard(LeaderboardType.HIGHSCORE, highscoreEntries);
-		updateLeaderboard(LeaderboardType.COLLECTED_COINS, collectedCoinEntries);
-		updateLeaderboard(LeaderboardType.LONGEST_RUN, longestRunEntries);
 		
 		scrollPane = new ScrollPane(leaderBoardWrapper);
 		mainTable.add(scrollPane).top().height(770).width(760).padTop(30);
-
-		highScoreListButton.setChecked(true);
-		showLeaderboard(LeaderboardType.HIGHSCORE);
+		
+		loadingIconWrapper.add(loadingIcon);
+		
+		//highScoreListButton.setChecked(true);
 		
 		getToggleActor().addActor(mainTable);
 		slideToggle();
@@ -125,11 +133,11 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	
 	/**
 	 * Updates the data of the specified leaderboard
-	 * @param type the leaderboard
+	 * @param leaderboard
 	 * @param entries to be put in the leaderboard
 	 */
-	public void updateLeaderboard(LeaderboardType type, List<LeaderboardEntry> entries) {
-		Table temp = getLeaderboardFromType(type);
+	public void updateLeaderboard(Leaderboard leaderboard, List<LeaderboardEntry> entries) {
+		Table temp = getLeaderboardFromType(leaderboard);
 		temp.clearChildren();
 		Skin skin = resources.getSkin();
 		
@@ -149,10 +157,14 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 	 * <strong>OBSERVE</strong> as this method changes the state of the previously checked
 	 * button and the associated button, a call will be sent to any ChangeListeners registered on 
 	 * the previously checked button.
-	 * @param type
+	 * @param leaderboard
 	 */
-	public void showLeaderboard(LeaderboardType type) {
-		scrollPane.setWidget(getLeaderboardFromType(type));
+	public void showLeaderboard(Leaderboard leaderboard) {
+		scrollPane.setWidget(getLeaderboardFromType(leaderboard));
+	}
+	
+	public void showLoadingIcon() {
+		scrollPane.setWidget(loadingIconWrapper);
 	}
 	
 	@Override
@@ -190,15 +202,18 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		longestRunListButton.removeListener(listener);
 	}
 	
-	private Table getLeaderboardFromType(LeaderboardType type) {
-		switch (type) {
-			case HIGHSCORE:
+	private Table getLeaderboardFromType(Leaderboard type) {
+		String name = type.getName(); 
+		if("Highscore" == name) {
 				return highScoreEntriesTable;
-			case COLLECTED_COINS:
+		} else if ("Collected coins" == name) {
 				return collectedCoinsEntriesTable;
-			default:
+		} else if("Longest run" == name) {
 				return longestRunEntriesTable;
+		} else {
+			return null;
 		}
+		
 	}
 	
 }

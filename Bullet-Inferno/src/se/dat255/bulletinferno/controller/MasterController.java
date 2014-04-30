@@ -33,8 +33,11 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 
 	private ResourceManager resourceManager;
 	
+	private final UserConnectable uc;
+	
 	public MasterController(UserConnectable uc) {
 		super();
+		this.uc = uc;
 	}
 	
 	@Override
@@ -146,5 +149,9 @@ public class MasterController extends com.badlogic.gdx.Game implements Disposabl
 	
 	public static Preferences getUserDefaults() {
 		return Gdx.app.getPreferences("bulletinferno_default");
+	}
+	
+	public UserConnectable getUserConnectable() {
+		return uc;
 	}
 }

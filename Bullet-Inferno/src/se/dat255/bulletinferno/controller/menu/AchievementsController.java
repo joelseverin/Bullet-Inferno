@@ -3,17 +3,16 @@ package se.dat255.bulletinferno.controller.menu;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-
-import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.model.achievement.Achievement;
 import se.dat255.bulletinferno.model.achievement.AchievementImpl;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.menu.AchievementsView;
 
-public class AchievementsController extends SimpleController implements SubMenuController {
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
+public class AchievementsController implements SubMenuController {
 	private final AchievementsView view;
 	
 	public AchievementsController(Stage stage, ResourceManager resources) {
@@ -79,5 +78,25 @@ public class AchievementsController extends SimpleController implements SubMenuC
 	@Override
 	public void dispose() {
 		view.dispose();
+	}
+	
+	@Override
+	public void hide() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
+	public void render(float arg0) {}
+
+	@Override
+	public void resize(int arg0, int arg1) {}
+
+	@Override
+	public void resume() {}
+
+	@Override
+	public void show() {
+
 	}
 }

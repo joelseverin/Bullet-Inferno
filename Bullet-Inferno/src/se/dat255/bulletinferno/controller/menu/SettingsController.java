@@ -1,6 +1,5 @@
 package se.dat255.bulletinferno.controller.menu;
 
-import se.dat255.bulletinferno.controller.SimpleController;
 import se.dat255.bulletinferno.util.ResourceManager;
 import se.dat255.bulletinferno.view.audio.AudioPlayer;
 import se.dat255.bulletinferno.view.menu.SettingsView;
@@ -23,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
  * @author Sebastian Blomberg
  *
  */
-public class SettingsController extends SimpleController implements SubMenuController {
+public class SettingsController implements SubMenuController {
 	private final SettingsView settingsView;
 	private AudioPlayer audioPlayer = null;
 	private final Preferences preferences;
@@ -223,5 +222,22 @@ public class SettingsController extends SimpleController implements SubMenuContr
 	@Override
 	public void pause() {
 		saveUserPreferences();
+	}
+	
+	@Override
+	public void hide() {}
+
+	@Override
+	public void render(float arg0) {}
+
+	@Override
+	public void resize(int arg0, int arg1) {}
+
+	@Override
+	public void resume() {}
+
+	@Override
+	public void show() {
+
 	}
 }
