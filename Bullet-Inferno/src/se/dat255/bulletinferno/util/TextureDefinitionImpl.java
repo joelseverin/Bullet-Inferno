@@ -175,6 +175,15 @@ public enum TextureDefinitionImpl implements TextureDefinition {
 	HUD_BARMETER_GRADIENT(texture("images/game/barmetergradient.png")),
 	HUD_PAUSE_BUTTON(textureAtlas("images/game/gameui.atlas", "pausebutton")),
 	HUD_PAUSE_BUTTON_DOWN(textureAtlas("images/game/gameui.atlas", "pausebutton_down")),
+	
+	LOADIN_ICON_1(textureAtlas("images/gui/loadingicon.atlas", "loadingicon1")),
+	LOADIN_ICON_2(textureAtlas("images/gui/loadingicon.atlas", "loadingicon2")),
+	LOADIN_ICON_3(textureAtlas("images/gui/loadingicon.atlas", "loadingicon3")),
+	LOADIN_ICON_4(textureAtlas("images/gui/loadingicon.atlas", "loadingicon4")),
+	LOADIN_ICON_5(textureAtlas("images/gui/loadingicon.atlas", "loadingicon5")),
+	LOADIN_ICON_6(textureAtlas("images/gui/loadingicon.atlas", "loadingicon6")),
+	LOADIN_ICON_7(textureAtlas("images/gui/loadingicon.atlas", "loadingicon7")),
+	LOADIN_ICON_8(textureAtlas("images/gui/loadingicon.atlas", "loadingicon8"))
 	;
 
 	private TextureHolder holder;
