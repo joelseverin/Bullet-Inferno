@@ -124,7 +124,7 @@ public class LeaderboardsView extends SimpleToggleSubMenuView implements Disposa
 		
 		loadingIconWrapper.add(loadingIcon);
 		
-		//highScoreListButton.setChecked(true);
+		highScoreListButton.setChecked(true);
 		
 		getToggleActor().addActor(mainTable);
 		slideToggle();

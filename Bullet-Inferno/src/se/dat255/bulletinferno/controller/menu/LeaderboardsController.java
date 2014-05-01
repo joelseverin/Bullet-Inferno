@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LeaderboardsController implements SubMenuController, LeaderboardListener {
+	private final int DEFAULT_ENTRIES_LIMIT = 15;
 	private final LeaderboardsView view;
 	private final UserConnectable uc;
 	
@@ -30,6 +31,8 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 		view.addCollectedCoinsBoardButtonListener(collectedCoinsBoardListener);
 		view.addLongestRunBoardButtonListener(longestRunBoardListener);
 		view.showLoadingIcon();
+		
+		LeaderboardImpl.HIGHSCORE.getEntriesAsync(LeaderboardsController.this, uc, DEFAULT_ENTRIES_LIMIT);
 	}
 	
 	private ChangeListener slideToggleListener = new ChangeListener() {
@@ -75,7 +78,7 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
 			view.showLoadingIcon();
-			LeaderboardImpl.HIGHSCORE.getEntriesAsync(LeaderboardsController.this, uc, 15);
+			LeaderboardImpl.HIGHSCORE.getEntriesAsync(LeaderboardsController.this, uc, DEFAULT_ENTRIES_LIMIT);
 		}
 	};
 	
@@ -83,7 +86,7 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
 			view.showLoadingIcon();
-			LeaderboardImpl.COIN_SCORE.getEntriesAsync(LeaderboardsController.this, uc, 15);
+			LeaderboardImpl.COIN_SCORE.getEntriesAsync(LeaderboardsController.this, uc, DEFAULT_ENTRIES_LIMIT);
 		}
 	};
 	
@@ -91,7 +94,7 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
 			view.showLoadingIcon();
-			LeaderboardImpl.LONGEST_RUN.getEntriesAsync(LeaderboardsController.this, uc, 15);
+			LeaderboardImpl.LONGEST_RUN.getEntriesAsync(LeaderboardsController.this, uc, DEFAULT_ENTRIES_LIMIT);
 		}
 	};
 
