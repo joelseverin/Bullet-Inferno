@@ -58,8 +58,7 @@ public enum LeaderboardImpl implements Leaderboard, UserConnectableListener<List
 
 	@Override
 	public boolean insertScore(UserConnectable uc, int score) {
-		// TODO Auto-generated method stub
-		return false;
+		return uc.insertLeaderboardEntry(this, score);
 	}
 
 	@Override

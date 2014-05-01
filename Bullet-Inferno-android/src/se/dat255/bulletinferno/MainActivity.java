@@ -20,6 +20,7 @@ import com.google.android.gms.games.leaderboard.LeaderboardScoreBuffer;
 import com.google.android.gms.games.leaderboard.LeaderboardVariant;
 import com.google.android.gms.games.leaderboard.Leaderboards;
 import com.google.android.gms.games.leaderboard.Leaderboards.LoadScoresResult;
+import com.google.android.gms.games.leaderboard.Leaderboards.SubmitScoreResult;
 import com.google.example.games.basegameutils.GameHelper;
 import com.google.example.games.basegameutils.GameHelper.GameHelperListener;
 
@@ -127,6 +128,13 @@ public class MainActivity extends AndroidApplication implements UserConnectable,
 				LeaderboardVariant.TIME_SPAN_ALL_TIME, 
 				LeaderboardVariant.COLLECTION_PUBLIC, 
 				limit).setResultCallback(new LeaderboardResultListAdapter(listener));
+	}
+	
+	@Override
+	public boolean insertLeaderboardEntry(Leaderboard leaderboard, int score) {
+		SubmitScoreResult result = Games.Leaderboards.submitScoreImmediate(
+									gameHelper.getApiClient(), leaderboard.getId(), score).await();
+		return result.getScoreData().getScoreResult(LeaderboardVariant.TIME_SPAN_ALL_TIME).newBest;
 	}
 	
 	private class LeaderboardResultListAdapter extends ArrayList<LeaderboardEntry> implements ResultCallback<LoadScoresResult> {

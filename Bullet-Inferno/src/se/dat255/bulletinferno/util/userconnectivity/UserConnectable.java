@@ -43,4 +43,13 @@ public interface UserConnectable {
 	 */
 	void getLeaderboardEntriesAsync(UserConnectableListener<List<LeaderboardEntry>> listener,
 			Leaderboard leaderboard, int limit);
+	
+	/**
+	 * Inserts a new score to the leaderboard. The score will be disregarded if there exist a higher
+	 * score by the same player.
+	 * @param leaderboard
+	 * @param score
+	 * @return if the score was inserted or disregarded
+	 */
+	boolean insertLeaderboardEntry(Leaderboard leaderboard, int score);
 }

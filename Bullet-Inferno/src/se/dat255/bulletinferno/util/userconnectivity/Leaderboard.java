@@ -36,9 +36,10 @@ public interface Leaderboard {
 	
 	
 	/**
-	 * Inserts a score into this leaderboard.
+	 * Inserts a score into this leaderboard. If a higher score by the same player
+	 * already exist this score will be disregarded.
 	 * @pre Requires {@link UserConnectable#isLoggedOn()} to be true
-	 * @return Returns true on successful insertion
+	 * @return Returns true if the score was inserted, false if it was disregarded
 	 */
 	public boolean insertScore(UserConnectable uc, int score);
 }
