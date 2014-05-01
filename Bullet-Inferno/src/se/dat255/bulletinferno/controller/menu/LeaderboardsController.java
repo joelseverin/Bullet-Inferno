@@ -4,7 +4,9 @@ package se.dat255.bulletinferno.controller.menu;
 import java.util.List;
 
 import se.dat255.bulletinferno.util.ResourceManager;
+import se.dat255.bulletinferno.util.userconnectivity.Leaderboard;
 import se.dat255.bulletinferno.util.userconnectivity.LeaderboardEntry;
+import se.dat255.bulletinferno.util.userconnectivity.LeaderboardImpl;
 import se.dat255.bulletinferno.util.userconnectivity.LeaderboardListener;
 import se.dat255.bulletinferno.util.userconnectivity.UserConnectable;
 import se.dat255.bulletinferno.view.menu.LeaderboardsView;
@@ -17,15 +19,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class LeaderboardsController implements SubMenuController, LeaderboardListener {
 	private final LeaderboardsView view;
+	private final UserConnectable uc;
 	
 	public LeaderboardsController(Stage stage, ResourceManager resources, UserConnectable uc) {
+		this.uc = uc;
+		
 		view = new LeaderboardsView(stage, resources);
 		view.setSlideToggleListener(slideToggleListener);
 		view.addHighScoreBoardButtonListener(highScoreBoardListener);
 		view.addCollectedCoinsBoardButtonListener(collectedCoinsBoardListener);
 		view.addLongestRunBoardButtonListener(longestRunBoardListener);
 		view.showLoadingIcon();
-		
 	}
 	
 	private ChangeListener slideToggleListener = new ChangeListener() {
@@ -70,21 +74,24 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 	private ClickListener highScoreBoardListener = new ClickListener() {
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
-			//view.showLeaderboard(LeaderboardsView.LeaderboardType.HIGHSCORE);
+			view.showLoadingIcon();
+			LeaderboardImpl.HIGHSCORE.getEntriesAsync(LeaderboardsController.this, uc, 15);
 		}
 	};
 	
 	private ClickListener collectedCoinsBoardListener = new ClickListener() {
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
-			//view.showLeaderboard(LeaderboardsView.LeaderboardType.COLLECTED_COINS);
+			view.showLoadingIcon();
+			LeaderboardImpl.COIN_SCORE.getEntriesAsync(LeaderboardsController.this, uc, 15);
 		}
 	};
 	
 	private ClickListener longestRunBoardListener = new ClickListener() {
 		@Override
 		public void clicked(InputEvent event, float x, float y)  {
-			//view.showLeaderboard(LeaderboardsView.LeaderboardType.LONGEST_RUN);
+			view.showLoadingIcon();
+			LeaderboardImpl.LONGEST_RUN.getEntriesAsync(LeaderboardsController.this, uc, 15);
 		}
 	};
 
@@ -109,7 +116,8 @@ public class LeaderboardsController implements SubMenuController, LeaderboardLis
 	}
 
 	@Override
-	public void onLeaderboardLoded(List<LeaderboardEntry> entries) {
-		
+	public void onLeaderboardLoded(Leaderboard source, List<LeaderboardEntry> entries) {
+		view.updateLeaderboard(source, entries);
+		view.showLeaderboard(source);
 	}
 }
