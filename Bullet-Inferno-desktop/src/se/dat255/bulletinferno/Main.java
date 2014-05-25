@@ -21,6 +21,6 @@ public class Main {
 		cfg.width = 1280;
 		cfg.height = 720;
 		
-		new LwjglApplication(new MasterController(null), cfg);
+		new LwjglApplication(new MasterController(new DesktopUserConnect()), cfg);
 	}
 }
